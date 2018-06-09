@@ -15,6 +15,7 @@ function getChart(params) {
         defaultFont: 'Helvetica',
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
+        populationCirclesColor: '#39787E',
         geojson: null,
         districts: null,
         data: null
@@ -66,19 +67,18 @@ function getChart(params) {
                 .attr('font-family', attrs.defaultFont)
                 .style('background-color', attrs.svgBackground)
                 .style('position', 'absolute')
-                .call(behaviors.zoom)
+            // .call(behaviors.zoom)
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
 
-
+            //draw map
             chart.patternify({ tag: 'path', selector: 'map-path', data: attrs.geojson.features })
                 .attr('d', path)
-                // .attr('fill', d => '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)) //random color
                 .attr('fill', attrs.countriesColor)
                 .attr('stroke', function (d) {
-
                     if (d.properties == undefined) return attrs.svgBackground;
+
                     if (georgiaBorderCountry(d)) return attrs.countriesColor;
 
                     return attrs.svgBackground;
@@ -86,28 +86,49 @@ function getChart(params) {
                 .attr('stroke-width', 0.1)
                 .classed('active', function (d) {
                     return d.properties.name == 'Georgia';
-                })
-                .on('click', function (d) {
-                    if (d.properties.NAME_0 != undefined)
-                        zoomToEurope();
                 });
 
-
+            //zoom to georgia
             zoomToActiveCountry();
 
+            //parse districts data
             var districtCoordinates = attrs.districts.map(function (d) {
-                return [+d.lat, +d.long];
-            })
+                return {
+                    long: +d.long,
+                    lat: +d.lat,
+                    population: d.population
+                };
+            });
 
+            //calculate max population of districts
+            var maxPopulation = d3.max(attrs.districts.map(x => +x.population));
+
+            //linear scale for adjusting circle radius
+            var radiusScale = d3.scaleLinear().domain([0, maxPopulation]).range([0.05, 0.5]);
+
+            //add circles
             var populationCircles = chart.patternify({ tag: 'circle', selector: 'chart', data: districtCoordinates })
                 .attr("cx", function (d) {
-                    return projection(d)[0];
+                    var projectionData = [d.lat, d.long]
+                    return projection(projectionData)[0];
                 })
-                .attr("cy", function (d) { return projection(d)[1]; })
-                .attr("r", "0.2px")
-                .attr("fill", "red")
+                .attr("cy", function (d) {
+                    var projectionData = [d.lat, d.long];
+                    return projection(projectionData)[1];
+                })
+                .attr("r", function (d) {
+                    return radiusScale(+d.population) + 'px';
+                })
+                .attr("fill", attrs.populationCirclesColor);
 
             handleWindowResize();
+
+            d3.select('#button-container')
+                .on('click', function (d) {
+                    zoomToEurope();
+                    d3.select(this)
+                        .style('display', 'none');
+                });
 
 
             /* #############################   FUNCTIONS    ############################## */
@@ -124,16 +145,16 @@ function getChart(params) {
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
 
                 chart.transition()
-                    .duration(1750)
+                    .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
 
             function zoomToEurope() {
-                var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Portugal'));
-                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Estonia'));
+                var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Germany'));
+                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Poland'));
                 var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
-                var bottomBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Italy'));
+                var bottomBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Bulgaria'));
 
                 var bounds = [
                     [leftBounds[0][0], topBounds[0][1]],
@@ -149,13 +170,15 @@ function getChart(params) {
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
 
                 chart.transition()
-                    .duration(1750)
+                    .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+                makeCirclesBigger();
+                displayGeorgiaNeighborBorders();
             }
 
             function georgiaBorderCountry(d) {
-
                 if ((d.properties.name == 'Georgia' && d.properties.sovereignt == 'Georgia')
                     || d.properties.name == 'Russia' || d.properties.name == 'Turkey' || d.properties.name == 'Azerbaijan'
                     || d.properties.name == 'Armenia') return true;
@@ -163,6 +186,24 @@ function getChart(params) {
                 return false;
             }
 
+            function makeCirclesBigger() {
+                radiusScale.range([0.1, 0.8]);
+
+                //change circles radius
+                populationCircles
+                    .transition()
+                    .duration(3000)
+                    .attr("r", function (d) {
+                        return radiusScale(+d.population) + 'px';
+                    });
+            }
+
+            function displayGeorgiaNeighborBorders() {
+                d3.selectAll('.map-path')
+                    .transition()
+                    .duration(3000)
+                    .attr('stroke', attrs.svgBackground);
+            }
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {
