@@ -76,9 +76,62 @@ function getChart(params) {
             chart.patternify({ tag: 'path', selector: 'map-path', data: attrs.geojson.features })
                 .attr('d', path)
                 .attr('fill', d => '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)) //random color
+                .classed('active', function (d) {
+                    return d.properties.name == 'Georgia';
+                });
 
+
+            // zoomToActiveCountry();
+
+            zoomToEurope();
 
             handleWindowResize();
+
+
+            /* #############################   FUNCTIONS    ############################## */
+
+            function zoomToActiveCountry() {
+                var d = d3.select('.active').data()[0];
+
+                var bounds = path.bounds(d),
+                    dx = bounds[1][0] - bounds[0][0],
+                    dy = bounds[1][1] - bounds[0][1],
+                    x = (bounds[0][0] + bounds[1][0]) / 2,
+                    y = (bounds[0][1] + bounds[1][1]) / 2,
+                    scale = .9 / Math.max(dx / attrs.svgWidth, dy / attrs.svgHeight),
+                    translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
+
+                chart.transition()
+                    .duration(750)
+                    .style("stroke-width", 1.5 / scale + "px")
+                    .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+            }
+
+            function zoomToEurope() {
+                var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Portugal'));
+                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Finland'));
+                var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
+                var bottomBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Italy'));
+
+                var bounds = [
+                    [leftBounds[0][0], topBounds[0][1]],
+                    [rightBounds[1][0], bottomBounds[1][1]]
+                ];
+
+                var dx = bounds[1][0] - bounds[0][0],
+                    dy = bounds[1][1] - bounds[0][1],
+                    x = (bounds[0][0] + bounds[1][0]) / 2,
+                    y = (bounds[0][1] + bounds[1][1]) / 2;
+
+                var scale = .9 / Math.max(dx / attrs.svgWidth, dy / attrs.svgHeight),
+                    translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
+                    
+                chart.transition()
+                    .duration(750)
+                    .style("stroke-width", 1.5 / scale + "px")
+                    .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+            }
+
 
 
 
