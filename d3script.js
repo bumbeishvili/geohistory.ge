@@ -67,7 +67,7 @@ function getChart(params) {
                 .attr('font-family', attrs.defaultFont)
                 .style('background-color', attrs.svgBackground)
                 .style('position', 'absolute')
-                .call(behaviors.zoom)
+                // .call(behaviors.zoom)
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
@@ -108,7 +108,7 @@ function getChart(params) {
             var maxPopulation = d3.max(attrs.districts.map(x => +x.population));
 
             //linear scale for adjusting circle radius
-            var radiusScale = d3.scaleLinear().domain([0, maxPopulation]).range([0.1, 0.5])
+            var radiusScale = d3.scaleLinear().domain([0, maxPopulation]).range([0.1, 0.5])  //0.5, 2 for bigger map
 
             //add circles
             var populationCircles = chart.patternify({ tag: 'circle', selector: 'chart', data: districtCoordinates })
@@ -142,16 +142,16 @@ function getChart(params) {
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
 
                 chart.transition()
-                    .duration(1750)
+                    .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
 
             function zoomToEurope() {
-                var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Portugal'));
-                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Estonia'));
+                var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Germany'));
+                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Poland'));
                 var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
-                var bottomBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Italy'));
+                var bottomBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Bulgaria'));
 
                 var bounds = [
                     [leftBounds[0][0], topBounds[0][1]],
@@ -167,7 +167,7 @@ function getChart(params) {
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
 
                 chart.transition()
-                    .duration(1750)
+                    .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
