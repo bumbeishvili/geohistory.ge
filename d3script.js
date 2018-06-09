@@ -31,7 +31,7 @@ function getChart(params) {
 
             //Drawing containers
             var container = d3.select(this);
-
+            
             //Calculated properties
             var calc = {}
             calc.id = "ID" + Math.floor(Math.random() * 1000000);  // id for event handlings
@@ -125,15 +125,12 @@ function getChart(params) {
 
                 var scale = .9 / Math.max(dx / attrs.svgWidth, dy / attrs.svgHeight),
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
-                    
+
                 chart.transition()
                     .duration(750)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
-
-
-
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {

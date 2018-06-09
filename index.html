@@ -22,7 +22,6 @@
 
     <script>
 
-
         d3.json('world_countries.json')
             .then(json => {
                 var chart = getChart()
@@ -32,8 +31,7 @@
                     .container('#myGraph')
                     .data('Pass Something Here and use it as attrs.data')
                     .run()
-
-            })
+            });
     </script>
 
 
