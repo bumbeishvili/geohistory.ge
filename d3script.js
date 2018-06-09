@@ -15,6 +15,7 @@ function getChart(params) {
         defaultFont: 'Helvetica',
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
+        populationCirclesColor: '#39787E',
         geojson: null,
         districts: null,
         data: null
@@ -71,14 +72,13 @@ function getChart(params) {
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
 
-
+            //draw map
             chart.patternify({ tag: 'path', selector: 'map-path', data: attrs.geojson.features })
                 .attr('d', path)
-                // .attr('fill', d => '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)) //random color
                 .attr('fill', attrs.countriesColor)
                 .attr('stroke', function (d) {
-
                     if (d.properties == undefined) return attrs.svgBackground;
+
                     if (georgiaBorderCountry(d)) return attrs.countriesColor;
 
                     return attrs.svgBackground;
@@ -92,20 +92,38 @@ function getChart(params) {
                         zoomToEurope();
                 });
 
-
+            //zoom to georgia
             zoomToActiveCountry();
 
+            //parse districts data
             var districtCoordinates = attrs.districts.map(function (d) {
-                return [+d.lat, +d.long];
-            })
+                return {
+                    long: +d.long,
+                    lat: +d.lat,
+                    population: d.population
+                };
+            });
 
+            //calculate max population of districts
+            var maxPopulation = d3.max(attrs.districts.map(x => +x.population));
+
+            //linear scale for adjusting circle radius
+            var radiusScale = d3.scaleLinear().domain([0, maxPopulation]).range([0.1, 0.5])
+
+            //add circles
             var populationCircles = chart.patternify({ tag: 'circle', selector: 'chart', data: districtCoordinates })
                 .attr("cx", function (d) {
-                    return projection(d)[0];
+                    var projectionData = [d.lat, d.long]
+                    return projection(projectionData)[0];
                 })
-                .attr("cy", function (d) { return projection(d)[1]; })
-                .attr("r", "0.2px")
-                .attr("fill", "red")
+                .attr("cy", function (d) {
+                    var projectionData = [d.lat, d.long];
+                    return projection(projectionData)[1];
+                })
+                .attr("r", function (d) {
+                    return radiusScale(+d.population) + 'px';
+                })
+                .attr("fill", attrs.populationCirclesColor);
 
             handleWindowResize();
 
