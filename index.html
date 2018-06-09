@@ -10,6 +10,13 @@
         body {
             margin: 0px;
         }
+        .button-container {
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            z-index: 10;
+            background-color: #39787E;
+        }
         canvas {
             position: absolute;
             pointer-events: none;
@@ -37,7 +44,7 @@
 
     <div class="container centered">
         <div id="myGraph">
-                <div id="button-container">
+                <div id="button-container" class="button-container">
                     <p>
                         Click to switch europe: 
                         <button id ="switch-button">display europe</button>
@@ -116,7 +123,7 @@
                         .container('#timeline')
                         .run();
 
-        setTimeout(drawPoints.run, 2000);
+        //setTimeout(drawPoints.run, 2000);
     </script>
 
 

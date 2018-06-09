@@ -13,7 +13,8 @@ function Timeline(params) {
         defaultFont: 'Helvetica',
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
-        animationTime: 200, // in seconds
+        pinColor: '#39787E',
+        animationTime: 20, // in seconds
         districts: null,
         data: null
     };
@@ -94,18 +95,18 @@ function Timeline(params) {
             var pinText = pin.patternify({ tag: 'text', selector: 'pinText' })
                              .attr("y", -5)
                              .attr("x", -30)
-                             .style("fill", "blue")
+                             .style("fill", attrs.pinColor)
 
             pin.patternify({ tag: 'rect', selection: 'pinRect' })
                .attr("width", 40)
                .attr("height", 30)
                .style("rx", 5)
                .style("ry", 5)
-               .style("fill", "blue");
+               .style("fill", attrs.pinColor);
 
             pin.patternify({ tag: 'path', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
                .attr("d", line)
-               .style("fill", "blue");
+               .style("fill", attrs.pinColor);
 
             animate = function() {
                 var formatDate = d3.timeFormat("%m/%d/%Y");
@@ -143,7 +144,7 @@ function Timeline(params) {
                 if (containerRect.height > 0)
                     attrs.svgHeight = containerRect.height;
             }
-
+            handleWindowResize();
             // Smoothly handle data updating
             updateData = function () {
 
