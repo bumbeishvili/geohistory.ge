@@ -1,8 +1,3 @@
-
-
-
-
-
 function getChart(params) {
     // Exposed variables
     var attrs = {
@@ -61,7 +56,6 @@ function getChart(params) {
                 .projection(projection);
 
             //################################ DRAWING ######################  
-
             //Drawing
             var svg = container.patternify({ tag: 'svg', selector: 'svg-chart-container' })
                 .attr('width', attrs.svgWidth)
@@ -76,11 +70,9 @@ function getChart(params) {
             chart.patternify({ tag: 'path', selector: 'map-path', data: attrs.geojson.features })
                 .attr('d', path)
                 .attr('fill', d => '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)) //random color
-
+            
 
             handleWindowResize();
-
-
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {
