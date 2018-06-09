@@ -116,7 +116,7 @@ function getChart(params) {
 
             function zoomToEurope() {
                 var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Portugal'));
-                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Finland'));
+                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Estonia'));
                 var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
                 var bottomBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Italy'));
 
