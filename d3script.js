@@ -83,12 +83,14 @@ function getChart(params) {
                 .attr('stroke-width', 0.1)
                 .classed('active', function (d) {
                     return d.properties.name == 'Georgia';
+                })
+                .on('click', function (d) {
+                    if (d.properties.NAME_0 != undefined)
+                        zoomToEurope();
                 });
 
 
             zoomToActiveCountry();
-
-            // zoomToEurope();
 
             handleWindowResize();
 
