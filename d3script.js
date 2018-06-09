@@ -67,7 +67,7 @@ function getChart(params) {
                 .attr('font-family', attrs.defaultFont)
                 .style('background-color', attrs.svgBackground)
                 .style('position', 'absolute')
-                // .call(behaviors.zoom)
+            // .call(behaviors.zoom)
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
@@ -170,10 +170,12 @@ function getChart(params) {
                     .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+                makeCirclesBigger();
+                displayGeorgiaNeighborBorders();
             }
 
             function georgiaBorderCountry(d) {
-
                 if ((d.properties.name == 'Georgia' && d.properties.sovereignt == 'Georgia')
                     || d.properties.name == 'Russia' || d.properties.name == 'Turkey' || d.properties.name == 'Azerbaijan'
                     || d.properties.name == 'Armenia') return true;
@@ -181,6 +183,25 @@ function getChart(params) {
                 return false;
             }
 
+            function makeCirclesBigger() {
+                radiusScale.range([0.3, 1]);
+
+                //change circles radius
+                populationCircles
+                    .transition()
+                    .duration(3000)
+                    .attr("r", function (d) {
+                        return radiusScale(+d.population) + 'px';
+                    });
+            }
+
+            function displayGeorgiaNeighborBorders(){
+
+                d3.selectAll('.map-path')
+                .transition()
+                .duration(3000)
+                .attr('stroke',attrs.svgBackground);
+            }
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {
