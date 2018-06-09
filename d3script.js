@@ -85,12 +85,14 @@ function getChart(params) {
                 .attr('stroke-width', 0.1)
                 .classed('active', function (d) {
                     return d.properties.name == 'Georgia';
+                })
+                .on('click', function (d) {
+                    if (d.properties.NAME_0 != undefined)
+                        zoomToEurope();
                 });
 
 
             zoomToActiveCountry();
-
-            // zoomToEurope();
 
             handleWindowResize();
 
@@ -116,7 +118,7 @@ function getChart(params) {
 
             function zoomToEurope() {
                 var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Portugal'));
-                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Finland'));
+                var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Estonia'));
                 var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
                 var bottomBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Italy'));
 
@@ -141,9 +143,9 @@ function getChart(params) {
 
             function georgiaBorderCountry(d) {
 
-                // if ((d.properties.name == 'Georgia' && d.properties.sovereignt == 'Georgia')
-                //     || d.properties.name == 'Russia' || d.properties.name == 'Turkey' || d.properties.name == 'Azerbaijan'
-                //     || d.properties.name == 'Armenia') return true;
+                if ((d.properties.name == 'Georgia' && d.properties.sovereignt == 'Georgia')
+                    || d.properties.name == 'Russia' || d.properties.name == 'Turkey' || d.properties.name == 'Azerbaijan'
+                    || d.properties.name == 'Armenia') return true;
 
                 return false;
             }
