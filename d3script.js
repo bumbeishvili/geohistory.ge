@@ -1,8 +1,3 @@
-
-
-
-
-
 function getChart(params) {
     // Exposed variables
     var attrs = {
@@ -63,7 +58,6 @@ function getChart(params) {
                 .projection(projection);
 
             //################################ DRAWING ######################  
-
             //Drawing
             var svg = container.patternify({ tag: 'svg', selector: 'svg-chart-container' })
                 .attr('width', attrs.svgWidth)
@@ -151,7 +145,6 @@ function getChart(params) {
 
                 return false;
             }
-
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {
                 var transform = d3.event.transform;
