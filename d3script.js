@@ -16,6 +16,7 @@ function getChart(params) {
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
         geojson: null,
+        districts: null,
         data: null
     };
 
@@ -92,6 +93,18 @@ function getChart(params) {
 
             zoomToActiveCountry();
 
+            var districtCoordinates = attrs.districts.map(function (d) {
+                return [+d.lat, +d.long];
+            })
+
+            var populationCircles = chart.patternify({ tag: 'circle', selector: 'chart', data: districtCoordinates })
+                .attr("cx", function (d) {
+                    return projection(d)[0];
+                })
+                .attr("cy", function (d) { return projection(d)[1]; })
+                .attr("r", "0.2px")
+                .attr("fill", "red")
+
             handleWindowResize();
 
 
@@ -147,6 +160,8 @@ function getChart(params) {
 
                 return false;
             }
+
+
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {
                 var transform = d3.event.transform;
