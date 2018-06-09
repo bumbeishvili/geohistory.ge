@@ -86,10 +86,6 @@ function getChart(params) {
                 .attr('stroke-width', 0.1)
                 .classed('active', function (d) {
                     return d.properties.name == 'Georgia';
-                })
-                .on('click', function (d) {
-                    if (d.properties.NAME_0 != undefined)
-                        zoomToEurope();
                 });
 
             //zoom to georgia
@@ -126,6 +122,13 @@ function getChart(params) {
                 .attr("fill", attrs.populationCirclesColor);
 
             handleWindowResize();
+
+            d3.select('#button-container')
+                .on('click', function (d) {
+                    zoomToEurope();
+                    d3.select(this)
+                        .style('display', 'none');
+                });
 
 
             /* #############################   FUNCTIONS    ############################## */

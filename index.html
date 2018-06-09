@@ -17,109 +17,115 @@
 <body translate="no">
 
     <div class="container centered">
-        <div id="myGraph"></div>
-    </div>
-    <script src="d3.v5.min.js"></script>
-    <script src="https://npmcdn.com/regl@1.3.0/dist/regl.js"></script>
-    <script src="canvas.js"></script>
-    <script src="d3script.js"></script>
+        <div id="myGraph">
+            <div id="button-container">
+                <p>
+                    Click to switch europe: 
+                    <button id ="switch-button">display europe</button>
+                </p>
+            </div>
+        </div>
+        <script src="d3.v5.min.js"></script>
+        <script src="https://npmcdn.com/regl@1.3.0/dist/regl.js"></script>
+        <script src="canvas.js"></script>
+        <script src="d3script.js"></script>
 
-    <script>
-        d3.csv('districts.csv').then(function (districts) {
-            d3.json('world.json')
-                .then(json => {
-                    var chart = getChart()
-                        .svgHeight(window.innerHeight - 30)
-                        .svgWidth(window.innerWidth - 30)
-                        .geojson(json)
-                        .districts(districts)
-                        .container('#myGraph')
-                        .data('Pass Something Here and use it as attrs.data')
-                        .run()
-                });
-        });
+        <script>
+            d3.csv('districts.csv').then(function (districts) {
+                d3.json('world.json')
+                    .then(json => {
+                        var chart = getChart()
+                            .svgHeight(window.innerHeight - 30)
+                            .svgWidth(window.innerWidth - 30)
+                            .geojson(json)
+                            .districts(districts)
+                            .container('#myGraph')
+                            .data('Pass Something Here and use it as attrs.data')
+                            .run()
+                    });
+            });
 
-        // Some constants to use
-        var MAX_WIDTH = 2000;
-        var MAX_HEIGHT = 800;
-        var MAX_SPEED = 5;
-        var POINT_SIZE = 10;
-        var POINT_COUNT = 300;
+            // Some constants to use
+            var MAX_WIDTH = 2000;
+            var MAX_HEIGHT = 800;
+            var MAX_SPEED = 5;
+            var POINT_SIZE = 10;
+            var POINT_COUNT = 300;
 
-        // Helper function to create a random float between
-        // some defined range. This is used to create some
-        // fake data. In a real setting, you would probably
-        // use D3 to map data to display coordinates.
-        function randomFromInterval(min, max) {
-            return Math.random() * (max - min + 1) + min;
-        }
-
-        // Helper function to create a random integer between
-        // some defined range. Again, you would want to use
-        // D3 for mapping real data to display coordinates.
-        function randomIntFromInterval(min, max) {
-            return Math.floor(randomFromInterval(min, max));
-        }
-
-        var drawPoints = DrawPoints()
-            .points([
-                {
-                    sy: 400,
-                    sx: 100,
-                    tx: 1200,
-                    ty: 120,
-                    size: POINT_SIZE
-                },
-                {
-                    sy: 200,
-                    sx: 200,
-                    tx: 1000,
-                    ty: 180,
-                    size: POINT_SIZE
-                },
-                {
-                    sy: 200,
-                    sx: 20,
-                    tx: 800,
-                    ty: 60,
-                    size: POINT_SIZE
-                },
-                {
-                    sy: 50,
-                    sx: 30,
-                    tx: 500,
-                    ty: 300,
-                    size: POINT_SIZE
-                },
-                {
-                    sy: 90,
-                    sx: 118,
-                    tx: 120,
-                    ty: 10,
-                    size: POINT_SIZE
-                }
-            ])
-            .run();
-
-        // Helper function to generate some fake data.
-        // Each data point has an x and y and a 'speed'
-        // value that indicates how fast it travels
-        function createData(dataCount) {
-            var data = [];
-            for (var i = 0; i < dataCount; i++) {
-                var datum = {
-                    id: i,
-                    sy: randomIntFromInterval(POINT_SIZE, MAX_HEIGHT),
-                    sx: randomIntFromInterval(POINT_SIZE, window.innerWidth - 30),
-                    tx: randomIntFromInterval(POINT_SIZE, window.innerWidth - 30),
-                    ty: randomIntFromInterval(POINT_SIZE, MAX_HEIGHT),
-                    size: randomIntFromInterval(POINT_SIZE, POINT_SIZE * 3)
-                };
-                data.push(datum);
+            // Helper function to create a random float between
+            // some defined range. This is used to create some
+            // fake data. In a real setting, you would probably
+            // use D3 to map data to display coordinates.
+            function randomFromInterval(min, max) {
+                return Math.random() * (max - min + 1) + min;
             }
-            return data;
-        }
-    </script>
+
+            // Helper function to create a random integer between
+            // some defined range. Again, you would want to use
+            // D3 for mapping real data to display coordinates.
+            function randomIntFromInterval(min, max) {
+                return Math.floor(randomFromInterval(min, max));
+            }
+
+            var drawPoints = DrawPoints()
+                .points([
+                    {
+                        sy: 400,
+                        sx: 100,
+                        tx: 1200,
+                        ty: 120,
+                        size: POINT_SIZE
+                    },
+                    {
+                        sy: 200,
+                        sx: 200,
+                        tx: 1000,
+                        ty: 180,
+                        size: POINT_SIZE
+                    },
+                    {
+                        sy: 200,
+                        sx: 20,
+                        tx: 800,
+                        ty: 60,
+                        size: POINT_SIZE
+                    },
+                    {
+                        sy: 50,
+                        sx: 30,
+                        tx: 500,
+                        ty: 300,
+                        size: POINT_SIZE
+                    },
+                    {
+                        sy: 90,
+                        sx: 118,
+                        tx: 120,
+                        ty: 10,
+                        size: POINT_SIZE
+                    }
+                ])
+                .run();
+
+            // Helper function to generate some fake data.
+            // Each data point has an x and y and a 'speed'
+            // value that indicates how fast it travels
+            function createData(dataCount) {
+                var data = [];
+                for (var i = 0; i < dataCount; i++) {
+                    var datum = {
+                        id: i,
+                        sy: randomIntFromInterval(POINT_SIZE, MAX_HEIGHT),
+                        sx: randomIntFromInterval(POINT_SIZE, window.innerWidth - 30),
+                        tx: randomIntFromInterval(POINT_SIZE, window.innerWidth - 30),
+                        ty: randomIntFromInterval(POINT_SIZE, MAX_HEIGHT),
+                        size: randomIntFromInterval(POINT_SIZE, POINT_SIZE * 3)
+                    };
+                    data.push(datum);
+                }
+                return data;
+            }
+        </script>
 
 
 </body>
