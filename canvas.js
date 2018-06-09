@@ -3,7 +3,8 @@ function DrawPoints() {
 
   function main(){
     // regl instance
-    var regl = createREGL({});
+    var regl = createREGL({
+    });
 
     const drawDots = regl({
 
@@ -91,14 +92,19 @@ function DrawPoints() {
         drawDots({
           points: points
         });
+
+        if (!points.length)
+        {
+          regl.destroy();
+        }
       });
     }
 
-    const ease = d3.easeSinOut;
+    const ease = d3.easeLinear;
 
     function updateCoods(elapsed) {
             // update point positions (interpolate between source and target)
-      points.forEach((point, i) => {
+      points.forEach(point => {
         if (!point.old) {
           point.elapsedBase = elapsed;
           point.old = true;
@@ -113,10 +119,12 @@ function DrawPoints() {
         point.x = point.sx * (1 - t) + point.tx * t;
         point.y = point.sy * (1 - t) + point.ty * t;
 
-        if (t >= 0.98) {
-          points.splice(i, 1);
+        if (t == 1) {
+          var index = points.indexOf(point);
+          points.splice(index, 1);
         }
       });
+
     }
   }
 

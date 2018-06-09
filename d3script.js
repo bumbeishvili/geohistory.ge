@@ -63,7 +63,9 @@ function getChart(params) {
                 .attr('width', attrs.svgWidth)
                 .attr('height', attrs.svgHeight)
                 .attr('font-family', attrs.defaultFont)
-                .style('background-color', attrs.svgBackground);
+                .style('background-color', attrs.svgBackground)
+                .style('position', 'absolute')
+                .call(behaviors.zoom)
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')

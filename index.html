@@ -6,10 +6,12 @@
     <meta charset="UTF-8">
     <title>Geomapping </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-
+    <style>
+        canvas {
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body translate="no">
@@ -58,41 +60,41 @@
         
         var drawPoints = DrawPoints()
                             .points([
-                            {
-                                sy: 400,
-                                sx: 100,
-                                tx: 1200,
-                                ty: 120,
-                                size: POINT_SIZE
-                            },
-                            {
-                                sy: 200,
-                                sx: 200,
-                                tx: 1000,
-                                ty: 180,
-                                size: POINT_SIZE
-                            },
-                            {
-                                sy: 200,
-                                sx: 20,
-                                tx: 800,
-                                ty: 60,
-                                size:POINT_SIZE
-                            },
-                            {
-                                sy: 50,
-                                sx: 30,
-                                tx: 500,
-                                ty: 300,
-                                size: POINT_SIZE
-                            },
-                            {
-                                sy: 90,
-                                sx: 118,
-                                tx: 120,
-                                ty: 10,
-                                size: POINT_SIZE
-                            }
+                                {
+                                    sy: 400,
+                                    sx: 100,
+                                    tx: 1200,
+                                    ty: 120,
+                                    size: POINT_SIZE
+                                },
+                                {
+                                    sy: 200,
+                                    sx: 200,
+                                    tx: 1000,
+                                    ty: 180,
+                                    size: POINT_SIZE
+                                },
+                                {
+                                    sy: 200,
+                                    sx: 20,
+                                    tx: 800,
+                                    ty: 60,
+                                    size:POINT_SIZE
+                                },
+                                {
+                                    sy: 50,
+                                    sx: 30,
+                                    tx: 500,
+                                    ty: 300,
+                                    size: POINT_SIZE
+                                },
+                                {
+                                    sy: 90,
+                                    sx: 118,
+                                    tx: 120,
+                                    ty: 10,
+                                    size: POINT_SIZE
+                                }
                             ])
                             .run();   
 
