@@ -23,7 +23,7 @@
     <script src="d3script.js"></script>
 
     <script>
-        d3.json('world_countries.json')
+        d3.json('world.json')
             .then(json => {
                 var chart = getChart()
                     .svgHeight(window.innerHeight - 30)
@@ -32,7 +32,6 @@
                     .container('#myGraph')
                     .data('Pass Something Here and use it as attrs.data')
                     .run()
-
             });
 
         // Some constants to use
