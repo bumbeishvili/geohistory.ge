@@ -108,7 +108,7 @@ function getChart(params) {
             var maxPopulation = d3.max(attrs.districts.map(x => +x.population));
 
             //linear scale for adjusting circle radius
-            var radiusScale = d3.scaleLinear().domain([0, maxPopulation]).range([0.1, 0.5])  //0.5, 2 for bigger map
+            var radiusScale = d3.scaleLinear().domain([0, maxPopulation]).range([0.05, 0.5]);
 
             //add circles
             var populationCircles = chart.patternify({ tag: 'circle', selector: 'chart', data: districtCoordinates })
@@ -184,7 +184,7 @@ function getChart(params) {
             }
 
             function makeCirclesBigger() {
-                radiusScale.range([0.3, 1]);
+                radiusScale.range([0.1, 0.8]);
 
                 //change circles radius
                 populationCircles
@@ -195,12 +195,11 @@ function getChart(params) {
                     });
             }
 
-            function displayGeorgiaNeighborBorders(){
-
+            function displayGeorgiaNeighborBorders() {
                 d3.selectAll('.map-path')
-                .transition()
-                .duration(3000)
-                .attr('stroke',attrs.svgBackground);
+                    .transition()
+                    .duration(3000)
+                    .attr('stroke', attrs.svgBackground);
             }
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
