@@ -18,6 +18,8 @@ function getChart(params) {
         container: 'body',
         defaultTextFill: '#2C3E50',
         defaultFont: 'Helvetica',
+        svgBackground: 'rgb(73, 73, 73)',
+        countriesColor: '#191919',
         geojson: null,
         data: null
     };
@@ -31,7 +33,7 @@ function getChart(params) {
 
             //Drawing containers
             var container = d3.select(this);
-            
+
             //Calculated properties
             var calc = {}
             calc.id = "ID" + Math.floor(Math.random() * 1000000);  // id for event handlings
@@ -67,7 +69,7 @@ function getChart(params) {
                 .attr('width', attrs.svgWidth)
                 .attr('height', attrs.svgHeight)
                 .attr('font-family', attrs.defaultFont)
-                .call(behaviors.zoom);
+                .style('background-color', attrs.svgBackground);
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
@@ -75,15 +77,24 @@ function getChart(params) {
 
             chart.patternify({ tag: 'path', selector: 'map-path', data: attrs.geojson.features })
                 .attr('d', path)
-                .attr('fill', d => '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)) //random color
+                // .attr('fill', d => '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)) //random color
+                .attr('fill', attrs.countriesColor)
+                .attr('stroke', function (d) {
+
+                    if (d.properties == undefined) return attrs.svgBackground;
+                    if (georgiaBorderCountry(d)) return attrs.countriesColor;
+
+                    return attrs.svgBackground;
+                })
+                .attr('stroke-width', 0.1)
                 .classed('active', function (d) {
                     return d.properties.name == 'Georgia';
                 });
 
 
-            // zoomToActiveCountry();
+            zoomToActiveCountry();
 
-            zoomToEurope();
+            // zoomToEurope();
 
             handleWindowResize();
 
@@ -102,7 +113,7 @@ function getChart(params) {
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
 
                 chart.transition()
-                    .duration(750)
+                    .duration(1750)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
@@ -127,9 +138,18 @@ function getChart(params) {
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
 
                 chart.transition()
-                    .duration(750)
+                    .duration(1750)
                     .style("stroke-width", 1.5 / scale + "px")
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+            }
+
+            function georgiaBorderCountry(d) {
+
+                // if ((d.properties.name == 'Georgia' && d.properties.sovereignt == 'Georgia')
+                //     || d.properties.name == 'Russia' || d.properties.name == 'Turkey' || d.properties.name == 'Azerbaijan'
+                //     || d.properties.name == 'Armenia') return true;
+
+                return false;
             }
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
