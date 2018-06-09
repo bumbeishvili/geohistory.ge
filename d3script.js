@@ -145,9 +145,9 @@ function getChart(params) {
 
             function georgiaBorderCountry(d) {
 
-                // if ((d.properties.name == 'Georgia' && d.properties.sovereignt == 'Georgia')
-                //     || d.properties.name == 'Russia' || d.properties.name == 'Turkey' || d.properties.name == 'Azerbaijan'
-                //     || d.properties.name == 'Armenia') return true;
+                if ((d.properties.name == 'Georgia' && d.properties.sovereignt == 'Georgia')
+                    || d.properties.name == 'Russia' || d.properties.name == 'Turkey' || d.properties.name == 'Azerbaijan'
+                    || d.properties.name == 'Armenia') return true;
 
                 return false;
             }
