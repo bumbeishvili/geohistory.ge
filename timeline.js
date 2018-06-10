@@ -13,7 +13,7 @@ function Timeline(params) {
         defaultFont: 'Helvetica',
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
-        pinColor: '#39787E',
+        pinColor: 'red',
         animationTime: 20, // in seconds
         animaionDelay: 3, // in seconds
         districts: null,
@@ -103,7 +103,6 @@ function Timeline(params) {
             var pinText = pin.patternify({ tag: 'text', selector: 'pinText' })
                              .attr("y", -5)
                              .attr("x", -30)
-                             .style("fill", attrs.pinColor)
                              .text(formatDate(x.invert(0)))
 
             pin.patternify({ tag: 'rect', selection: 'pinRect' })
@@ -111,11 +110,11 @@ function Timeline(params) {
                .attr("height", 30)
                .style("rx", 5)
                .style("ry", 5)
-               .style("fill", attrs.pinColor);
 
-            pin.patternify({ tag: 'path', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
-               .attr("d", line)
-               .style("fill", attrs.pinColor);
+            pin.patternify({ tag: 'circle', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
+               .attr("transform", "translate("+20+","+ 50+")")
+               .attr("r", 5)
+               .attr("d", line);
 
             var timer, translateX;
             animate = function() {
