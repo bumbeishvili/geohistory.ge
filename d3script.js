@@ -131,7 +131,7 @@ function getChart(params) {
 
             europeButtonClick();
 
-            searchInputClick();
+    
 
             handleWindowResize();
 
