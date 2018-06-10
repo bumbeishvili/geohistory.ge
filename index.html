@@ -6,34 +6,124 @@
     <meta charset="UTF-8">
     <title>Geomapping </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-
+    <style>
+        body {
+            margin: 0px;
+        }
+        .button-container {
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            z-index: 10;
+            background-color: #39787E;
+        }
+        canvas {
+            position: absolute;
+            pointer-events: none;
+        }
+        .timeline {
+            width: 100%;
+            position: fixed;
+            bottom: 0px;
+            z-index: 10;
+        }
+        .timeline svg{
+            fill: rgb(73, 73, 73);
+        }
+        .xAxis text {
+            fill: rgb(73, 73, 73);
+        }
+        .xAxis line, .xAxis path {
+            stroke: rgb(73, 73, 73);
+            stroke-width: 2;
+        }
+    </style>
 </head>
 
 <body translate="no">
 
     <div class="container centered">
-        <div id="myGraph"></div>
+        <div id="myGraph">
+                <div id="button-container" class="button-container">
+                    <p>
+                        Click to switch europe: 
+                        <button id ="switch-button">display europe</button>
+                    </p>
+                </div>
+        </div>
+        <div class="timeline" id="timeline">
+
+        </div>
     </div>
     <script src="d3.v5.min.js"></script>
+    <script src="https://npmcdn.com/regl@1.3.0/dist/regl.js"></script>
+    <script src="canvas.js"></script>
     <script src="d3script.js"></script>
+    <script src="timeline.js"></script>
 
     <script>
+        d3.csv('districts.csv').then(function (districts) {
+            d3.json('world.json')
+                .then(json => {
+                    var chart = getChart()
+                        .svgHeight(window.innerHeight)
+                        .svgWidth(window.innerWidth)
+                        .geojson(json)
+                        .districts(districts)
+                        .container('#myGraph')
+                        .data('Pass Something Here and use it as attrs.data')
+                        .debug(true)
+                        .run()
+                });
+        });
 
+        var drawPoints = DrawPoints()
+            .points([
+                {
+                    sy: 400,
+                    sx: 100,
+                    tx: 1200,
+                    ty: 120,
+                    size: 15
+                },
+                {
+                    sy: 200,
+                    sx: 200,
+                    tx: 1000,
+                    ty: 180,
+                    size: 15
+                },
+                {
+                    sy: 200,
+                    sx: 20,
+                    tx: 800,
+                    ty: 60,
+                    size: 15
+                },
+                {
+                    sy: 50,
+                    sx: 30,
+                    tx: 500,
+                    ty: 300,
+                    size: 15
+                },
+                {
+                    sy: 90,
+                    sx: 118,
+                    tx: 120,
+                    ty: 10,
+                    size: 15
+                }
+            ])
 
-        d3.json('world_countries.json')
-            .then(json => {
-                var chart = getChart()
-                    .svgHeight(window.innerHeight - 30)
-                    .svgWidth(window.innerWidth - 30)
-                    .geojson(json)
-                    .container('#myGraph')
-                    .data('Pass Something Here and use it as attrs.data')
-                    .run()
+        var boundingRect = document.getElementById('timeline').getBoundingClientRect();
+        var timeline = Timeline()
+                        .svgHeight(150)
+                        .svgWidth(boundingRect.width)
+                        .container('#timeline')
+                        .run();
 
-            })
+        //setTimeout(drawPoints.run, 2000);
     </script>
 
 
