@@ -489,15 +489,14 @@
                 var result = coords.map(d => {
                     var coord = [d.lat, d.long];
                     return {
-                        sy: projection()(coord)[1] + (Math.random() - 0.5) + 350,
-                        sx: projection()(coord)[0] + (Math.random() - 0.5) + 350,
-                        tx: projection()(pos)[0] + (Math.random() - 0.5) * 20,
-                        ty: projection()(pos)[1] + (Math.random() - 0.5) * 5,
+                        sx: projection()(coord)[0] + (Math.random() - 0.5)*50+330,
+                        sy: projection()(coord)[1] + (Math.random() - 0.5)*30+340,
+                        tx: projection()(pos)[0]*5 + (Math.random() - 0.5) *150 - 2800,
+                        ty: projection()(pos)[1] *1.2+ (Math.random() - 0.5) *200 + 00,
                         duration: Math.round(Math.random() * 20),
                         size: 2
                     }
                 })
-
 
                 return result;
 

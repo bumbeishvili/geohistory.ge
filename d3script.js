@@ -171,11 +171,13 @@ function getChart(params) {
                     scale = .9 / Math.max(dx / attrs.svgWidth, dy / attrs.svgHeight),
                     translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
 
-                chart.transition()
+                var transform = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
+
+                chart
+                    .transition()
                     .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
-                    
-                    .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+                    .call(behaviors.zoom.transform, transform);
             }
 
             zoomToEurope = function () {
@@ -196,11 +198,13 @@ function getChart(params) {
 
                 var scale = .9 / Math.max(dx / attrs.svgWidth, dy / attrs.svgHeight),
                     translate = [attrs.svgWidth / 2 - scale * x - 30, attrs.svgHeight / 2 - scale * y - 30];
-
-                chart.transition()
+                
+                var transform = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
+                chart
+                    .transition()
                     .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
-                    .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+                    .call(behaviors.zoom.transform, transform);
 
                 makeCirclesBigger();
                 displayGeorgiaNeighborBorders();
