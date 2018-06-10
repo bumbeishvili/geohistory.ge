@@ -97,7 +97,8 @@ function getChart(params) {
                 return {
                     long: +d.long,
                     lat: +d.lat,
-                    population: d.population
+                    population: d.population,
+                    city: d.corrCity
                 };
             });
 
@@ -120,13 +121,37 @@ function getChart(params) {
                 .attr("r", function (d) {
                     return radiusScale(+d.population) + 'px';
                 })
-                .attr("fill", attrs.populationCirclesColor);
+                .attr("fill", attrs.populationCirclesColor)
+                .on('mouseenter', function (d) {
+                    displayTooltip(d);
+                })
+                .on('mouseleave', function (d) {
+                    hideTooltip(d);
+                });
 
             europeButtonClick();
 
             searchInputClick();
 
             handleWindowResize();
+
+            //#################################### TOOLTIP ####################################
+
+            //initialize tooltip object
+            var tooltip = d3.componentsTooltip()
+                .container('.svg-chart-container')
+                .content([
+                    {
+                        left: "city",
+                        right: "{city}"
+                    },
+                    {
+                        left: "death",
+                        right: "{population}"
+                    }
+                ])
+
+
 
             /* #############################   FUNCTIONS    ############################## */
 
@@ -203,6 +228,35 @@ function getChart(params) {
                     .attr('stroke', attrs.svgBackground);
             }
 
+            function displayTooltip(d) {
+                var xPosition = d3.event.offsetX - 5;
+                var yPosition = d3.event.offsetY - 20;
+
+                tooltip
+                    .x(xPosition)
+                    .y(yPosition)
+                    .tooltipRowHeight(25)
+                    .minSpaceBetweenColumns(50)
+                    .fontSize(13)
+                    .arrowHeight(10)
+                    .arrowLength(20)
+                    .contentMargin(0)
+                    .heightOffset(7)
+                    .textColor('#E5E2E0')
+                    .tooltipFill('#830303')
+                    .leftMargin(10)
+                    .rightMargin(3)
+                    .direction('bottom')
+                    .show({
+                        city: d.city,
+                        population: d.population
+                    });
+            }
+
+            function hideTooltip(d) {
+                tooltip.hide();
+            }
+
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {
                 var transform = d3.event.transform;
@@ -255,6 +309,24 @@ function getChart(params) {
 
                     });
             }
+
+
+            function commarize(numberValue) {
+                // Alter numbers larger than 1k
+                if (numberValue >= 1e3) {
+
+                    // Divide to get SI Unit engineering style numbers (1e3,1e6,1e9, etc)
+                    let unit = Math.floor(((numberValue).toFixed(0).length - 1) / 3) * 3
+                    // Calculate the remainder
+                    var num = (numberValue / ('1e' + 6)).toFixed(1)
+
+                    // output number remainder + unitname
+                    return num + ' million' + ' people'
+                }
+                // return formatted original number
+                return numberValue.toLocaleString()
+            }
+
 
             // Smoothly handle data updating
             updateData = function () {
