@@ -141,7 +141,7 @@ function Timeline(params) {
                                 timer.stop();
                             }
                         });
-                    }, attrs.animaionDelay * 1000);
+                    }, world.isZoomedOut() ? 0 : attrs.animaionDelay * 1000);
                     playButton.data(playButtonData.stop)
                               .attr("d", line);
                     world.zoomToEurope();
