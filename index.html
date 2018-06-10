@@ -148,11 +148,12 @@
         /* loader */
 
         .sk-fading-circle {
-            display:none;
+            display: none;
             margin: 100px;
-            width: 40px;
-            left: 40%;
-            height: 40px;
+            width: 50px;
+            left: 47%;
+            top: -8%;
+            height: 50px;
             position: absolute;
         }
 
@@ -376,6 +377,7 @@
         <script src="d3script.js"></script>
 
         <script>
+
             var world;
             d3.csv('districts.csv').then(function (districts) {
                 d3.json('world_minified.json')
@@ -457,13 +459,15 @@
 
                         var str = inputText.split(' ').join('_');
 
-
                         if (event.code != 'Enter' || inputText == '') return;
+
+                        d3.selectAll('.sk-fading-circle ').style('display', 'block');
 
                         d3.json('http://geohistory-node-app.herokuapp.com/' + str).then(d => {
 
-                            var modal = d3.select('#myModal');
+                            d3.selectAll('.sk-fading-circle ').style('display', 'none');
 
+                            var modal = d3.select('#myModal');
 
                             modal.style('display', 'block')
                             var closeButton = d3.select('.close');
