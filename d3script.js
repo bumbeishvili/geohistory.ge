@@ -124,6 +124,8 @@ function getChart(params) {
 
             europeButtonClick();
 
+    
+
             handleWindowResize();
 
             /* #############################   FUNCTIONS    ############################## */
@@ -238,35 +240,18 @@ function getChart(params) {
             function searchInputClick() {
                 d3.select('#person-search-input')
                     .on('keydown', function (d) {
-                        if (event.code != 'Enter') return;
                         var inputText = d3.select(this).property('value');
 
-                        // var modal = d3.select('#myModal');
+                        if (event.code != 'Enter' || inputText == '') return;
 
-                        // var closeButton = d3.select('.class')
+                        var modal = d3.select('#myModal');
 
-                        // // Get the <span> element that closes the modal
-                        // var span = document.getElementsByClassName("close")[0];
+                        modal.style('display', 'block')
+                        var closeButton = d3.select('.close');
 
-                        // // When the user clicks the button, open the modal 
-                        // btn.onclick = function () {
-                        //     modal.style.display = "block";
-                        // }
-
-                        // // When the user clicks on <span> (x), close the modal
-                        // span.onclick = function () {
-                        //     modal.style.display = "none";
-                        // }
-
-                        // // When the user clicks anywhere outside of the modal, close it
-                        // window.onclick = function (event) {
-                        //     if (event.target == modal) {
-                        //         modal.style.display = "none";
-                        //     }
-                        // }
-
-
-
+                        closeButton.on('click', function (d) {
+                            modal.style('display', 'none');
+                        })
 
                     });
             }

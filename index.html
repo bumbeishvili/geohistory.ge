@@ -27,29 +27,29 @@
         }
 
         .timeline {
-            width: 100%;
             position: fixed;
             bottom: 0px;
             z-index: 10;
         }
 
         .timeline svg {
-            fill: rgb(73, 73, 73);
+            fill: gray
         }
 
         .xAxis text {
-            fill: rgb(73, 73, 73);
+            fill: gray;
         }
 
         .xAxis line,
         .xAxis path {
-            stroke: rgb(73, 73, 73);
+            stroke: gray;
             stroke-width: 2;
         }
 
         /* The Modal (background) */
 
         .modal {
+            z-index: 9999 !important;
             display: none;
             /* Hidden by default */
             position: fixed;
@@ -130,8 +130,9 @@
 
         .modal-header {
             padding: 2px 16px;
-            background-color: #5cb85c;
-            color: white;
+
+            background-color: #191919;
+            color: gray;
         }
 
         .modal-body {
@@ -166,14 +167,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <span class="close">&times;</span>
-                        <h2>Modal Header</h2>
+                        <h2 id='pname'>სახელი</h2>
                     </div>
                     <div class="modal-body">
                         <p>Some text in the Modal Body</p>
                         <p>Some other text...</p>
-                    </div>
-                    <div class="modal-footer">
-                        <h3>Modal Footer</h3>
                     </div>
                 </div>
 
@@ -260,7 +258,55 @@
 
         setTimeout(drawPoints.run, 3000);
         </script>
+        <script>
+            function searchInputClick() {
+                d3.select('#person-search-input')
+                    .on('keydown', function (d) {
+                        var inputText = d3.select(this).property('value');
 
+                        var str = inputText.split(' ').join('_');
+
+
+                        if (event.code != 'Enter' || inputText == '') return;
+
+                        d3.json('http://geohistory-node-app.herokuapp.com/' + str).then(d => {
+
+                            var modal = d3.select('#myModal');
+
+
+                            modal.style('display', 'block')
+                            var closeButton = d3.select('.close');
+
+                            closeButton.on('click', function (d) {
+                                modal.style('display', 'none');
+                            })
+
+                            d3.select('#pname').html(d[1][1] + ' ' + d[1][2]);
+
+
+                            var generatedStr = `
+                            <table>
+                               ${d[0].map((r, i) => {
+                                    return `
+                                    <tr><td>
+                                       ${r}
+                                    </td>
+                                    <td> ${d[1][i]}
+                                    </td>
+                                    </tr>`
+
+
+                                }).join('')}    
+                            </table>
+                            
+                            `
+                            d3.select('.modal-body').html(generatedStr)
+                        })
+
+                    });
+            }
+            searchInputClick();
+        </script>
 
 </body>
 
