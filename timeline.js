@@ -16,6 +16,8 @@ function Timeline(params) {
         pinColor: 'red',
         animationTime: 20, // in seconds
         animaionDelay: 3, // in seconds
+        onTimelineClick: d => d,
+        onNextTick: d => d,
         districts: null,
         data: null
     };
@@ -70,6 +72,9 @@ function Timeline(params) {
 
             //################################ DRAWING ######################  
             //Drawing
+
+            container.style('pointer-events', 'none');
+            
             var svg = container.patternify({ tag: 'svg', selector: 'svg-chart-container' })
                 .attr('width', attrs.svgWidth)
                 .attr('height', attrs.svgHeight)
@@ -94,6 +99,7 @@ function Timeline(params) {
                     if (animate) {
                         animate();
                     }
+                    attrs.onTimelineClick(d);
                 });
 
             chart.patternify({ tag: 'g', selector: 'xAxis' })
@@ -104,14 +110,14 @@ function Timeline(params) {
                 .attr('transform', 'translate(-20,' + (calc.chartHeight - 70) + ')')
 
             var pinText = pin.patternify({ tag: 'text', selector: 'pinText' })
-                             .attr("y", 15)
-                             .attr("x", 30)
-                             .text(formatDate(x.invert(0)))
+                .attr("y", 15)
+                .attr("x", 30)
+                .text(formatDate(x.invert(0)))
 
-            pin.patternify({ tag: 'circle', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
-               .attr("transform", "translate("+20+","+ 50+")")
-               .attr("r", 5)
-               .attr("d", line);
+            pin.patternify({ tag: 'circle', selector: 'pinPath', data: [[[0, 30], [20, 45], [40, 30], [0, 30]]] })
+                .attr("transform", "translate(" + 20 + "," + 50 + ")")
+                .attr("r", 5)
+                .attr("d", line);
 
             var timer, translateX;
             animate = function () {
@@ -136,6 +142,8 @@ function Timeline(params) {
                             if (translateX >= calc.chartWidth - 20) {
                                 timer.stop();
                             }
+
+                            attrs.onNextTick({ time: x.invert(translateX) })
                         });
                     }, world.isZoomedOut() ? 0 : attrs.animaionDelay * 1000);
                     playButton.data(playButtonData.stop)
