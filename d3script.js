@@ -16,13 +16,14 @@ function getChart(params) {
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
         populationCirclesColor: '#39787E',
+        isZoomedOut: false,
         geojson: null,
         districts: null,
         data: null
     };
 
     //InnerFunctions
-    var updateData;
+    var updateData, zoomToEurope;
 
     //Main chart object
     var main = function (selection) {
@@ -121,15 +122,11 @@ function getChart(params) {
                 })
                 .attr("fill", attrs.populationCirclesColor);
 
+            europeButtonClick();
+
+            searchInputClick();
+
             handleWindowResize();
-
-            d3.select('#button-container')
-                .on('click', function (d) {
-                    zoomToEurope();
-                    d3.select(this)
-                        .style('display', 'none');
-                });
-
 
             /* #############################   FUNCTIONS    ############################## */
 
@@ -150,7 +147,7 @@ function getChart(params) {
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
 
-            function zoomToEurope() {
+            zoomToEurope = function () {
                 var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Germany'));
                 var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Poland'));
                 var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
@@ -176,6 +173,7 @@ function getChart(params) {
 
                 makeCirclesBigger();
                 displayGeorgiaNeighborBorders();
+                attrs.isZoomedOut = true;
             }
 
             function georgiaBorderCountry(d) {
@@ -228,6 +226,34 @@ function getChart(params) {
                     attrs.svgWidth = containerRect.width;
                 if (containerRect.height > 0)
                     attrs.svgHeight = containerRect.height;
+            }
+
+            function europeButtonClick() {
+                d3.select('#button-container')
+                    .on('click', function (d) {
+                        zoomToEurope();
+                        d3.select(this)
+                            .style('display', 'none');
+                    });
+            }
+
+            function searchInputClick() {
+                d3.select('#person-search-input')
+                    .on('keydown', function (d) {
+                        var inputText = d3.select(this).property('value');
+
+                        if (event.code != 'Enter' || inputText == '') return;
+
+                        var modal = d3.select('#myModal');
+
+                        modal.style('display', 'block')
+                        var closeButton = d3.select('.close');
+
+                        closeButton.on('click', function (d) {
+                            modal.style('display', 'none');
+                        })
+
+                    });
             }
 
             // Smoothly handle data updating
@@ -296,6 +322,13 @@ function getChart(params) {
 
     //set attrs as property
     main.attrs = attrs;
+
+    main.zoomToEurope = function () {
+        if (typeof zoomToEurope === "function") {
+            zoomToEurope();
+        }
+        return main;
+    }
 
     //debugging visuals
     main.debug = function (isDebug) {

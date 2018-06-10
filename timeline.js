@@ -15,12 +15,13 @@ function Timeline(params) {
         countriesColor: '#191919',
         pinColor: '#39787E',
         animationTime: 20, // in seconds
+        animaionDelay: 3, // in seconds
         districts: null,
         data: null
     };
 
     //InnerFunctions
-    var updateData, animate;
+    var updateData, animate, animationStarted = false, formatDate = d3.timeFormat("%Y %b %d");;
 
     //Main chart object
     var main = function (selection) {
@@ -37,6 +38,14 @@ function Timeline(params) {
             calc.chartWidth = attrs.svgWidth - attrs.marginRight - calc.chartLeftMargin;
             calc.chartHeight = attrs.svgHeight - attrs.marginBottom - calc.chartTopMargin;
 
+            var playButtonData = {
+                start: [[[5, (calc.chartHeight - 20)], [25, (calc.chartHeight - 10)],
+                [5, calc.chartHeight], [5, (calc.chartHeight - 20)]]],
+                stop: [[
+                    [5, (calc.chartHeight - 15)], [25, (calc.chartHeight - 15)],
+                    [25, calc.chartHeight], [5, (calc.chartHeight)]
+                ]]
+            }
 
             /*##################################   HANDLERS  ####################################### */
             var handlers = {
@@ -49,15 +58,15 @@ function Timeline(params) {
 
             /*################################## SCALES ####################################### */
             var x = d3.scaleTime()
-                      .domain([new Date(1939, 0, 1), new Date(1945, 11, 31)])
-                      .range([0, calc.chartWidth]);
+                .domain([new Date(1939, 0, 1), new Date(1946, 11, 31)])
+                .range([0, calc.chartWidth]);
 
             var xAxis = d3.axisBottom(x);
 
             /*################################## SCALES ####################################### */
             var line = d3.line()
-                         .x(d => d[0])
-                         .y(d => d[1])
+                .x(d => d[0])
+                .y(d => d[1])
 
             //################################ DRAWING ######################  
             //Drawing
@@ -68,16 +77,16 @@ function Timeline(params) {
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
-            
-            svg.patternify({ tag: 'path', selector: 'playButton', data: [[ [5, (calc.chartHeight - 20)], [25, (calc.chartHeight - 10)], 
-                                                                             [5, calc.chartHeight], [5, (calc.chartHeight - 20)]]] })
-                 .attr("d", line)
-                 .style("fill", "rgb(73, 73, 73)")
-                 .on("mouseover", d => {
-                     d3.select(this).style("fill", "#fff")
-                 })
-                 .on("mouseout", d => {
-                    d3.select(this).style("fill", "rgb(73, 73, 73)")
+
+            var playButton = svg.patternify({ tag: 'path', selector: 'playButton', data: playButtonData.start })
+                .attr("d", line)
+                .attr("fill", 'gray')
+                .attr('cursor', 'pointer')
+                .on("mouseover", d => {
+                    d3.select(this).style("fill", "#fff")
+                })
+                .on("mouseout", d => {
+                    d3.select(this).attr("fill", 'gray')
                 })
                 .on("click", d => {
                     if (animate) {
@@ -85,39 +94,61 @@ function Timeline(params) {
                     }
                 });
 
-            chart.patternify({ tag: 'g', selector: 'xAxis'})
+            chart.patternify({ tag: 'g', selector: 'xAxis' })
                 .call(xAxis)
                 .attr('transform', 'translate(' + (0) + ',' + (calc.chartHeight - 20) + ')')
 
             var pin = chart.patternify({ tag: 'g', selector: 'timePin' })
-                           .attr('transform', 'translate(-20,' + (calc.chartHeight - 70) + ')')
+                .attr('transform', 'translate(-20,' + (calc.chartHeight - 70) + ')')
 
             var pinText = pin.patternify({ tag: 'text', selector: 'pinText' })
-                             .attr("y", -5)
-                             .attr("x", -30)
-                             .style("fill", attrs.pinColor)
+                .attr("y", -5)
+                .attr("x", 30)
+                .attr("fill", 'gray')
+                .text(formatDate(x.invert(0)))
 
             pin.patternify({ tag: 'rect', selection: 'pinRect' })
-               .attr("width", 40)
-               .attr("height", 30)
-               .style("rx", 5)
-               .style("ry", 5)
-               .style("fill", attrs.pinColor);
+                .attr("width", 40)
+                .attr("height", 30)
+                .attr("fill", 'gray')
+                //   .style("rx", 5)
+                .style("ry", 5)
 
-            pin.patternify({ tag: 'path', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
-               .attr("d", line)
-               .style("fill", attrs.pinColor);
 
-            animate = function() {
-                var formatDate = d3.timeFormat("%m/%d/%Y");
-                var timer = d3.timer(function(ellapsedTime){
-                    var translateX = (calc.chartWidth - 20) * (ellapsedTime / (attrs.animationTime * 1000));
-                    pin.attr("transform", "translate("+ (translateX) +","+ (calc.chartHeight - 70)+")");
-                    pinText.text(formatDate(x.invert(translateX)))
-                    if (translateX >= calc.chartWidth - 20){
+            // pin.patternify({ tag: 'path', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
+            //    .attr("d", line)
+            //    .style("fill", attrs.pinColor);
+
+            var timer, translateX;
+            animate = function () {
+
+                if (animationStarted) {
+                    playButton.data(playButtonData.start)
+                        .attr("d", line);
+                    if (timer) {
                         timer.stop();
                     }
-                });
+                    pinText.text(formatDate(x.invert(0)));
+                    pin.transition()
+                        .duration(1500)
+                        .attr('transform', 'translate(-20,' + (calc.chartHeight - 70) + ')')
+                }
+                else {
+                    setTimeout(function () {
+                        timer = d3.timer(function (ellapsedTime) {
+                            translateX = (calc.chartWidth - 20) * (ellapsedTime / (attrs.animationTime * 1000));
+                            pin.attr("transform", "translate(" + (translateX) + "," + (calc.chartHeight - 70) + ")");
+                            pinText.text(formatDate(x.invert(translateX)))
+                            if (translateX >= calc.chartWidth - 20) {
+                                timer.stop();
+                            }
+                        });
+                    }, world.isZoomedOut() ? 0 : attrs.animaionDelay * 1000);
+                    playButton.data(playButtonData.stop)
+                        .attr("d", line);
+                    world.zoomToEurope();
+                }
+                animationStarted = !animationStarted;
             }
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
@@ -213,7 +244,7 @@ function Timeline(params) {
     main.attrs = attrs;
 
     //animate
-    main.animate = function(){
+    main.animate = function () {
         if (typeof animate === "function") {
             animate();
         }
