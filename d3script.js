@@ -121,15 +121,9 @@ function getChart(params) {
                 })
                 .attr("fill", attrs.populationCirclesColor);
 
+            europeButtonClick();
+
             handleWindowResize();
-
-            // d3.select('#button-container')
-            //     .on('click', function (d) {
-            //         zoomToEurope();
-            //         d3.select(this)
-            //             .style('display', 'none');
-            //     });
-
 
             /* #############################   FUNCTIONS    ############################## */
 
@@ -228,6 +222,23 @@ function getChart(params) {
                     attrs.svgWidth = containerRect.width;
                 if (containerRect.height > 0)
                     attrs.svgHeight = containerRect.height;
+            }
+
+            function europeButtonClick() {
+                d3.select('#button-container')
+                    .on('click', function (d) {
+                        zoomToEurope();
+                        d3.select(this)
+                            .style('display', 'none');
+                    });
+            }
+
+            function searchInputClick() {
+                d3.select('#person-search-input')
+                    .on('keydown', function (d) {
+                        if (event.code != 'Enter') return;
+                        var inputText = d3.select(this).property('value');
+                    });
             }
 
             // Smoothly handle data updating
