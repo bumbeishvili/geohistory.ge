@@ -121,15 +121,11 @@ function getChart(params) {
                 })
                 .attr("fill", attrs.populationCirclesColor);
 
+            europeButtonClick();
+
+            searchInputClick();
+
             handleWindowResize();
-
-            d3.select('#button-container')
-                .on('click', function (d) {
-                    zoomToEurope();
-                    d3.select(this)
-                        .style('display', 'none');
-                });
-
 
             /* #############################   FUNCTIONS    ############################## */
 
@@ -228,6 +224,22 @@ function getChart(params) {
                     attrs.svgWidth = containerRect.width;
                 if (containerRect.height > 0)
                     attrs.svgHeight = containerRect.height;
+            }
+
+            function europeButtonClick() {
+                d3.select('#button-container')
+                    .on('click', function (d) {
+                        zoomToEurope();
+                        d3.select(this)
+                            .style('display', 'none');
+                    });
+            }
+
+            function searchInputClick() {
+                d3.select('#person-search-input')
+                    .on('click', function (d) {
+                        console.log(event)
+                    });
             }
 
             // Smoothly handle data updating
