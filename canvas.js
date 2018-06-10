@@ -68,7 +68,7 @@ function DrawPoints() {
       uniforms: {
         color: function (context, props) {
           // just to be a bit strange, oscillate the color a bit.
-          return [Math.cos(context.tick / 100), 0.304, 1.000, 1.000];
+          return [0.5137254901960784, 0.011764705882352941, 0.011764705882352941, 1.000];
         },
         // FYI: there is a helper method for grabbing
         // values out of the context as well.
