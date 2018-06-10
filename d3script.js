@@ -144,7 +144,7 @@ function getChart(params) {
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
 
-            zoomToEurope = function() {
+            zoomToEurope = function () {
                 var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Germany'));
                 var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Poland'));
                 var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
@@ -238,6 +238,34 @@ function getChart(params) {
                     .on('keydown', function (d) {
                         if (event.code != 'Enter') return;
                         var inputText = d3.select(this).property('value');
+
+                        // var modal = d3.select('#myModal');
+
+                        // var closeButton = d3.select('.class')
+
+                        // // Get the <span> element that closes the modal
+                        // var span = document.getElementsByClassName("close")[0];
+
+                        // // When the user clicks the button, open the modal 
+                        // btn.onclick = function () {
+                        //     modal.style.display = "block";
+                        // }
+
+                        // // When the user clicks on <span> (x), close the modal
+                        // span.onclick = function () {
+                        //     modal.style.display = "none";
+                        // }
+
+                        // // When the user clicks anywhere outside of the modal, close it
+                        // window.onclick = function (event) {
+                        //     if (event.target == modal) {
+                        //         modal.style.display = "none";
+                        //     }
+                        // }
+
+
+
+
                     });
             }
 
@@ -308,9 +336,8 @@ function getChart(params) {
     //set attrs as property
     main.attrs = attrs;
 
-    main.zoomToEurope = function() {
-        if (typeof zoomToEurope === "function")
-        {
+    main.zoomToEurope = function () {
+        if (typeof zoomToEurope === "function") {
             zoomToEurope();
         }
         return main;
