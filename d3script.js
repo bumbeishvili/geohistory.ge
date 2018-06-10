@@ -237,8 +237,9 @@ function getChart(params) {
 
             function searchInputClick() {
                 d3.select('#person-search-input')
-                    .on('click', function (d) {
-                        console.log(event)
+                    .on('keydown', function (d) {
+                        if (event.code != 'Enter') return;
+                        var inputText = d3.select(this).property('value');
                     });
             }
 
