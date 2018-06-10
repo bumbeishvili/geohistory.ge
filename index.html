@@ -32,7 +32,7 @@
 
         <script>
             d3.csv('districts.csv').then(function (districts) {
-                d3.json('world.json')
+                d3.json('world_minified.json')
                     .then(json => {
                         var chart = getChart()
                             .svgHeight(window.innerHeight - 30)
