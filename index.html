@@ -447,9 +447,14 @@
                 .svgHeight(150)
                 .svgWidth(boundingRect.width)
                 .container('#timeline')
+                .onTimelineClick(d => {
+                    setTimeout(drawPoints.run, 3000);
+                })
+                .onNextTick(d=>{
+                    console.log(d);
+                })
                 .run();
 
-            setTimeout(drawPoints.run, 3000);
         </script>
         <script>
             function searchInputClick() {
