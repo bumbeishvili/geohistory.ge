@@ -13,9 +13,11 @@ function Timeline(params) {
         defaultFont: 'Helvetica',
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
-        pinColor: '#39787E',
+        pinColor: 'red',
         animationTime: 20, // in seconds
         animaionDelay: 3, // in seconds
+        onTimelineClick: d => d,
+        onNextTick: d => d,
         districts: null,
         data: null
     };
@@ -70,10 +72,14 @@ function Timeline(params) {
 
             //################################ DRAWING ######################  
             //Drawing
+
+            container.style('pointer-events', 'none');
+            
             var svg = container.patternify({ tag: 'svg', selector: 'svg-chart-container' })
                 .attr('width', attrs.svgWidth)
                 .attr('height', attrs.svgHeight)
                 .attr('font-family', attrs.defaultFont)
+                .style('pointer-events', 'none')
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
@@ -81,7 +87,8 @@ function Timeline(params) {
             var playButton = svg.patternify({ tag: 'path', selector: 'playButton', data: playButtonData.start })
                 .attr("d", line)
                 .attr("fill", 'gray')
-                .attr('cursor', 'pointer')
+                .style('cursor', 'pointer')
+                .style('pointer-events', 'all')
                 .on("mouseover", d => {
                     d3.select(this).style("fill", "#fff")
                 })
@@ -92,6 +99,7 @@ function Timeline(params) {
                     if (animate) {
                         animate();
                     }
+                    attrs.onTimelineClick(d);
                 });
 
             chart.patternify({ tag: 'g', selector: 'xAxis' })
@@ -102,22 +110,14 @@ function Timeline(params) {
                 .attr('transform', 'translate(-20,' + (calc.chartHeight - 70) + ')')
 
             var pinText = pin.patternify({ tag: 'text', selector: 'pinText' })
-                .attr("y", -5)
+                .attr("y", 15)
                 .attr("x", 30)
-                .attr("fill", 'gray')
                 .text(formatDate(x.invert(0)))
 
-            pin.patternify({ tag: 'rect', selection: 'pinRect' })
-                .attr("width", 40)
-                .attr("height", 30)
-                .attr("fill", 'gray')
-                //   .style("rx", 5)
-                .style("ry", 5)
-
-
-            // pin.patternify({ tag: 'path', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
-            //    .attr("d", line)
-            //    .style("fill", attrs.pinColor);
+            pin.patternify({ tag: 'circle', selector: 'pinPath', data: [[[0, 30], [20, 45], [40, 30], [0, 30]]] })
+                .attr("transform", "translate(" + 20 + "," + 50 + ")")
+                .attr("r", 5)
+                .attr("d", line);
 
             var timer, translateX;
             animate = function () {
@@ -142,6 +142,8 @@ function Timeline(params) {
                             if (translateX >= calc.chartWidth - 20) {
                                 timer.stop();
                             }
+
+                            attrs.onNextTick({ time: x.invert(translateX) })
                         });
                     }, world.isZoomedOut() ? 0 : attrs.animaionDelay * 1000);
                     playButton.data(playButtonData.stop)
