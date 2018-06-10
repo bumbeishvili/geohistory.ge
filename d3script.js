@@ -16,6 +16,7 @@ function getChart(params) {
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
         populationCirclesColor: '#39787E',
+        isZoomedOut: false,
         geojson: null,
         districts: null,
         data: null
@@ -170,6 +171,7 @@ function getChart(params) {
 
                 makeCirclesBigger();
                 displayGeorgiaNeighborBorders();
+                attrs.isZoomedOut = true;
             }
 
             function georgiaBorderCountry(d) {
