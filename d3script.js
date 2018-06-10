@@ -189,7 +189,7 @@ function getChart(params) {
                     y = (bounds[0][1] + bounds[1][1]) / 2;
 
                 var scale = .9 / Math.max(dx / attrs.svgWidth, dy / attrs.svgHeight),
-                    translate = [attrs.svgWidth / 2 - scale * x, attrs.svgHeight / 2 - scale * y];
+                    translate = [attrs.svgWidth / 2 - scale * x - 30, attrs.svgHeight / 2 - scale * y - 30];
 
                 chart.transition()
                     .duration(3000)
