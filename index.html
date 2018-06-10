@@ -6,8 +6,13 @@
     <meta charset="UTF-8">
     <title>Geo History</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://static-s.aa-cdn.net/img/ios/975519932/ae4f6c1e8fb74b3f4127f632ba164ef1?v=1" type="image/png" sizes="16x16">
+    <link rel="icon" href="https://static-s.aa-cdn.net/img/ios/975519932/ae4f6c1e8fb74b3f4127f632ba164ef1?v=1" type="image/png"
+        sizes="16x16">
     <link rel="stylesheet" href="app.css">
+
+
+    <meta property="og:title" content="How 300 000 Georgian died during WW2" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/bumbeishvili/data-house/master/hackviz/sharer.png" />
     <style>
         body {
             margin: 0px;
@@ -489,10 +494,10 @@
                 var result = coords.map(d => {
                     var coord = [d.lat, d.long];
                     return {
-                        sx: projection()(coord)[0] + (Math.random() - 0.5)*50+330,
-                        sy: projection()(coord)[1] + (Math.random() - 0.5)*30+340,
-                        tx: projection()(pos)[0]*5 + (Math.random() - 0.5) *150 - 2800,
-                        ty: projection()(pos)[1] *1.2+ (Math.random() - 0.5) *200 + 00,
+                        sx: projection()(coord)[0] + (Math.random() - 0.5) * 50 + 330,
+                        sy: projection()(coord)[1] + (Math.random() - 0.5) * 30 + 340,
+                        tx: projection()(pos)[0] * 5 + (Math.random() - 0.5) * 150 - 2800,
+                        ty: projection()(pos)[1] * 1.2 + (Math.random() - 0.5) * 200 + 00,
                         duration: Math.round(Math.random() * 20),
                         size: 2
                     }
