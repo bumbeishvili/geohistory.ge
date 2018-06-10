@@ -406,38 +406,10 @@
             var drawPoints = DrawPoints()
                 .points([
                     {
-                        sy: 400,
-                        sx: 100,
-                        tx: 1200,
-                        ty: 120,
-                        size: 15
-                    },
-                    {
                         sy: 200,
                         sx: 200,
                         tx: 1000,
                         ty: 180,
-                        size: 15
-                    },
-                    {
-                        sy: 200,
-                        sx: 20,
-                        tx: 800,
-                        ty: 60,
-                        size: 15
-                    },
-                    {
-                        sy: 50,
-                        sx: 30,
-                        tx: 500,
-                        ty: 300,
-                        size: 15
-                    },
-                    {
-                        sy: 90,
-                        sx: 118,
-                        tx: 120,
-                        ty: 10,
                         size: 15
                     }
                 ])
@@ -450,8 +422,10 @@
                 .onTimelineClick(d => {
                     setTimeout(drawPoints.run, 3000);
                 })
-                .onNextTick(d=>{
+                .onNextTick(d => {
                     console.log(d);
+                    var points = getPointsAt(d)
+                    drawPoints.addPoints(points)
                 })
                 .run();
 
@@ -506,6 +480,31 @@
                     });
             }
             searchInputClick();
+
+            function getPointsAt() {
+                var coords = getCoords();
+                var projection = world.getProjection();
+                var result = coords.map(d => {
+                    var coord = [d.lat, d.long];
+                    return {
+                        sy: projection()(coord)[1] + (Math.random() - 0.5),
+                        sx: projection()(coord)[0] + (Math.random() - 0.5),
+                        tx: 1200,
+                        ty: 120,
+                        duration: Math.round(Math.random() * 20),
+                        size: 2
+                    }
+                })
+
+
+                return result;
+
+            }
+
+            function getCoords() {
+                return [{ "lat": "44.8015019", "long": "41.6935247" }, { "lat": "42.705359", "long": "42.271584" }, { "lat": "44.1089577", "long": "41.9874329" }, { "lat": "45.4746493", "long": "41.918292" }, { "lat": "43.4839313", "long": "41.4079269" }, { "lat": "43.5989395", "long": "41.9972652" }, { "lat": "45.9220959", "long": "41.6184557" }, { "lat": "41.8779873", "long": "42.5112864" }, { "lat": "41.6360085", "long": "41.6509502" }, { "lat": "43.0350696", "long": "42.1071766" }, { "lat": "42.511975", "long": "42.0851175" }, { "lat": "46.2772162", "long": "41.8263247" }, { "lat": "41.737236", "long": "42.628948" }, { "lat": "43.2866046", "long": "42.2910523" }, { "lat": "43.5586205", "long": "42.0223521" }, { "lat": "43.1519007", "long": "42.5193765" }, { "lat": "42.3462329", "long": "42.1625885" }, { "lat": "42.7700726", "long": "42.6476005" }, { "lat": "42.0364392", "long": "42.0875384" }, { "lat": "41.4721354", "long": "42.7121136" }, { "lat": "43.8935335", "long": "42.0216487" }, { "lat": "44.6959371", "long": "42.0844709" }, { "lat": "44.4206038", "long": "41.9271624" }, { "lat": "43.4059465", "long": "42.3388168" }, { "lat": "43.3833782", "long": "41.8413282" }, { "lat": "42.2033321", "long": "42.2049284" }, { "lat": "45.8151463", "long": "41.9523697" }, { "lat": "40.6247105", "long": "43.102487" }, { "lat": "44.4625567", "long": "41.5427292" }, { "lat": "44.4851837", "long": "42.1218994" }, { "lat": "41.6748028", "long": "42.141614" }, { "lat": "42.9980769", "long": "42.3477177" }, { "lat": "42.2399471", "long": "42.0192103" }, { "lat": "43.4427287", "long": "42.585344" }, { "lat": "41.7793202", "long": "41.8113601" }, { "lat": "41.7334564", "long": "41.7187049" }, { "lat": "42.1321257", "long": "42.5258474" }, { "lat": "43.2504979", "long": "41.5727921" }, { "lat": "42.7061207", "long": "41.6749791" }, { "lat": "44.9678573", "long": "42.1099414" }]
+
+            }
         </script>
 
 </body>

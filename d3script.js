@@ -16,6 +16,7 @@ function getChart(params) {
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
         populationCirclesColor: '#39787E',
+        getProjection: d => d,
         isZoomedOut: false,
         geojson: null,
         districts: null,
@@ -56,6 +57,10 @@ function getChart(params) {
                 .scale(attrs.scale)
                 .translate([calc.chartWidth * 0.56, calc.chartHeight * 0.33])
                 .center(attrs.center);
+
+            attrs.getProjection = function (d) {
+                return projection;
+            }
 
             var path = d3.geoPath()
                 .projection(projection);
@@ -131,7 +136,7 @@ function getChart(params) {
 
             europeButtonClick();
 
-    
+
 
             handleWindowResize();
 
