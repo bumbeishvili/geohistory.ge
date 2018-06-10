@@ -190,8 +190,8 @@
                 d3.json('world_minified.json')
                     .then(json => {
                         world = getChart()
-                            .svgHeight(window.innerHeight - 30)
-                            .svgWidth(window.innerWidth - 30)
+                            .svgHeight(window.innerHeight)
+                            .svgWidth(window.innerWidth)
                             .geojson(json)
                             .districts(districts)
                             .container('#myGraph')

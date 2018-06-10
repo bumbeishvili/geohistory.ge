@@ -74,6 +74,7 @@ function Timeline(params) {
                 .attr('width', attrs.svgWidth)
                 .attr('height', attrs.svgHeight)
                 .attr('font-family', attrs.defaultFont)
+                .style('pointer-events', 'none')
 
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
@@ -81,7 +82,8 @@ function Timeline(params) {
             var playButton = svg.patternify({ tag: 'path', selector: 'playButton', data: playButtonData.start })
                 .attr("d", line)
                 .attr("fill", 'gray')
-                .attr('cursor', 'pointer')
+                .style('cursor', 'pointer')
+                .style('pointer-events', 'all')
                 .on("mouseover", d => {
                     d3.select(this).style("fill", "#fff")
                 })
@@ -102,15 +104,9 @@ function Timeline(params) {
                 .attr('transform', 'translate(-20,' + (calc.chartHeight - 70) + ')')
 
             var pinText = pin.patternify({ tag: 'text', selector: 'pinText' })
-                             .attr("y", -5)
-                             .attr("x", -30)
+                             .attr("y", 15)
+                             .attr("x", 30)
                              .text(formatDate(x.invert(0)))
-
-            pin.patternify({ tag: 'rect', selection: 'pinRect' })
-               .attr("width", 40)
-               .attr("height", 30)
-               .style("rx", 5)
-               .style("ry", 5)
 
             pin.patternify({ tag: 'circle', selector: 'pinPath', data: [[ [0, 30], [20, 45], [40, 30], [0, 30]]] })
                .attr("transform", "translate("+20+","+ 50+")")
