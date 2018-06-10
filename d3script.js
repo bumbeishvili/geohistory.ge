@@ -174,6 +174,7 @@ function getChart(params) {
                 chart.transition()
                     .duration(3000)
                     .style("stroke-width", 1.5 / scale + "px")
+                    
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
 

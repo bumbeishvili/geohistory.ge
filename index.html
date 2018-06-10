@@ -423,9 +423,10 @@
                     setTimeout(drawPoints.run, 3000);
                 })
                 .onNextTick(d => {
-                    console.log(d);
-                    var points = getPointsAt(d)
-                    drawPoints.addPoints(points)
+                    if (d.time.getFullYear() <= 1943) {
+                        var points = getPointsAt(d)
+                        drawPoints.addPoints(points)
+                    }
                 })
                 .run();
 
@@ -483,15 +484,14 @@
 
             function getPointsAt(v) {
                 var coords = getCoords();
-                debugger;
                 var projection = world.getProjection();
                 var pos = euroConfig(v.time);
                 var result = coords.map(d => {
                     var coord = [d.lat, d.long];
                     return {
-                        sy: projection()(coord)[1] + (Math.random() - 0.5),
-                        sx: projection()(coord)[0] + (Math.random() - 0.5),
-                        tx: projection()(pos)[0] + (Math.random() - 0.5) * 10,
+                        sy: projection()(coord)[1] + (Math.random() - 0.5) + 350,
+                        sx: projection()(coord)[0] + (Math.random() - 0.5) + 350,
+                        tx: projection()(pos)[0] + (Math.random() - 0.5) * 20,
                         ty: projection()(pos)[1] + (Math.random() - 0.5) * 5,
                         duration: Math.round(Math.random() * 20),
                         size: 2
