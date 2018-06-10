@@ -15,6 +15,7 @@ function Timeline(params) {
         countriesColor: '#191919',
         pinColor: '#39787E',
         animationTime: 20, // in seconds
+        animaionDelay: 3, // in seconds
         districts: null,
         data: null
     };
@@ -131,16 +132,19 @@ function Timeline(params) {
                        .attr('transform', 'translate(-20,' + (calc.chartHeight - 70) + ')')
                 }
                 else{
-                    timer = d3.timer(function(ellapsedTime){
-                        translateX = (calc.chartWidth - 20) * (ellapsedTime / (attrs.animationTime * 1000));
-                        pin.attr("transform", "translate("+ (translateX) +","+ (calc.chartHeight - 70)+")");
-                        pinText.text(formatDate(x.invert(translateX)))
-                        if (translateX >= calc.chartWidth - 20){
-                            timer.stop();
-                        }
-                    });
+                    setTimeout(function(){
+                        timer = d3.timer(function(ellapsedTime){
+                            translateX = (calc.chartWidth - 20) * (ellapsedTime / (attrs.animationTime * 1000));
+                            pin.attr("transform", "translate("+ (translateX) +","+ (calc.chartHeight - 70)+")");
+                            pinText.text(formatDate(x.invert(translateX)))
+                            if (translateX >= calc.chartWidth - 20){
+                                timer.stop();
+                            }
+                        });
+                    }, attrs.animaionDelay * 1000);
                     playButton.data(playButtonData.stop)
                               .attr("d", line);
+                    world.zoomToEurope();
                 }
                 animationStarted = !animationStarted;
             }

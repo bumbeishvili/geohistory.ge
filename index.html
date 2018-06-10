@@ -74,10 +74,11 @@
         <script src="d3script.js"></script>
 
         <script>
+            var world;
             d3.csv('districts.csv').then(function (districts) {
                 d3.json('world_minified.json')
                     .then(json => {
-                        var chart = getChart()
+                        world = getChart()
                             .svgHeight(window.innerHeight - 30)
                             .svgWidth(window.innerWidth - 30)
                             .geojson(json)

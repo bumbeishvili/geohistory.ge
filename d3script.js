@@ -22,7 +22,7 @@ function getChart(params) {
     };
 
     //InnerFunctions
-    var updateData;
+    var updateData, zoomToEurope;
 
     //Main chart object
     var main = function (selection) {
@@ -123,12 +123,12 @@ function getChart(params) {
 
             handleWindowResize();
 
-            d3.select('#button-container')
-                .on('click', function (d) {
-                    zoomToEurope();
-                    d3.select(this)
-                        .style('display', 'none');
-                });
+            // d3.select('#button-container')
+            //     .on('click', function (d) {
+            //         zoomToEurope();
+            //         d3.select(this)
+            //             .style('display', 'none');
+            //     });
 
 
             /* #############################   FUNCTIONS    ############################## */
@@ -150,7 +150,7 @@ function getChart(params) {
                     .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
             }
 
-            function zoomToEurope() {
+            zoomToEurope = function() {
                 var leftBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Germany'));
                 var topBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Poland'));
                 var rightBounds = path.bounds(attrs.geojson.features.find(x => x.properties.name == 'Azerbaijan'));
@@ -296,6 +296,14 @@ function getChart(params) {
 
     //set attrs as property
     main.attrs = attrs;
+
+    main.zoomToEurope = function() {
+        if (typeof zoomToEurope === "function")
+        {
+            zoomToEurope();
+        }
+        return main;
+    }
 
     //debugging visuals
     main.debug = function (isDebug) {
