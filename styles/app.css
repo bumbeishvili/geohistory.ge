@@ -6,7 +6,7 @@ circle{
 .pinText{
     font-size:30px;
     text-anchor:middle;
-    alignment-baseline:baseline;
+    alignment-baseline: baseline;
     fill:gray;
 }
 

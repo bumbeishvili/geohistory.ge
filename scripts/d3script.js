@@ -126,37 +126,45 @@ function getChart(params) {
                 .attr("r", function (d) {
                     return radiusScale(+d.population) + 'px';
                 })
-                .attr("fill", attrs.populationCirclesColor)
-                .on('mouseenter', function (d) {
-                    displayTooltip(d);
-                })
-                .on('mouseleave', function (d) {
-                    hideTooltip(d);
-                });
+                .attr("fill", attrs.populationCirclesColor);
 
             europeButtonClick();
-
-
 
             handleWindowResize();
 
             //#################################### TOOLTIP ####################################
 
-            //initialize tooltip object
-            var tooltip = d3.componentsTooltip()
-                .container('.svg-chart-container')
-                .content([
-                    {
-                        left: "city",
-                        right: "{city}"
-                    },
-                    {
-                        left: "death",
-                        right: "{population}"
+            populationCircles
+                .each(function(d) {
+                    let node = this;
+                    let tip = node._tippy;
+                    if (tip) {
+                      tip.destroy()
                     }
-                ])
+                    tippy(node, {
+                      content: getTooltipHtml(d),
+                      arrow: true,
+                      theme: 'light',
+                      animation: 'scale',
+                      duration: 200
+                    })
+                  })
 
-
+            function getTooltipHtml(d) {
+                var html = document.createElement('div')
+                html.classList.add('tooltip-container')
+                html.innerHTML = `
+                  <div class="d-flex justify-content-between">
+                    <span class="mr-2 mb-1">City: </span>
+                    <span>${d.city}</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="mr-2">Death: </span>
+                    <span>${d.population}</span>
+                  </div>
+                  `
+                return html;
+              }
 
             /* #############################   FUNCTIONS    ############################## */
 
@@ -236,35 +244,6 @@ function getChart(params) {
                     .transition()
                     .duration(3000)
                     .attr('stroke', attrs.svgBackground);
-            }
-
-            function displayTooltip(d) {
-                var xPosition = d3.event.offsetX - 5;
-                var yPosition = d3.event.offsetY - 20;
-
-                tooltip
-                    .x(xPosition)
-                    .y(yPosition)
-                    .tooltipRowHeight(25)
-                    .minSpaceBetweenColumns(50)
-                    .fontSize(13)
-                    .arrowHeight(10)
-                    .arrowLength(20)
-                    .contentMargin(0)
-                    .heightOffset(7)
-                    .textColor('#E5E2E0')
-                    .tooltipFill('#830303')
-                    .leftMargin(10)
-                    .rightMargin(3)
-                    .direction('bottom')
-                    .show({
-                        city: d.city,
-                        population: d.population
-                    });
-            }
-
-            function hideTooltip(d) {
-                tooltip.hide();
             }
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
