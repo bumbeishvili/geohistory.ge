@@ -1,0 +1,64 @@
+.timeline{
+    width:80%;
+    margin:0 auto;
+    margin-left:70px;
+    margin-bottom:30px;
+}
+
+.timeline svg{
+    overflow:visible;
+}
+
+.xAxis path{
+    stroke:gray;
+}
+
+
+.xAxis text{
+   fill:gray;
+}
+
+.tick line{
+    fill:gray;
+}
+
+svg{
+    overflow:visible;
+}
+
+circle{
+    fill:#830303;
+    stroke:red;
+}
+
+.pinText{
+    font-size:30px;
+    text-anchor:middle;
+    -o-table-baseline: baseline;
+    fill:gray;
+}
+
+canvas {
+    position: absolute;
+    pointer-events: none;
+}
+
+.timeline {
+    position: fixed;
+    bottom: 0px;
+    z-index: 10;
+}
+
+.timeline svg {
+    fill: gray
+}
+
+.xAxis text {
+    fill: gray;
+}
+
+.xAxis line,
+.xAxis path {
+    stroke: gray;
+    stroke-width: 2;
+}
