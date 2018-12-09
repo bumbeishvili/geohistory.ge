@@ -20,16 +20,16 @@
 </head>
 
 <body translate="no">
-
+    <div id="slide-out" class="sidenav p-3">
+        <div class="search input-field">
+            <input id="person-search-input" type="text" class="validate">
+            <label for="person-search-input">იპოვეთ წინაპარი</label>
+        </div>
+    </div>
+              
     <div class="container centered">
         <div id="myGraph">
-
-            <div class="form-group" style="position: absolute; top: 20%; left: 30%; z-index: 10;">
-                <p>
-                    <input class="w3-input w3-border w3-round" placeholder="მოძებნეთ წინაპარი" name="search-input" type="text" id='person-search-input'>
-                </p>
-            </div>
-
+            
 
             <!-- modal -->
 
@@ -66,17 +66,20 @@
             <div class="sk-circle11 sk-circle"></div>
             <div class="sk-circle12 sk-circle"></div>
         </div>
-        <div class="timeline" id="timeline"> </div>
 
-        <script src="/libs/js/materialize.min.js"></script>
-        <script src="/libs/js/d3.v5.min.js"></script>
-        <script src="/libs/js/regl.min.js"></script>
-        <script src="/libs/js/tippy.all.min.js"></script>
-        <script src="/scripts/canvas.js"></script>
-        <script src="/scripts/tooltip.js"></script>
-        <script src="/scripts/timeline.js"></script>
-        <script src="/scripts/d3script.js"></script>
-        <script src="/scripts/index.js"></script>
+        <div class="timeline" id="timeline"></div>
+    </div>
+    <script src="/libs/js/materialize.min.js"></script>
+    <script src="/libs/js/d3.v5.min.js"></script>
+    <script src="/libs/js/regl.min.js"></script>
+    <script src="/libs/js/tippy.all.min.js"></script>
+    <script src="/scripts/mobile.js"></script>
+    <script src="/scripts/prototypes.js"></script>
+    <script src="/scripts/canvas.js"></script>
+    <script src="/scripts/tooltip.js"></script>
+    <script src="/scripts/timeline.js"></script>
+    <script src="/scripts/d3script.js"></script>
+    <script src="/scripts/index.js"></script>
 </body>
 
 </html>

@@ -182,53 +182,7 @@ function Timeline(params) {
             updateData = function () {
 
             }
-
-            //#########################################  UTIL FUNCS ##################################
-            function debug() {
-                if (attrs.isDebug) {
-                    //stringify func
-                    var stringified = scope + "";
-
-                    // parse variable names
-                    var groupVariables = stringified
-                        //match var x-xx= {};
-                        .match(/var\s+([\w])+\s*=\s*{\s*}/gi)
-                        //match xxx
-                        .map(d => d.match(/\s+\w*/gi).filter(s => s.trim()))
-                        //get xxx
-                        .map(v => v[0].trim())
-
-                    //assign local variables to the scope
-                    groupVariables.forEach(v => {
-                        main['P_' + v] = eval(v)
-                    })
-                }
-            }
-            debug();
         });
-    }
-
-
-    //----------- PROTOTYEPE FUNCTIONS  ----------------------
-    d3.selection.prototype.patternify = function (params) {
-        var container = this;
-        var selector = params.selector;
-        var elementTag = params.tag;
-        var data = params.data || [selector];
-
-        // Pattern in action
-        var selection = container.selectAll('.' + selector).data(data, (d, i) => {
-            if (typeof d === "object") {
-                if (d.id) {
-                    return d.id;
-                }
-            }
-            return i;
-        })
-        selection.exit().remove();
-        selection = selection.enter().append(elementTag).merge(selection)
-        selection.attr('class', selector);
-        return selection;
     }
 
     //dinamic keys functions
@@ -250,16 +204,6 @@ function Timeline(params) {
         if (typeof animate === "function") {
             animate();
         }
-    }
-
-    //debugging visuals
-    main.debug = function (isDebug) {
-        attrs.isDebug = isDebug;
-        if (isDebug) {
-            if (!window.charts) window.charts = [];
-            window.charts.push(main);
-        }
-        return main;
     }
 
     //exposed update functions

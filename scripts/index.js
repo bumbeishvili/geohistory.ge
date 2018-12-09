@@ -4,7 +4,7 @@ d3.csv('/data/districts.csv').then(function (districts) {
         .then(json => {
             world = getChart()
                 .svgHeight(window.innerHeight)
-                .svgWidth(window.innerWidth)
+                .svgWidth(window.innerWidth - 300)
                 .geojson(json)
                 .districts(districts)
                 .container('#myGraph')
@@ -28,7 +28,7 @@ var boundingRect = document.getElementById('timeline').getBoundingClientRect();
 
 var timeline = Timeline()
     .svgHeight(150)
-    .svgWidth(boundingRect.width)
+    .svgWidth(boundingRect.width - 100)
     .container('#timeline')
     .onTimelineClick(d => {
         setTimeout(drawPoints.run, 3000);
@@ -42,6 +42,32 @@ var timeline = Timeline()
     .run();
 
 searchInputClick();
+initSidebar();
+
+function initSidebar () {
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.sidenav');
+        var container =  document.querySelector('.container');
+
+        if (isMobile.any()) {
+            container.style.width = '100%';
+        } else {
+            elems.forEach(el => {
+                el.classList.add('sidenav-fixed')
+            })
+            
+            container.style.width = 'calc(100vw - 300px)';
+            container.style.marginLeft = '300px';
+        }
+        var instances = M.Sidenav.init(elems, {
+            edge: 'left',
+            menuWidth: 300,
+            closeOnClick: false,
+            draggable: true
+        });
+        // instances[0].open();
+    });
+}
 
 function searchInputClick() {
     d3.select('#person-search-input')

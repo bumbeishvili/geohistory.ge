@@ -1,16 +1,35 @@
+html {
+    height: 100%;
+}
 body {
     margin: 0px;
+    padding: 0px;
+    height: 100%;
+    overflow: hidden;
+    background-color: #191919;
 }
-
+.sidenav {
+    background-color: #191919;
+}
 .container {
-    width: 100%;
+    height: 100%;
     max-width: initial;
 }
+
 .container > .row {
-margin: 0;
+    margin: 0;
 }
+
 .container > .row > .col {
-padding: 0;
+    padding: 0;
+}
+
+.search {
+    width: 100%; 
+}
+
+.search input {
+    color: #26a69a !important;
 }
 
 .button-container {
@@ -19,31 +38,6 @@ padding: 0;
     width: 100%;
     z-index: 10;
     background-color: #39787E;
-}
-
-canvas {
-    position: absolute;
-    pointer-events: none;
-}
-
-.timeline {
-    position: fixed;
-    bottom: 0px;
-    z-index: 10;
-}
-
-.timeline svg {
-    fill: gray
-}
-
-.xAxis text {
-    fill: gray;
-}
-
-.xAxis line,
-.xAxis path {
-    stroke: gray;
-    stroke-width: 2;
 }
 
 /* The Modal (background) */

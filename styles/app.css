@@ -1,43 +1,8 @@
-circle{
-    fill:#830303;
-    stroke:red;
-}
-
-.pinText{
-    font-size:30px;
-    text-anchor:middle;
-    alignment-baseline: baseline;
-    fill:gray;
-}
-
-input
-{
-    position:fixed;
-    top:30px;
-    height:50px;
-    width:300px;
-    margin:auto;
-    opacity:0.2;
-    border: none;
-}
-
-input,
-input::-webkit-input-placeholder {
-    font-size: 25px;
-    line-height: 3;
-   
-   
-}
-
-body{
-    background-color: #191919;
-}
-
 .timeline{
- width:80%;
- margin:0 auto;
- margin-left:70px;
- margin-bottom:30px;
+    width:80%;
+    margin:0 auto;
+    margin-left:70px;
+    margin-bottom:30px;
 }
 
 .timeline svg{
@@ -59,4 +24,41 @@ body{
 
 svg{
     overflow:visible;
+}
+
+circle{
+    fill:#830303;
+    stroke:red;
+}
+
+.pinText{
+    font-size:30px;
+    text-anchor:middle;
+    -o-table-baseline: baseline;
+    fill:gray;
+}
+
+canvas {
+    position: absolute;
+    pointer-events: none;
+}
+
+.timeline {
+    position: fixed;
+    bottom: 0px;
+    z-index: 10;
+}
+
+.timeline svg {
+    fill: gray
+}
+
+.xAxis text {
+    fill: gray;
+}
+
+.xAxis line,
+.xAxis path {
+    stroke: gray;
+    stroke-width: 2;
 }
