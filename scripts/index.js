@@ -1,10 +1,13 @@
 var world;
+var width = window.innerWidth - (isMobile.any() ? 0 : 300);
+var height = window.innerHeight;
+
 d3.csv('/data/districts.csv').then(function (districts) {
     d3.json('/data/world_minified.json')
         .then(json => {
             world = getChart()
-                .svgHeight(window.innerHeight)
-                .svgWidth(window.innerWidth - 300)
+                .svgHeight(height)
+                .svgWidth(width)
                 .geojson(json)
                 .districts(districts)
                 .container('#myGraph')
@@ -13,16 +16,11 @@ d3.csv('/data/districts.csv').then(function (districts) {
         });
 });
 
-var drawPoints = DrawPoints()
-                .points([
-                    {
-                        sy: 200,
-                        sx: 200,
-                        tx: 1000,
-                        ty: 180,
-                        size: 15
-                    }
-                ])
+var drawPoints = Canvas()
+                    .width(width)
+                    .height(height)
+                    .container('#myGraph')
+                    .run();
 
 var boundingRect = document.getElementById('timeline').getBoundingClientRect();
 

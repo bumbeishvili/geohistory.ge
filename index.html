@@ -28,28 +28,8 @@
     </div>
               
     <div class="container centered">
-        <div id="myGraph">
-            
-
-            <!-- modal -->
-
-            <div id="myModal" class="modal">
-
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <span class="close">&times;</span>
-                        <h2 id='pname'>სახელი</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p>Some text in the Modal Body</p>
-                        <p>Some other text...</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
+        <div id="myGraph"></div>
+        <div class="timeline" id="timeline"></div>
 
         <!-- loader -->
         <div class="sk-fading-circle">
@@ -67,11 +47,26 @@
             <div class="sk-circle12 sk-circle"></div>
         </div>
 
-        <div class="timeline" id="timeline"></div>
+        <!-- modal -->
+
+        <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                        <h2 id='pname'>სახელი</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the Modal Body</p>
+                        <p>Some other text...</p>
+                    </div>
+                </div>
+
+            </div>
     </div>
     <script src="/libs/js/materialize.min.js"></script>
     <script src="/libs/js/d3.v5.min.js"></script>
-    <script src="/libs/js/regl.min.js"></script>
     <script src="/libs/js/tippy.all.min.js"></script>
     <script src="/scripts/mobile.js"></script>
     <script src="/scripts/prototypes.js"></script>
