@@ -42,6 +42,20 @@ var timeline = Timeline()
 searchInputClick();
 initSidebar();
 
+function search () {
+    var name = document.getElementById('person-name'),
+        surname = document.getElementById('person-surname'),
+        cityDistrict = document.getElementById('person-city-district');
+
+    var searchObject = {
+        name: name.value,
+        surname: surname.value,
+        cityDistrict: cityDistrict.value
+    };
+
+    console.log(searchObject);
+}
+
 function initSidebar () {
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.sidenav');

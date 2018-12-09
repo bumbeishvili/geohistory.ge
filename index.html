@@ -21,10 +21,24 @@
 
 <body translate="no">
     <div id="slide-out" class="sidenav p-3">
-        <div class="search input-field">
-            <input id="person-search-input" type="text" class="validate">
-            <label for="person-search-input">იპოვეთ წინაპარი</label>
-        </div>
+        <div>
+            <div class="search-header text-center p-2">მოძებნეთ წინაპარი</div>
+            <div class="search input-field">
+                <input id="person-name" type="text" class="validate">
+                <label for="person-name">სახელი</label>
+            </div>
+            <div class="search input-field">
+                <input id="person-surname" type="text" class="validate">
+                <label for="person-surname">გვარი</label>
+            </div>
+            <div class="search input-field">
+                <input id="person-city-district" type="text" class="validate">
+                <label for="person-city-district">ქალაქი / რაიონი</label>
+            </div>
+            <button class="btn waves-effect waves-light search-btn" type="submit" onclick="search()">
+                ძებნა
+            </button>
+        </div>  
     </div>
               
     <div class="container centered">
