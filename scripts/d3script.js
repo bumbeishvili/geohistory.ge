@@ -112,7 +112,7 @@ function getChart(params) {
 
             //linear scale for adjusting circle radius
             var radiusScale = d3.scaleLinear().domain([0, maxPopulation]).range([0.15, 1]);
-
+            
             //add circles
             var populationCircles = chart.patternify({ tag: 'circle', selector: 'chart', data: districtCoordinates })
                 .attr("cx", function (d) {
@@ -124,13 +124,41 @@ function getChart(params) {
                     return projection(projectionData)[1];
                 })
                 .attr("r", function (d) {
-                    return radiusScale(+d.population) + 'px';
+                    return radiusScale(+d.population);
                 })
                 .attr("fill", attrs.populationCirclesColor);
 
+            var annotations = districtCoordinates.filter(x => ["Tbilisi", "Kutaisi", "Batumi"].indexOf(x.city) > -1)
+                .map(d => {
+                    var projectionData = [d.lat, d.long];
+                    var coords = projection(projectionData);
+
+                    return {
+                        note: { label: d.city, title: `გარდაიცვალა ${d.population} მებრძოლი`},
+                        dy: 0,
+                        dx: 0,
+                        x: coords[0],
+                        y: coords[1],
+                        type: d3.annotationCalloutCircle,
+                        subject: {
+                          radius: radiusScale(+d.population),
+                          radiusPadding: 10
+                        }
+                    }
+                })    
+
+            var makeAnnotations =  d3.annotation()
+                .annotations(annotations)
+                .accessors({ x: d => d.x , y: d => d.y})
+            
+            // setTimeout(() => {
+            //     chart.patternify({ tag: 'g', selector: "annotation-encircle" })
+            //         .call(makeAnnotations)
+            // }, 3000)
+
             europeButtonClick();
 
-            handleWindowResize();
+            // handleWindowResize();
 
             //#################################### TOOLTIP ####################################
 
