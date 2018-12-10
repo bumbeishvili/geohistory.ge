@@ -103,7 +103,8 @@ function getChart(params) {
                     long: +d.long,
                     lat: +d.lat,
                     population: d.population,
-                    city: d.corrCity
+                    city: d.corrCity,
+                    cityGeo: d.cityGeo
                 };
             });
 
@@ -183,12 +184,12 @@ function getChart(params) {
                 html.classList.add('tooltip-container')
                 html.innerHTML = `
                   <div class="d-flex justify-content-between">
-                    <span class="mr-2 mb-1">City: </span>
-                    <span>${d.city}</span>
+                    <span class="mr-2 mb-1">ქალაქი: </span>
+                    <span>${d.cityGeo}</span>
                   </div>
                   <div class="d-flex justify-content-between">
-                    <span class="mr-2">Death: </span>
-                    <span>${d.population}</span>
+                    <span class="mr-2">რაოდენობა: </span>
+                    <span>${numberWithCommas(d.population)}</span>
                   </div>
                   `
                 return html;
@@ -273,6 +274,11 @@ function getChart(params) {
                     .duration(3000)
                     .attr('stroke', attrs.svgBackground);
             }
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
 
             /* #############################   HANDLER FUNCTIONS    ############################## */
             handlers.zoomed = function () {
