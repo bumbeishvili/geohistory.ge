@@ -23,7 +23,7 @@ function Timeline(params) {
     };
 
     //InnerFunctions
-    var updateData, animate, animationStarted = false, formatDate = d3.timeFormat("%Y %b %d");;
+    var updateData, animate, animationStarted = false, formatDate = d3.timeFormat("%Y %b");
 
     //Main chart object
     var main = function (selection) {
