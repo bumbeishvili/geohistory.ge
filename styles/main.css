@@ -336,6 +336,7 @@ body {
 
 .collapsible-wrapper {
     color: #949495;
+    min-height: 300px;
 }
 
 .collapsible-header {

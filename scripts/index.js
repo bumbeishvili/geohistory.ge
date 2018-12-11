@@ -48,7 +48,7 @@ function search() {
 		cityDistrict: cityDistrict.value || '_'
 	};
 
-	document.querySelector('.collapsible-wrapper').innerHTML = '...';
+	d3.select('.loader').style('display', 'block')
 	$.get(
 		`https://geohistory-backend.herokuapp.com/search/${search.name}/${search.surname}/${search.cityDistrict}`,
 		(data) => {
@@ -83,7 +83,7 @@ ${data
                
             </ul>`;
 
-			document.querySelector('.collapsible-wrapper').innerHTML = html;
+			d3.select('.loader').style('display', 'none')
 			$(document).ready(function() {
 				$('.collapsible').collapsible();
 			});
