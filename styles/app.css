@@ -2,44 +2,43 @@
     --annotation-color: #E8336D;
 }
 
-.timeline{
-    width:80%;
-    margin:0 auto;
-    margin-left:70px;
-    margin-bottom:30px;
+.timeline {
+    width: 80%;
+    margin: 0 auto;
+    margin-left: 70px;
+    margin-bottom: 30px;
 }
 
-.timeline svg{
-    overflow:visible;
+.timeline svg {
+    overflow: visible;
 }
 
-.xAxis path{
-    stroke:gray;
+.xAxis path {
+    stroke: gray;
 }
 
-
-.xAxis text{
-   fill:gray;
+.xAxis text {
+    fill: gray;
 }
 
-.tick line{
-    fill:gray;
+.tick line {
+    fill: gray;
 }
 
-svg{
-    overflow:visible;
+svg {
+    overflow: visible;
 }
 
-circle{
-    fill:#830303;
-    stroke:red;
+circle {
+    fill: #830303;
+    stroke: red;
 }
 
-.pinText{
-    font-size:30px;
-    text-anchor:middle;
+.pinText {
+    font-size: 30px;
+    text-anchor: middle;
     -o-table-baseline: baseline;
-    fill:gray;
+    fill: gray;
 }
 
 canvas {
@@ -66,19 +65,21 @@ canvas {
     stroke: gray;
     stroke-width: 2;
 }
+
 circle:focus {
     outline: none;
 }
+
 line {
-    stroke:#eae4e4;
-  }
+    stroke: #eae4e4;
+}
 
 .annotation path {
     stroke: var(--annotation-color);
-    fill: rgba(0,0,0,0);
+    fill: rgba(0, 0, 0, 0);
 }
 
-.annotation path.connector-arrow{
+.annotation path.connector-arrow {
     fill: var(--annotation-color);
 }
 
@@ -95,17 +96,36 @@ circle.handle {
     stroke: var(--annotation-color);
     fill: rgba(255, 255, 255, .5);
     cursor: move;
-
     stroke-opacity: .4;
 }
 
 circle.handle.highlight {
     stroke-opacity: 1;
 }
-    
+
 .annotation-note-bg {
     fill: rgba(255, 255, 255, 0);
 }
+
 .annotation-encircle {
     pointer-events: none;
+}
+
+@media only screen and (max-width: 992px) {
+    .sidenav.sidenav-fixed {
+        -webkit-transform: translateX(0%) !important;
+        transform: translateX(0%) !important;
+    }
+}
+
+.play-button {
+    /* left: 190px; */
+    right:0px;
+    position: relative;
+    top: 7px;
+}
+
+.sidenav .collapsible-body {
+    padding: 0px !important;
+    padding-left:20px !important;
 }
