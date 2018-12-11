@@ -81,9 +81,11 @@ ${data
 				})
 				.join('')}
                
-            </ul>`;
-
+						</ul>`;
+						
 			d3.select('.loader').style('display', 'none')
+			$('.collapsible-wrapper').append(html)
+			
 			$(document).ready(function() {
 				$('.collapsible').collapsible();
 			});
