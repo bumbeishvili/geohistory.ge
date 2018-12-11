@@ -41,8 +41,8 @@ function getChart(params) {
 			const annotations = [
 				{
 					note: {
-						label: 'Longer text to show text wrapping',
-						title: 'Annotations :)'
+						label: 'დაღუპულთა რაოდენობა 18000-ს აჭარბებს',
+						title: 'თბილისი'
 					},
 					x: 100,
 					y: 100,
