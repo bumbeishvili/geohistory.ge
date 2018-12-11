@@ -1,31 +1,34 @@
 html {
     height: 100%;
 }
+
 body {
     margin: 0px;
     padding: 0px;
     height: 100%;
     overflow: hidden;
-    background-color: #191919;
+    background-color: #18192A;
 }
+
 .sidenav {
-    background-color: #191919;
+    background-color: #18192A;
 }
+
 .container {
     height: 100%;
     max-width: initial;
 }
 
-.container > .row {
+.container>.row {
     margin: 0;
 }
 
-.container > .row > .col {
+.container>.row>.col {
     padding: 0;
 }
 
 .search {
-    width: 100%; 
+    width: 100%;
 }
 
 .search input {
@@ -98,6 +101,7 @@ body {
         top: -300px;
         opacity: 0
     }
+
     to {
         top: 0;
         opacity: 1
@@ -109,6 +113,7 @@ body {
         top: -300px;
         opacity: 0
     }
+
     to {
         top: 0;
         opacity: 1
@@ -302,23 +307,32 @@ body {
 }
 
 @-webkit-keyframes sk-circleFadeDelay {
+
     0%,
     39%,
     100% {
         opacity: 0;
     }
+
     40% {
         opacity: 1;
     }
 }
 
 @keyframes sk-circleFadeDelay {
+
     0%,
     39%,
     100% {
         opacity: 0;
     }
+
     40% {
         opacity: 1;
     }
+}
+
+.collapsible-wrapper {
+    color: #949495;
+
 }

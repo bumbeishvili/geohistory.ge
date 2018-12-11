@@ -13,8 +13,8 @@ function getChart(params) {
         container: 'body',
         defaultTextFill: '#2C3E50',
         defaultFont: 'Helvetica',
-        svgBackground: 'rgb(73, 73, 73)',
-        countriesColor: '#191919',
+        svgBackground: '#0D2331',
+        countriesColor: '#080F1E',
         populationCirclesColor: '#39787E',
         getProjection: d => d,
         isZoomedOut: false,
@@ -87,7 +87,7 @@ function getChart(params) {
 
                     if (georgiaBorderCountry(d)) return attrs.countriesColor;
 
-                    return attrs.svgBackground;
+                    return '#294659';
                 })
                 .attr('stroke-width', 0.1)
                 .classed('active', function (d) {

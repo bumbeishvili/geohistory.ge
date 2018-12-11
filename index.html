@@ -9,7 +9,8 @@
     <meta property="og:title" content="How 300 000 Georgian died during WW2" />
     <meta property="og:image" content="https://raw.githubusercontent.com/bumbeishvili/data-house/master/hackviz/sharer.png" />
 
-    <link rel="icon" href="https://static-s.aa-cdn.net/img/ios/975519932/ae4f6c1e8fb74b3f4127f632ba164ef1?v=1" type="image/png" sizes="16x16">
+    <link rel="icon" href="https://static-s.aa-cdn.net/img/ios/975519932/ae4f6c1e8fb74b3f4127f632ba164ef1?v=1" type="image/png"
+        sizes="16x16">
 
     <link rel="stylesheet" href="/libs/css/materialize.min.css">
     <link rel="stylesheet" href="/libs/css/tippy.min.css">
@@ -17,7 +18,42 @@
     <link rel="stylesheet" href="/libs/css/bootstrap-utilities.css">
     <link rel="stylesheet" href="/styles/app.css">
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/select2.css">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
+
 </head>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+<script type='text/javascript'>
+    var publicSpreadsheetUrl =
+        'https://docs.google.com/spreadsheets/d/123zrq8tW1BbXKg27G7LZBZ1HonEMpDeDsCpToemabqY/edit#gid=166154909';
+
+    function init() {
+        Tabletop.init({
+            key: publicSpreadsheetUrl,
+            callback: showInfo,
+            simpleSheet: false
+        })
+    }
+
+    function showInfo(data, tabletop) {
+        const options = data.regions.elements.map(d => {
+                return `<option value="${d.index}">${d.geo||d.rus}</option>`
+            })
+            .join('')
+
+        document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ</option>` + options;
+
+        $(document).ready(function () {
+            $('#person-city-district').select2();
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', init)
+</script>
+
+
+
 
 <body translate="no">
     <div id="slide-out" class="sidenav p-3">
@@ -32,15 +68,25 @@
                 <label for="person-surname">გვარი</label>
             </div>
             <div class="search input-field">
-                <input id="person-city-district" type="text" class="validate">
-                <label for="person-city-district">ქალაქი / რაიონი</label>
+
+                <!-- <input id="person-city-district" type="text" class="validate">
+                <label for="person-city-district">ქალაქი / რაიონი</label> -->
+                <select id="person-city-district" class="select2" name="state">
+                    <option value="AL">Alabama</option>
+                    <option value="WY">Wyoming</option>
+                </select>
             </div>
+
             <button class="btn waves-effect waves-light search-btn" type="submit" onclick="search()">
                 ძებნა
             </button>
-        </div>  
+
+        </div>
+        <div class="collapsible-wrapper">
+
+        </div>
     </div>
-              
+
     <div class="container centered">
         <div id="myGraph"></div>
         <div class="timeline" id="timeline"></div>
@@ -65,20 +111,21 @@
 
         <div id="myModal" class="modal">
 
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <span class="close">&times;</span>
-                        <h2 id='pname'>სახელი</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p>Some text in the Modal Body</p>
-                        <p>Some other text...</p>
-                    </div>
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2 id='pname'>სახელი</h2>
                 </div>
-
+                <div class="modal-body">
+                    <p>Some text in the Modal Body</p>
+                    <p>Some other text...</p>
+                </div>
             </div>
+
+        </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/libs/js/materialize.min.js"></script>
     <script src="/libs/js/d3.v5.min.js"></script>
     <script src="/libs/js/d3-annotation.min.js"></script>
@@ -90,6 +137,13 @@
     <script src="/scripts/timeline.js"></script>
     <script src="/scripts/d3script.js"></script>
     <script src="/scripts/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+
+
+    <script>
+     
+    </script>
 </body>
 
 </html>
