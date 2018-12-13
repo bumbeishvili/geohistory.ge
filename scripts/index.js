@@ -48,19 +48,20 @@ function search() {
 		cityDistrict: cityDistrict.value || '_'
 	};
 
-	$('.collapsible-wrapper').html('')
-	d3.select('.loader').style('display', 'block')
+	$('.collapsible-wrapper').html('');
+	d3.select('.loader').style('display', 'block');
 	$.get(
 		`https://geohistory-backend.herokuapp.com/search/${search.name}/${search.surname}/${search.cityDistrict}`,
 		(data) => {
 			console.log(data);
 			const html = `<ul class="collapsible">
 ${data
+				.map(mapLabels)
 				.map((d, i) => {
 					return `
            <li>
                  <div  style="height: 0px; float: right;" class="collapsible-header"><a class="btn-floating  right btn-small waves-effect waves-light  play-button red">▶</a></div>
-                 <div class="collapsible-header">${i + 1}. ${d.name} ${d.lastName}  ${d.place}</div>
+                 <div class="collapsible-header">${i + 1}. ${d.lastName}  ${d.name} </div>
                  <div class="collapsible-body"><span>
                  <div><b>სახელი</b> - ${d.name}</div>
                  <div><b>გვარი</b> - ${d.lastName}</div>
@@ -83,10 +84,10 @@ ${data
 				.join('')}
                
 						</ul>`;
-						
-			d3.select('.loader').style('display', 'none')
-			$('.collapsible-wrapper').html(html)
-			
+
+			d3.select('.loader').style('display', 'none');
+			$('.collapsible-wrapper').html(html);
+
 			$(document).ready(function() {
 				$('.collapsible').collapsible();
 			});
@@ -288,4 +289,65 @@ function euroConfig(d) {
 	var n = scale(d);
 	n = Math.round(n);
 	return coordinates[n];
+}
+
+function getDriveDataObj(driveData) {
+	const result = {};
+	const keys = Object.keys(driveData);
+	keys.forEach((d) => {
+		result[d] = {};
+		const arr = driveData[d];
+		arr.elements.forEach((item) => {
+			result[d][item.index] = item;
+		});
+	});
+	return result;
+}
+
+function mapLabels(d) {
+	const result = Object.assign({}, d);
+	if (!isNaN(d.name)) {
+		result.name = driveDataObj.names[d.name].geo || driveDataObj.names[d.name].rus;
+    }
+    if (!isNaN(d.lastName)) {
+		result.lastNames =
+			driveDataObj.lastnames[d.lastName].geo || driveDataObj.lastnames[d.lastName].rus;
+    }
+    
+	if (!isNaN(d.place)) {
+		result.place = driveDataObj.regions[d.place].geo || driveDataObj.regions[d.place].rus;
+	}
+	if (!isNaN(d.rank)) {
+		result.rank = driveDataObj.rank[d.rank].geo || driveDataObj.rank[d.rank].rus;
+	}
+	if (!isNaN(d.burialLocation)) {
+		result.burialLocation =
+			driveDataObj.burialLocation[d.burialLocation].geo || driveDataObj.burialLocation[d.burialLocation].rus;
+    }
+    if (!isNaN(d.deathReason)) {
+		result.deathReason =
+			driveDataObj.deathReason[d.deathReason].geo || driveDataObj.deathReason[d.deathReason].rus;
+	}
+	if (!isNaN(d.name)) {
+	}
+	if (!isNaN(d.name)) {
+	}
+	if (!isNaN(d.name)) {
+	}
+	if (!isNaN(d.name)) {
+	}
+	if (!isNaN(d.name)) {
+	}
+
+	return result;
+	{
+		/* <div><b>სახელი</b> - ${d.name}</div>
+                 <div><b>გვარი</b> - ${d.lastName}</div>
+                 <div><b>დაბად. თარ.</b> - ${d.birthDate}</div>
+                 <div><b>გაწვ. ადგ.</b> - ${d.place}</div>
+                 <div><b>რანგი</b> - ${d.rank}</div>
+                 <div><b>დასაფლ. ადგ.</b> - ${d.burialLocation}</div>
+                 <div><b>გარდაც. თარ.</b> - ${d.deathDate}  </div>
+                 <div><b>გარდაც. მიზ. </b> - ${d.deathReason}</div> */
+	}
 }
