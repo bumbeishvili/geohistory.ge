@@ -41,13 +41,27 @@ function getChart(params) {
 			const annotations = [
 				{
 					note: {
-						label: 'დაღუპულთა რაოდენობა 18000-ს აჭარბებს',
-						title: 'თბილისი'
+						label: 'მეორე მსოფლიო ომის მსხვერპლმა 18,000 ადამიანს გადააჭარბა',
+						title: 'თბილისში'
 					},
 					x: 100,
 					y: 100,
 					dy: 40,
 					dx: 40,
+					subject: {
+						radius: 20,
+						radiusPadding: 0
+					}
+				},
+				{
+					note: {
+						label: 'მსხვერპლი 6,000 ადამიანს აჭარბებს',
+						title: 'ბათუმი'
+					},
+					x: 100,
+					y: 100,
+					dy: -10,
+					dx: -40,
 					subject: {
 						radius: 20,
 						radiusPadding: 0
@@ -189,6 +203,13 @@ function getChart(params) {
 				var projectionData = [ d.lat, d.long ];
 				annotations[0].x = projection(projectionData)[0];
 				annotations[0].y = projection(projectionData)[1];
+				annotations[0].subject.radius = radiusScale(+d.population);
+			});
+			populationCircles.filter((d) => d.cityGeo == 'ბათუმი').each((d) => {
+				var projectionData = [ d.lat, d.long ];
+				annotations[1].x = projection(projectionData)[0];
+				annotations[1].y = projection(projectionData)[1];
+				annotations[1].subject.radius = radiusScale(+d.population);
 			});
 
 			const makeAnnotations = d3.annotation().notePadding(15).type(type).annotations(annotations);
@@ -201,16 +222,18 @@ function getChart(params) {
 				return transform;
 			});
 
+			svg.selectAll('.annotation.custom path').attr('stroke-width', 2);
+
 			function getTooltipHtml(d) {
 				var html = document.createElement('div');
 				html.classList.add('tooltip-container');
 				html.innerHTML = `
                   <div class="d-flex justify-content-between">
-                    <span class="mr-2 mb-1">ქალაქი: </span>
+                    <span class="mr-2 mb-1">გაწვევის ადგილი: </span>
                     <span>${d.cityGeo}</span>
                   </div>
                   <div class="d-flex justify-content-between">
-                    <span class="mr-2">რაოდენობა: </span>
+                    <span class="mr-2">მსხვერპლთა რაოდენობა: </span>
                     <span>${numberWithCommas(d.population)}</span>
                   </div>
                   `;
