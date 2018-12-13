@@ -27,6 +27,8 @@
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
 <script type='text/javascript'>
+    let driveData;
+    let driveDataObj;
     var publicSpreadsheetUrl =
         'https://docs.google.com/spreadsheets/d/123zrq8tW1BbXKg27G7LZBZ1HonEMpDeDsCpToemabqY/edit#gid=166154909';
 
@@ -39,6 +41,8 @@
     }
 
     function showInfo(data, tabletop) {
+        driveData=data;
+        driveDataObj = getDriveDataObj(data);
         const options = data.regions.elements.map(d => {
                 return `<option value="${d.index}">${d.geo||d.rus}</option>`
             })
