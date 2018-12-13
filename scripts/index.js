@@ -310,7 +310,7 @@ function mapLabels(d) {
 		result.name = driveDataObj.names[d.name].geo || driveDataObj.names[d.name].rus;
     }
     if (!isNaN(d.lastName)) {
-		result.lastNames =
+		result.lastName =
 			driveDataObj.lastnames[d.lastName].geo || driveDataObj.lastnames[d.lastName].rus;
     }
     
