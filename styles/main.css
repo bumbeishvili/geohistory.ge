@@ -13,6 +13,7 @@ body {
 .sidenav {
     background-color: #18192A;
     height: 100% !important;
+    overflow-x: hidden !important;
 }
 
 .container {
