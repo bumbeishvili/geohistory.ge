@@ -1,3 +1,15 @@
+
+
+@font-face {
+    font-family: "FiraGO Medium";
+    src: url("FiraGO-Medium.eot");
+    src: url("FiraGO-Medium.woff") format("woff");
+}
+
+body * {
+    font-family: "FiraGO Medium"
+}
+
 :root {
     --annotation-color: #E8336D;
 }
@@ -120,12 +132,12 @@ circle.handle.highlight {
 
 .play-button {
     /* left: 190px; */
-    right:0px;
+    right: 0px;
     position: relative;
     top: 7px;
 }
 
 .sidenav .collapsible-body {
     padding: 0px !important;
-    padding-left:20px !important;
+    padding-left: 20px !important;
 }
