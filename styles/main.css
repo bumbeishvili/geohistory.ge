@@ -300,6 +300,34 @@ body {
     -webkit-animation-delay: -0.1s;
     animation-delay: -0.1s;
 }
+#fb-share-button {
+    background: #3b5998;
+    border-radius: 3px;
+    font-weight: 600;
+    padding: 5px 8px;
+    display: inline-block;
+    position: fixed;
+    z-index: 999
+}
+
+#fb-share-button:hover {
+    cursor: pointer;
+    background: #213A6F
+}
+
+#fb-share-button svg {
+    width: 18px;
+    fill: white;
+    vertical-align: middle;
+    border-radius: 2px
+}
+
+#fb-share-button span {
+    vertical-align: middle;
+    color: white;
+    font-size: 14px;
+    padding: 0 3px
+}
 
 @-webkit-keyframes sk-circleFadeDelay {
     0%,
