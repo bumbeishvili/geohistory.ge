@@ -18,11 +18,54 @@
     <link rel="stylesheet" href="/libs/css/bootstrap-utilities.css">
     <link rel="stylesheet" href="/styles/app.css">
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/select2.css">
+    <link rel="stylesheet" href="/styles/scrollbar.css">
+    <link rel="stylesheet" href="/styles/loader.css">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
+
 </head>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+<script type='text/javascript'>
+    let driveData;
+    let driveDataObj;
+    var publicSpreadsheetUrl =
+        'https://docs.google.com/spreadsheets/d/123zrq8tW1BbXKg27G7LZBZ1HonEMpDeDsCpToemabqY/edit#gid=166154909';
+
+    function init() {
+        Tabletop.init({
+            key: publicSpreadsheetUrl,
+            callback: showInfo,
+            simpleSheet: false
+        })
+    }
+
+    function showInfo(data, tabletop) {
+        driveData=data;
+        driveDataObj = getDriveDataObj(data);
+        const options = data.regions.elements.map(d => {
+                return `<option value="${d.index}">${d.geo||d.rus}</option>`
+            })
+            .join('')
+
+        document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ</option>` + options;
+
+        $(document).ready(function () {
+            $('#person-city-district').select2();
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', init)
+</script>
+
+
+
 
 <body translate="no">
 
     <div id="slide-out" class="sidenav p-3">
+        <img src="img/img.png" class="logo" />
+
         <div>
             <div class="search-header text-center p-2">მოძებნეთ წინაპარი</div>
             <div class="search input-field">
@@ -34,12 +77,30 @@
                 <label for="person-surname">გვარი</label>
             </div>
             <div class="search input-field">
-                <input id="person-city-district" type="text" class="validate">
-                <label for="person-city-district">ქალაქი / რაიონი</label>
+
+                <!-- <input id="person-city-district" type="text" class="validate">
+                <label for="person-city-district">ქალაქი / რაიონი</label> -->
+                <select id="person-city-district" class="select2" name="state">
+                    <option value="AL">Alabama</option>
+                    <option value="WY">Wyoming</option>
+                </select>
             </div>
+
             <button class="btn waves-effect waves-light search-btn" type="submit" onclick="search()">
                 ძებნა
             </button>
+
+        </div>
+        <div>
+            <div class="loader">
+                <span class="dot dot_1"></span>
+                <span class="dot dot_2"></span>
+                <span class="dot dot_3"></span>
+                <span class="dot dot_4"></span>
+            </div>
+            <div class="collapsible-wrapper">
+            
+            </div>
         </div>
     </div>
 
@@ -86,9 +147,8 @@
             </svg>
             <span>Share</span>
         </div>
-    
-
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/libs/js/materialize.min.js"></script>
     <script src="/libs/js/d3.v5.min.js"></script>
     <script src="/libs/js/d3-annotation.min.js"></script>
@@ -101,6 +161,10 @@
     <script src="/scripts/d3script.js"></script>
     <script src="/scripts/index.js"></script>
     <script src="/scripts/sharebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script>
+     
+    </script>
 </body>
 
 </html>
