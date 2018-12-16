@@ -26,11 +26,11 @@ function EncodingConverter() {
 		'k',
 		'sh',
 		'ch',
-		'c',
+		'ts',
 		'dz',
-		'w',
-		'W',
-		'x',
+		'ts',
+		'ch',
+		'kh',
 		'j',
 		'h'
 	];
