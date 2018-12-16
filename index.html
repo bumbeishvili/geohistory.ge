@@ -6,11 +6,10 @@
     <meta charset="UTF-8">
     <title>Geo History</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="How 300 000 Georgian died during WW2" />
-    <meta property="og:image" content="https://raw.githubusercontent.com/bumbeishvili/data-house/master/hackviz/sharer.png" />
+    <meta property="og:title" content="იპოვე მეორე მსოფლიო ომის დროს დაღუპული წინაპარი" />
+    <meta property="og:image" content="img/sharer.png" />
 
-    <link rel="icon" href="img/icon.png" type="image/png"
-        sizes="16x16">
+    <link rel="icon" href="img/icon.png" type="image/png" sizes="16x16">
 
     <link rel="stylesheet" href="/libs/css/materialize.min.css">
     <link rel="stylesheet" href="/libs/css/tippy.min.css">
@@ -41,14 +40,15 @@
     }
 
     function showInfo(data, tabletop) {
-        driveData=data;
+        driveData = data;
         driveDataObj = getDriveDataObj(data);
         const options = data.regions.elements.map(d => {
                 return `<option value="${d.index}">${d.geo||d.rus}</option>`
             })
             .join('')
 
-        document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ რაიონი</option>` + options;
+        document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ რაიონი</option>` +
+            options;
 
         $(document).ready(function () {
             $('#person-city-district').select2();
@@ -99,7 +99,7 @@
                 <span class="dot dot_4"></span>
             </div>
             <div class="collapsible-wrapper">
-            
+
             </div>
         </div>
     </div>
@@ -141,13 +141,14 @@
             </div>
 
         </div>
-        <div id="fb-share-button">
+        <div style="margin:20px;margin-top:40px;" id="fb-share-button">
             <svg viewBox="0 0 12 12" preserveAspectRatio="xMidYMid meet">
                 <path class="svg-icon-path" d="M9.1,0.1V2H8C7.6,2,7.3,2.1,7.1,2.3C7,2.4,6.9,2.7,6.9,3v1.4H9L8.8,6.5H6.9V12H4.7V6.5H2.9V4.4h1.8V2.8 c0-0.9,0.3-1.6,0.7-2.1C6,0.2,6.6,0,7.5,0C8.2,0,8.7,0,9.1,0.1z"></path>
             </svg>
             <span>Share</span>
         </div>
     </div>
+    <script src="/scripts/converter.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/libs/js/materialize.min.js"></script>
     <script src="/libs/js/d3.v5.min.js"></script>
@@ -163,7 +164,18 @@
     <script src="/scripts/sharebutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
-     
+        function getDriveDataObj(driveData) {
+            const result = {};
+            const keys = Object.keys(driveData);
+            keys.forEach((d) => {
+                result[d] = {};
+                const arr = driveData[d];
+                arr.elements.forEach((item) => {
+                    result[d][item.index] = item;
+                });
+            });
+            return result;
+        }
     </script>
 </body>
 

@@ -1,6 +1,7 @@
 var world;
 var width = window.innerWidth - (isMobile.any() ? 0 : 300);
 var height = window.innerHeight;
+var converter = new EncodingConverter();
 
 d3.csv('/data/districts.csv').then(function(districts) {
 	d3.json('/data/world_minified.json').then((json) => {
@@ -34,7 +35,6 @@ var timeline = Timeline()
 	})
 	.run();
 
-searchInputClick();
 initSidebar();
 
 function search() {
@@ -42,9 +42,12 @@ function search() {
 		surname = document.getElementById('person-surname'),
 		cityDistrict = document.getElementById('person-city-district');
 
+	name = converter.toLatin(name.value || '').toLowerCase();
+	surname = converter.toLatin(surname.value || '').toLowerCase();
+
 	var search = {
-		name: name.value || '_',
-		surname: surname.value || '_',
+		name: name || '_',
+		surname: surname || '_',
 		cityDistrict: cityDistrict.value || '_'
 	};
 
@@ -61,10 +64,10 @@ ${data
 					return `
            <li>
                  <div  style="height: 0px; float: right;" class="collapsible-header"><a class="btn-floating  right btn-small waves-effect waves-light  play-button red">▶</a></div>
-                 <div class="collapsible-header">${i + 1}. ${d.lastName}  ${d.name} </div>
+                 <div class="collapsible-header">${i + 1}. ${d.lastNameGe}  ${d.nameGe} </div>
                  <div class="collapsible-body"><span>
-                 <div><b>სახელი</b> - ${d.name}</div>
-                 <div><b>გვარი</b> - ${d.lastName}</div>
+                 <div><b>სახელი</b> - ${d.nameGe}</div>
+                 <div><b>გვარი</b> - ${d.lastNameGe}</div>
                  <div><b>დაბად. თარ.</b> - ${d.birthDate}</div>
                  <div><b>გაწვ. ადგ.</b> - ${d.place}</div>
                  <div><b>რანგი</b> - ${d.rank}</div>
@@ -76,7 +79,6 @@ ${data
                  <img class="materialboxed" width="200" src="https://cdn.obd-memorial.ru/html/fullimage?id=${d.url}">
                  </div>
                   <br/>
-                 
                  
           </li>
     `;
@@ -120,51 +122,6 @@ function initSidebar() {
 			draggable: true
 		});
 		// instances[0].open();
-	});
-}
-
-function searchInputClick() {
-	d3.select('#person-search-input').on('keydown', function(d) {
-		var inputText = d3.select(this).property('value');
-
-		var str = inputText.split(' ').join('_');
-
-		if (event.code != 'Enter' || inputText == '') return;
-
-		d3.selectAll('.sk-fading-circle ').style('display', 'block');
-
-		d3.json('http://geohistory-node-app.herokuapp.com/' + str).then((d) => {
-			d3.selectAll('.sk-fading-circle ').style('display', 'none');
-
-			var modal = d3.select('#myModal');
-
-			modal.style('display', 'block');
-			var closeButton = d3.select('.close');
-
-			closeButton.on('click', function(d) {
-				modal.style('display', 'none');
-			});
-
-			d3.select('#pname').html(d[1][1] + ' ' + d[1][2]);
-
-			var generatedStr = `
-                <table>
-                    ${d[0]
-						.map((r, i) => {
-							return `
-                        <tr><td>
-                            ${r}
-                        </td>
-                        <td> ${d[1][i]}
-                        </td>
-                        </tr>`;
-						})
-						.join('')}    
-                </table>
-                
-                `;
-			d3.select('.modal-body').html(generatedStr);
-		});
 	});
 }
 
@@ -306,14 +263,8 @@ function getDriveDataObj(driveData) {
 
 function mapLabels(d) {
 	const result = Object.assign({}, d);
-	if (!isNaN(d.name)) {
-		result.name = driveDataObj.names[d.name].geo || driveDataObj.names[d.name].rus;
-    }
-    if (!isNaN(d.lastName)) {
-		result.lastName =
-			driveDataObj.lastnames[d.lastName].geo || driveDataObj.lastnames[d.lastName].rus;
-    }
-    
+
+
 	if (!isNaN(d.place)) {
 		result.place = driveDataObj.regions[d.place].geo || driveDataObj.regions[d.place].rus;
 	}
@@ -323,31 +274,12 @@ function mapLabels(d) {
 	if (!isNaN(d.burialLocation)) {
 		result.burialLocation =
 			driveDataObj.burialLocation[d.burialLocation].geo || driveDataObj.burialLocation[d.burialLocation].rus;
-    }
-    if (!isNaN(d.deathReason)) {
-		result.deathReason =
-			driveDataObj.deathReason[d.deathReason].geo || driveDataObj.deathReason[d.deathReason].rus;
 	}
-	if (!isNaN(d.name)) {
-	}
-	if (!isNaN(d.name)) {
-	}
-	if (!isNaN(d.name)) {
-	}
-	if (!isNaN(d.name)) {
-	}
-	if (!isNaN(d.name)) {
+	if (!isNaN(d.deathReason)) {
+		result.deathReason = driveDataObj.deathReason[d.deathReason].geo || driveDataObj.deathReason[d.deathReason].rus;
 	}
 
+
 	return result;
-	{
-		/* <div><b>სახელი</b> - ${d.name}</div>
-                 <div><b>გვარი</b> - ${d.lastName}</div>
-                 <div><b>დაბად. თარ.</b> - ${d.birthDate}</div>
-                 <div><b>გაწვ. ადგ.</b> - ${d.place}</div>
-                 <div><b>რანგი</b> - ${d.rank}</div>
-                 <div><b>დასაფლ. ადგ.</b> - ${d.burialLocation}</div>
-                 <div><b>გარდაც. თარ.</b> - ${d.deathDate}  </div>
-                 <div><b>გარდაც. მიზ. </b> - ${d.deathReason}</div> */
-	}
+
 }
