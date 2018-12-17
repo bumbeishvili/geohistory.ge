@@ -40,13 +40,27 @@ body {
     color: #26a69a !important;
 }
 
+.tap-target-wave {
+    top: 150px !important;
+    left: 150px !important;
+    width: 300px !important;
+    height: 300px !important;
+}
+
 .search-header {
     color: #9e9e9e;
     font-size: 16px;
 }
 
+.tap-target-wrapper {
+    top: 87px !important;
+    width: 600px;
+    height: 600px;
+}
+
 .search-btn {
-    width: 100%;
+    width: 270px;
+    max-width: 100% !important;
 }
 
 .button-container {

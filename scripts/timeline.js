@@ -86,6 +86,7 @@ function Timeline(params) {
 
             var playButton = svg.patternify({ tag: 'path', selector: 'playButton', data: playButtonData.start })
                 .attr("d", line)
+                .attr('id', 'playBtn')
                 .attr("fill", 'gray')
                 .style('cursor', 'pointer')
                 .style('pointer-events', 'all')

@@ -86,7 +86,7 @@
                 </select>
             </div>
 
-            <button class="btn waves-effect waves-light search-btn" type="submit" onclick="search()">
+            <button class="btn waves-effect waves-light search-btn" type="submit" onclick="search()" id="searchBtn">
                 ძებნა
             </button>
 
@@ -170,6 +170,20 @@
         </div>
         
     </div>
+
+    <div class="tap-target cyan" data-target="searchBtn">
+        <div class="tap-target-content">
+            
+        </div>
+    </div>
+
+    <div class="tap-target" data-target="playBtn">
+        <div class="tap-target-content">
+            <h5>Title</h5>
+            <p>A bunch of text</p>
+        </div>
+    </div>
+
     <script src="/scripts/converter.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/libs/js/materialize.min.js"></script>
@@ -198,6 +212,21 @@
             });
             return result;
         }
+    </script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.tap-target');
+            var instances = M.TapTarget.init(elems);
+
+            if (!localStorage.getItem('tip-shown')) {
+                var instance = M.TapTarget.getInstance(elems[0]);
+                setTimeout(function () {
+                    instance.open();
+                }, 3000);
+            }
+        });
+        
     </script>
 </body>
 
