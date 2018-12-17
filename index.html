@@ -22,6 +22,19 @@
     <link rel="stylesheet" href="/styles/loader.css">
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79501479-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-79501479-6');
+    </script>
+
 </head>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
@@ -47,7 +60,7 @@
             })
             .join('')
 
-        document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ რაიონი</option>` +
+        document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ გაწვევის ადგილი</option>` +
             options;
 
         $(document).ready(function () {
@@ -102,7 +115,7 @@
 
             </div>
         </div>
-        <button style="width:100%"  class="btn waves-effect waves-light" onclick="(function () {var d = document, s = d.createElement('script'); s.src = 'https://geohistory-ge.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })();">
+        <button style="width:100%" class="btn waves-effect waves-light" onclick="(function () {var d = document, s = d.createElement('script'); s.src = 'https://geohistory-ge.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })();">
             კომენტარები
         </button>
         <div>
@@ -117,7 +130,6 @@
                 this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
                 };
                 */
-              
             </script>
             <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered
                     by Disqus.</a></noscript>
@@ -168,7 +180,7 @@
             </svg>
             <span>Share</span>
         </div>
-        
+
     </div>
 
     <div class="tap-target cyan" data-target="searchBtn">
@@ -207,8 +219,7 @@
         }
     </script>
     <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.tap-target');
             var instances = M.TapTarget.init(elems);
 
@@ -219,7 +230,6 @@
                 }, 3000);
             }
         });
-        
     </script>
 </body>
 
