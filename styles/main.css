@@ -342,7 +342,6 @@ body {
     padding: 5px 8px;
     display: inline-block;
     position: fixed;
-    z-index: 999
 }
 
 #fb-share-button:hover {
