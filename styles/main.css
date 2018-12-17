@@ -19,6 +19,15 @@ body {
     height: 100% !important;
 }
 
+.top-bar {
+    z-index: 2;
+    display: flex;
+    position: fixed;
+    width: calc(100vw - 300px);
+    justify-content: space-between;
+    padding: 10px;
+}
+
 .container {
     height: 100%;
     max-width: initial;

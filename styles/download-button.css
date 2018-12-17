@@ -1,29 +1,13 @@
-.download-wrap{
-    position: fixed;
-    margin-left: 55%;
-    margin-top: 2.9%;
-    z-index: 999;
-}
-
-.about-wrap{
-  position: fixed;
-  margin-left: 65%;
-  margin-top: 2.9%;
-  z-index: 999;
-}
-
 #download-button, #about-button {
-    background-color: DodgerBlue;
-    border: none;
-    color: white;
-    /* padding: 12px 20px; */
-    cursor: pointer;
-    font-size: 12px;
-    font-style: none;
-    font-weight: normal;
-  }
-  
-  /* Darker background on mouse-over */
-  #download-button {
-    background-color: RoyalBlue;
-  }
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-style: none;
+  font-weight: normal;
+}
+
+#download-button {
+  background-color: RoyalBlue;
+}
