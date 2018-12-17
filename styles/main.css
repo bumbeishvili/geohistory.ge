@@ -60,6 +60,7 @@ body {
 
 .search-btn {
     width: 270px;
+    max-width: 100% !important;
 }
 
 .button-container {
