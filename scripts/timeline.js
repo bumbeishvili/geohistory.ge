@@ -41,12 +41,22 @@ function Timeline(params) {
             calc.chartHeight = attrs.svgHeight - attrs.marginBottom - calc.chartTopMargin;
 
             var playButtonData = {
-                start: [[[5, (calc.chartHeight - 20)], [25, (calc.chartHeight - 10)],
-                [5, calc.chartHeight], [5, (calc.chartHeight - 20)]]],
-                stop: [[
-                    [5, (calc.chartHeight - 15)], [25, (calc.chartHeight - 15)],
-                    [25, calc.chartHeight], [5, (calc.chartHeight)]
-                ]]
+                start: [
+                    [
+                        [5, (calc.chartHeight - 25)], 
+                        [25, (calc.chartHeight - 15)],
+                        [5, calc.chartHeight - 5], 
+                        [5, (calc.chartHeight - 25)]
+                    ]
+                ],
+                stop: [
+                    [
+                        [5, (calc.chartHeight - 20)], 
+                        [20, (calc.chartHeight - 20)],
+                        [20, calc.chartHeight - 5], 
+                        [5, (calc.chartHeight - 5)]
+                    ]
+                ]
             }
 
             /*##################################   HANDLERS  ####################################### */
@@ -86,6 +96,7 @@ function Timeline(params) {
 
             var playButton = svg.patternify({ tag: 'path', selector: 'playButton', data: playButtonData.start })
                 .attr("d", line)
+                .attr('id', 'playBtn')
                 .attr("fill", 'gray')
                 .style('cursor', 'pointer')
                 .style('pointer-events', 'all')

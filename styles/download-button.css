@@ -1,9 +1,10 @@
 .download-wrap{
     position: fixed;
     margin-left: 50%;
+    z-index: 999;
 }
 
-.btn {
+#download-button {
     background-color: DodgerBlue;
     border: none;
     color: white;
@@ -15,6 +16,6 @@
   }
   
   /* Darker background on mouse-over */
-  .btn:hover {
+  #download-button {
     background-color: RoyalBlue;
   }
