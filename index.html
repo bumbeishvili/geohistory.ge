@@ -170,6 +170,19 @@
             <div class="sk-circle12 sk-circle"></div>
         </div>
 
+        <div class="download-wrap">
+            <button id="download-button" class="btn" data-toggle="modal" data-target="#myModal"><i class="fa fa-download"></i>
+                მონაცემების
+                ჩამოტვირთვა
+            </button>
+        </div>
+
+        <div class="about-wrap">
+            <button id="about-button" class="btn" data-toggle="modal" data-target="#myModal-about">
+                პროექტის შესახებ
+            </button>
+        </div>
+
         <!-- modal -->
 
         <div id="myModal" class="modal">
@@ -177,12 +190,31 @@
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 id='pname'>პროექტში გამოყენებული მონაცემები</h2>
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                    <h2 class="lightblue-color" id='pname'>პროექტში გამოყენებული მონაცემები</h2>
                 </div>
+                <!--  -->
                 <div class="modal-body">
-                    <p>data1 -> Some text in the Modal Body</p>
-                    <p>data2 -> Some other text...</p>
+                    <p>მონაცემი1 -> <a href="Archive.zip" download="Archive.zip">გადმოწერა</a> </p>
+                    <p>მონაცემი2 -> <a href="Archive.zip" download="Archive.zip">გადმოწერა</a></p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="myModal-about" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                    <h2 class="lightblue-color"  id='pname'>პროექტის შესახებ</h2>
+                </div>
+                <!--  -->
+                <div class="modal-body">
+                    <p>ძაან გვინდოდა ამ პროექტის გაკეთება </p>
+                    <p>და გავაკეთეთ კიდეც</p>
                 </div>
 
             </div>
@@ -197,15 +229,8 @@
 
 
     </div>
-    
-    <div class="download-wrap">
-        <!-- <a href="Archive.zip" download="Archive.zip"> -->
-        <button id="download-button" class="btn" data-toggle="modal" data-target="#myModal"><i class="fa fa-download"></i>
-            მონაცემების
-            ჩამოტვირთვა
-        </button>
-        <!-- </a> -->
-    </div>
+
+
 
     <script src="/scripts/converter.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

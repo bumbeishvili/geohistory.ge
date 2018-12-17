@@ -332,6 +332,9 @@ body {
     -webkit-animation-delay: -0.1s;
     animation-delay: -0.1s;
 }
+.lightblue-color{
+  color: #3a87ad
+}
 
 @-webkit-keyframes sk-circleFadeDelay {
 

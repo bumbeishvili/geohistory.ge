@@ -1,10 +1,18 @@
 .download-wrap{
     position: fixed;
     margin-left: 50%;
+    margin-top: 2.9%;
     z-index: 999;
 }
 
-#download-button {
+.about-wrap{
+  position: fixed;
+  margin-left: 67%;
+  margin-top: 2.9%;
+  z-index: 999;
+}
+
+#download-button, #about-button {
     background-color: DodgerBlue;
     border: none;
     color: white;
