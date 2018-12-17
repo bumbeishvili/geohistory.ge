@@ -17,6 +17,7 @@ function getChart(params) {
 		countriesColor: '#080F1E',
 		populationCirclesColor: '#39787E',
 		getProjection: (d) => d,
+		circleClicked: (d) => d,
 		isZoomedOut: false,
 		geojson: null,
 		districts: null,
@@ -41,7 +42,7 @@ function getChart(params) {
 			const annotations = [
 				{
 					note: {
-						label: 'მეორე მსოფლიო ომის მსხვერპლმა 18,000 ადამიანს გადააჭარბა',
+						label: 'მეორე მსოფლიო ომის მსხვერპლმა 13,000 ადამიანს გადააჭარბა',
 						title: 'თბილისი'
 					},
 					x: 100,
@@ -55,13 +56,27 @@ function getChart(params) {
 				},
 				{
 					note: {
-						label: 'მსხვერპლი 6,000 ადამიანს აჭარბებს',
+						label: 'მსხვერპლი 5,000 ადამიანს აჭარბებს',
 						title: 'ბათუმი'
 					},
 					x: 100,
 					y: 100,
 					dy: -10,
 					dx: -40,
+					subject: {
+						radius: 20,
+						radiusPadding: 0
+					}
+				},
+				{
+					note: {
+						label: 'მეორე მსოფლიო ომის მსხვერპლთა რაოდენობა გორში 8,000 ადამიანს აჭარბებს',
+						title: 'გორი'
+					},
+					x: 100,
+					y: 100,
+					dy: -100,
+					dx: 10,
 					subject: {
 						radius: 20,
 						radiusPadding: 0
@@ -152,7 +167,8 @@ function getChart(params) {
 					lat: +d.lat,
 					population: d.population,
 					city: d.corrCity,
-					cityGeo: d.cityGeo
+					cityGeo: d.cityGeo,
+					index:d.index
 				};
 			});
 
@@ -169,6 +185,7 @@ function getChart(params) {
 					var projectionData = [ d.lat, d.long ];
 					return projection(projectionData)[0];
 				})
+				.attr('cursor','pointer')
 				.attr('cy', function(d) {
 					var projectionData = [ d.lat, d.long ];
 					return projection(projectionData)[1];
@@ -176,7 +193,10 @@ function getChart(params) {
 				.attr('r', function(d) {
 					return radiusScale(+d.population);
 				})
-				.attr('fill', attrs.populationCirclesColor);
+				.attr('fill', attrs.populationCirclesColor)
+				.on('click', (d) => {
+					attrs.circleClicked(d);
+				});
 
 			europeButtonClick();
 
@@ -210,6 +230,13 @@ function getChart(params) {
 				annotations[1].x = projection(projectionData)[0];
 				annotations[1].y = projection(projectionData)[1];
 				annotations[1].subject.radius = radiusScale(+d.population);
+			});
+
+			populationCircles.filter((d) => d.cityGeo == 'გორი').each((d) => {
+				var projectionData = [ d.lat, d.long ];
+				annotations[2].x = projection(projectionData)[0];
+				annotations[2].y = projection(projectionData)[1];
+				annotations[2].subject.radius = radiusScale(+d.population);
 			});
 
 			const makeAnnotations = d3.annotation().notePadding(15).type(type).annotations(annotations);

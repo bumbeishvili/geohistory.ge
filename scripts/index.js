@@ -12,6 +12,10 @@ d3.csv('/data/districts.csv').then(function(districts) {
 			.districts(districts)
 			.container('#myGraph')
 			.data('Pass Something Here and use it as attrs.data')
+			.circleClicked(d=>{
+				$('.select2').val(d.index).trigger('change');
+				search();
+			})
 			.run();
 	});
 });
