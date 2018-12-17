@@ -44,7 +44,8 @@ function search() {
 
 	name = converter.toLatin(name.value || '').toLowerCase();
 	surname = converter.toLatin(surname.value || '').toLowerCase();
-
+	localStorage.setItem('tip-shown', true);
+	
 	var search = {
 		name: name || '_',
 		surname: surname || '_',
