@@ -14,7 +14,7 @@ function Timeline(params) {
         svgBackground: 'rgb(73, 73, 73)',
         countriesColor: '#191919',
         pinColor: 'red',
-        animationTime: 20, // in seconds
+        animationTime: 10, // in seconds
         animaionDelay: 3, // in seconds
         onTimelineClick: d => d,
         onNextTick: d => d,

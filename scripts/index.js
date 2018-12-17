@@ -32,10 +32,11 @@ var timeline = Timeline()
 		setTimeout(drawPoints.run, 3000);
 	})
 	.onNextTick((d) => {
-		if (d.time.getFullYear() <= 1943) {
-			var points = getPointsAt(d);
-			drawPoints.addPoints(points);
-		}
+		//console.log(d)
+		// if (d.time.getFullYear() <= 1943) {
+		// 	var points = getPointsAt(d);
+		// 	drawPoints.addPoints(points);
+		// }
 	})
 	.run();
 
