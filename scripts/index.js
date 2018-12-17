@@ -12,7 +12,7 @@ d3.csv('/data/districts.csv').then(function(districts) {
 			.districts(districts)
 			.container('#myGraph')
 			.data('Pass Something Here and use it as attrs.data')
-			.circleClicked(d=>{
+			.circleClicked((d) => {
 				$('.select2').val(d.index).trigger('change');
 				search();
 			})
@@ -46,8 +46,8 @@ function search() {
 		surname = document.getElementById('person-surname'),
 		cityDistrict = document.getElementById('person-city-district');
 
-	name = converter.toLatin(name.value || '').toLowerCase();
-	surname = converter.toLatin(surname.value || '').toLowerCase();
+	name = name.value; // converter.toLatin(name.value || '').toLowerCase();
+	surname = surname.value; // converter.toLatin(surname.value || '').toLowerCase();
 
 	var search = {
 		name: name || '_',
@@ -268,7 +268,6 @@ function getDriveDataObj(driveData) {
 function mapLabels(d) {
 	const result = Object.assign({}, d);
 
-
 	if (!isNaN(d.place)) {
 		result.place = driveDataObj.regions[d.place].geo || driveDataObj.regions[d.place].rus;
 	}
@@ -283,7 +282,5 @@ function mapLabels(d) {
 		result.deathReason = driveDataObj.deathReason[d.deathReason].geo || driveDataObj.deathReason[d.deathReason].rus;
 	}
 
-
 	return result;
-
 }

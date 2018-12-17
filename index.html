@@ -76,6 +76,15 @@
 
 <body translate="no">
 
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=598372137026804&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
     <div id="slide-out" class="sidenav p-3">
         <img src="img/img.png" class="logo" />
 
@@ -83,11 +92,11 @@
             <div class="search-header text-center p-2">მოძებნეთ II მსოფლიო ომში დაღუპული წინაპარი</div>
             <div class="search input-field">
                 <input id="person-name" type="text" class="validate">
-                <label for="person-name">სახელი</label>
+                <label for="person-name">სახელი (ქართულად)</label>
             </div>
             <div class="search input-field">
                 <input id="person-surname" type="text" class="validate">
-                <label for="person-surname">გვარი</label>
+                <label for="person-surname">გვარი (ქართულად)</label>
             </div>
             <div class="search input-field">
 
@@ -174,12 +183,12 @@
             </div>
 
         </div>
-        <div style="margin:20px;margin-top:40px;" id="fb-share-button">
-            <svg viewBox="0 0 12 12" preserveAspectRatio="xMidYMid meet">
-                <path class="svg-icon-path" d="M9.1,0.1V2H8C7.6,2,7.3,2.1,7.1,2.3C7,2.4,6.9,2.7,6.9,3v1.4H9L8.8,6.5H6.9V12H4.7V6.5H2.9V4.4h1.8V2.8 c0-0.9,0.3-1.6,0.7-2.1C6,0.2,6.6,0,7.5,0C8.2,0,8.7,0,9.1,0.1z"></path>
-            </svg>
-            <span>Share</span>
-        </div>
+
+
+        <div style="margin:20px;margin-top:40px;" class="fb-share-button" data-href="https://geohistory.ge" data-layout="button_count"
+            data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgeohistory.ge%2F&amp;src=sdkpreparse"
+                class="fb-xfbml-parse-ignore">Share</a></div>
+
 
     </div>
 
