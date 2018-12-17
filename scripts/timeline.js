@@ -41,12 +41,22 @@ function Timeline(params) {
             calc.chartHeight = attrs.svgHeight - attrs.marginBottom - calc.chartTopMargin;
 
             var playButtonData = {
-                start: [[[5, (calc.chartHeight - 20)], [25, (calc.chartHeight - 10)],
-                [5, calc.chartHeight], [5, (calc.chartHeight - 20)]]],
-                stop: [[
-                    [5, (calc.chartHeight - 15)], [25, (calc.chartHeight - 15)],
-                    [25, calc.chartHeight], [5, (calc.chartHeight)]
-                ]]
+                start: [
+                    [
+                        [5, (calc.chartHeight - 25)], 
+                        [25, (calc.chartHeight - 15)],
+                        [5, calc.chartHeight - 5], 
+                        [5, (calc.chartHeight - 25)]
+                    ]
+                ],
+                stop: [
+                    [
+                        [5, (calc.chartHeight - 20)], 
+                        [20, (calc.chartHeight - 20)],
+                        [20, calc.chartHeight - 5], 
+                        [5, (calc.chartHeight - 5)]
+                    ]
+                ]
             }
 
             /*##################################   HANDLERS  ####################################### */
