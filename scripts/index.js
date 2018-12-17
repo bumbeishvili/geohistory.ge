@@ -34,7 +34,6 @@ var timeline = Timeline()
 	})
 	.run();
 
-searchInputClick();
 initSidebar();
 
 function search() {
@@ -123,50 +122,50 @@ function initSidebar() {
 	});
 }
 
-function searchInputClick() {
-	d3.select('#person-search-input').on('keydown', function(d) {
-		var inputText = d3.select(this).property('value');
+// function searchInputClick() {
+// 	d3.select('#person-search-input').on('keydown', function(d) {
+// 		var inputText = d3.select(this).property('value');
 
-		var str = inputText.split(' ').join('_');
+// 		var str = inputText.split(' ').join('_');
 
-		if (event.code != 'Enter' || inputText == '') return;
+// 		if (event.code != 'Enter' || inputText == '') return;
 
-		d3.selectAll('.sk-fading-circle ').style('display', 'block');
+// 		d3.selectAll('.sk-fading-circle ').style('display', 'block');
 
-		d3.json('http://geohistory-node-app.herokuapp.com/' + str).then((d) => {
-			d3.selectAll('.sk-fading-circle ').style('display', 'none');
+// 		d3.json('http://geohistory-node-app.herokuapp.com/' + str).then((d) => {
+// 			d3.selectAll('.sk-fading-circle ').style('display', 'none');
 
-			var modal = d3.select('#myModal');
+// 			var modal = d3.select('#myModal');
 
-			modal.style('display', 'block');
-			var closeButton = d3.select('.close');
+// 			modal.style('display', 'block');
+// 			var closeButton = d3.select('.close');
 
-			closeButton.on('click', function(d) {
-				modal.style('display', 'none');
-			});
+// 			closeButton.on('click', function(d) {
+// 				modal.style('display', 'none');
+// 			});
 
-			d3.select('#pname').html(d[1][1] + ' ' + d[1][2]);
+// 			d3.select('#pname').html(d[1][1] + ' ' + d[1][2]);
 
-			var generatedStr = `
-                <table>
-                    ${d[0]
-						.map((r, i) => {
-							return `
-                        <tr><td>
-                            ${r}
-                        </td>
-                        <td> ${d[1][i]}
-                        </td>
-                        </tr>`;
-						})
-						.join('')}    
-                </table>
+// 			var generatedStr = `
+//                 <table>
+//                     ${d[0]
+// 						.map((r, i) => {
+// 							return `
+//                         <tr><td>
+//                             ${r}
+//                         </td>
+//                         <td> ${d[1][i]}
+//                         </td>
+//                         </tr>`;
+// 						})
+// 						.join('')}    
+//                 </table>
                 
-                `;
-			d3.select('.modal-body').html(generatedStr);
-		});
-	});
-}
+//                 `;
+// 			d3.select('.modal-body').html(generatedStr);
+// 		});
+// 	});
+// }
 
 function getPointsAt(v) {
 	var coords = getCoords();

@@ -9,8 +9,9 @@
     color: white;
     /* padding: 12px 20px; */
     cursor: pointer;
-    font-size: 16px;
+    font-size: 12px;
     font-style: none;
+    font-weight: normal;
   }
   
   /* Darker background on mouse-over */

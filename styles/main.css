@@ -141,11 +141,8 @@ body {
     cursor: pointer;
 }
 
-.modal-header {
-    padding: 2px 16px;
-
-    background-color: #191919;
-    color: gray;
+.modal-header > h2 {
+    font-size: 18px;
 }
 
 .modal-body {

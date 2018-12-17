@@ -9,8 +9,7 @@
     <meta property="og:title" content="How 300 000 Georgian died during WW2" />
     <meta property="og:image" content="https://raw.githubusercontent.com/bumbeishvili/data-house/master/hackviz/sharer.png" />
 
-    <link rel="icon" href="img/icon.png" type="image/png"
-        sizes="16x16">
+    <link rel="icon" href="img/icon.png" type="image/png" sizes="16x16">
 
     <link rel="stylesheet" href="/libs/css/materialize.min.css">
     <link rel="stylesheet" href="/libs/css/tippy.min.css">
@@ -21,6 +20,10 @@
     <link rel="stylesheet" href="/styles/select2.css">
     <link rel="stylesheet" href="/styles/scrollbar.css">
     <link rel="stylesheet" href="/styles/loader.css">
+    <link rel="stylesheet" href="/styles/download-button.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
 
 </head>
@@ -41,11 +44,11 @@
     }
 
     function showInfo(data, tabletop) {
-        driveData=data;
+        driveData = data;
         driveDataObj = getDriveDataObj(data);
         const options = data.regions.elements.map(d => {
-                return `<option value="${d.index}">${d.geo||d.rus}</option>`
-            })
+            return `<option value="${d.index}">${d.geo || d.rus}</option>`
+        })
             .join('')
 
         document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ</option>` + options;
@@ -99,7 +102,7 @@
                 <span class="dot dot_4"></span>
             </div>
             <div class="collapsible-wrapper">
-            
+
             </div>
         </div>
     </div>
@@ -131,13 +134,14 @@
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <h2 id='pname'>სახელი</h2>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 id='pname'>პროექტში გამოყენებული მონაცემები</h2>
                 </div>
                 <div class="modal-body">
-                    <p>Some text in the Modal Body</p>
-                    <p>Some other text...</p>
+                    <p>data1 -> Some text in the Modal Body</p>
+                    <p>data2 -> Some other text...</p>
                 </div>
+
             </div>
 
         </div>
@@ -146,6 +150,14 @@
                 <path class="svg-icon-path" d="M9.1,0.1V2H8C7.6,2,7.3,2.1,7.1,2.3C7,2.4,6.9,2.7,6.9,3v1.4H9L8.8,6.5H6.9V12H4.7V6.5H2.9V4.4h1.8V2.8 c0-0.9,0.3-1.6,0.7-2.1C6,0.2,6.6,0,7.5,0C8.2,0,8.7,0,9.1,0.1z"></path>
             </svg>
             <span>Share</span>
+        </div>
+
+        <div class="download-wrap">
+            <!-- <a href="Archive.zip" download="Archive.zip"> -->
+            <button class="btn" data-toggle="modal" data-target="#myModal"><i class="fa fa-download"></i> მონაცემების
+                ჩამოტვირთვა
+            </button>
+            <!-- </a> -->
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -163,7 +175,7 @@
     <script src="/scripts/sharebutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
-     
+
     </script>
 </body>
 

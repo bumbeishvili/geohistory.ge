@@ -350,23 +350,6 @@ function getChart(params) {
 				});
 			}
 
-			function searchInputClick() {
-				d3.select('#person-search-input').on('keydown', function(d) {
-					var inputText = d3.select(this).property('value');
-
-					if (event.code != 'Enter' || inputText == '') return;
-
-					var modal = d3.select('#myModal');
-
-					modal.style('display', 'block');
-					var closeButton = d3.select('.close');
-
-					closeButton.on('click', function(d) {
-						modal.style('display', 'none');
-					});
-				});
-			}
-
 			function commarize(numberValue) {
 				// Alter numbers larger than 1k
 				if (numberValue >= 1e3) {
