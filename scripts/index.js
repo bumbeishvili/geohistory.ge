@@ -51,7 +51,7 @@ function search() {
 	surname = surname.value; // converter.toLatin(surname.value || '').toLowerCase();
 
 	localStorage.setItem('tip-shown', true);
-	
+
 	var search = {
 		name: name || '_',
 		surname: surname || '_',
@@ -70,7 +70,9 @@ ${data
 				.map((d, i) => {
 					return `
            <li>
-                 <div  style="height: 0px; float: right;" class="collapsible-header"><a class="btn-floating  right btn-small waves-effect waves-light  play-button red">▶</a></div>
+                 <div  style="height: 0px; float: right;" class="collapsible-header"><a onclick='onPersonCLick(${JSON.stringify(
+						d
+					)})' class="btn-floating  right btn-small waves-effect waves-light  play-button red">▶</a></div>
                  <div class="collapsible-header">${i + 1}. ${d.lastNameGe}  ${d.nameGe} </div>
                  <div class="collapsible-body"><span>
                  <div><b>სახელი</b> - ${d.nameGe}</div>
@@ -102,6 +104,21 @@ ${data
 			});
 			$(document).ready(function() {
 				$('.materialboxed').materialbox();
+			});
+
+			d3.selectAll('.play-button').each(function(d) {
+				let node = this;
+				let tip = node._tippy;
+				if (tip) {
+					tip.destroy();
+				}
+				tippy(node, {
+					content: 'განვლილი გზის ჩვენება რუკაძე',
+					arrow: true,
+					theme: 'light',
+					animation: 'scale',
+					duration: 200
+				});
 			});
 		}
 	);
@@ -272,6 +289,10 @@ function mapLabels(d) {
 	const result = Object.assign({}, d);
 
 	if (!isNaN(d.place)) {
+		result.placeId = d.place;
+	}
+
+	if (!isNaN(d.place)) {
 		result.place = driveDataObj.regions[d.place].geo || driveDataObj.regions[d.place].rus;
 	}
 	if (!isNaN(d.rank)) {
@@ -286,4 +307,18 @@ function mapLabels(d) {
 	}
 
 	return result;
+}
+
+function onPersonCLick(person) {
+	$.get(
+		`https://geohistory-backend.herokuapp.com/places/${person.placeId || '_'}/${person.lastPlaceOfService || '_'}`,
+		(data) => {
+			if (!data.armyData) {
+				M.toast({ html: 'სამწუხაროდ, მონაცემები არასაკმარისია, მის ნაცვლად ვაჩვენებთ რეგიონის ჭრილში' });
+				console.log(data.cityArmyData);
+			} else {
+				console.log(data.armyData);
+			}
+		}
+	);
 }
