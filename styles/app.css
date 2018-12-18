@@ -141,3 +141,56 @@ circle.handle.highlight {
     padding: 0px !important;
     padding-left: 20px !important;
 }
+
+
+.europe-paths.even {
+    stroke-dasharray: 22,0.3,22,0.3;
+    -webkit-animation: mov 60.4s infinite linear;
+    animation: move 60.4s infinite linear;
+  }
+
+  @-webkit-keyframes move {
+    0% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: -182;
+    }
+  }
+
+  @keyframes move {
+    0% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: -182;
+    }
+  }
+
+  .europe-paths.odd {
+    stroke-dasharray: 12,0.3,12,0.3;
+    -webkit-animation: mov 55s infinite linear;
+    animation: move 55s infinite linear;
+  }
+
+  @-webkit-keyframes move {
+    0% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: -182;
+    }
+  }
+
+  @keyframes move {
+    0% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: -182;
+    }
+  }

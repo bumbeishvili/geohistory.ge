@@ -334,7 +334,8 @@ function getChart(params) {
 				attrs.lastTransform = transform;
 				chart
 					.transition()
-					.duration(3000)
+					.duration(1000)
+					.ease(d3.easeLinear)
 					.style('stroke-width', 1.5 / scale + 'px')
 					.call(behaviors.zoom.transform, transform);
 			}
@@ -378,13 +379,54 @@ function getChart(params) {
 					.selectAll('.map-path')
 					.filter((d) => d.properties.ISO == 'GEO')
 					.transition()
-					.duration(20000)
+					.ease(d3.easeLinear)
+					.duration(10000)
 					.attr('fill', '#830303')
 					.attr('stroke', '#830303');
 
-				populationCircles.attr('opacity', 1).transition().duration(20000).attr('opacity', 0);
+				populationCircles
+					.attr('opacity', 1)
+					.transition()
+					.ease(d3.easeLinear)
+					.duration(10000)
+					.attr('opacity', 0);
 
 				const places = driveData.burialLocation.elements.filter((d) => d.lat && d.lng);
+
+				const line = d3.line().x((d) => d.x).y((d) => d.y).curve(d3.curveBasis);
+
+				const lines = europeCirclesWrapper
+					.patternify({ tag: 'path', selector: 'europe-paths', data: places })
+					.classed('odd',(d,i)=>i%2==0)
+					.classed('even',(d,i)=>i%2==1)
+					.attr('d', (d) => {
+						var projectionData = [ d.lng, d.lat ];
+						const x = projection(projectionData)[0];
+						const y = projection(projectionData)[1];
+
+						const cc = [ 41.9838, 43.5866 ].reverse();
+						const cx = projection(cc)[0];
+						const cy = projection(cc)[1];
+						//return  `${cx},${cy} `+ "C 0,0,0,0 " + ` ${x},${y}`
+						return line([ { y: cy, x: cx }, { y: (cy + y) / 2 - 50, x: (cx + x) / 2 }, { x, y } ]);
+					})
+					.attr('stroke', '#830303')
+					.attr('stroke-width', (d) => {
+						return 0;
+					})
+					.attr('fill', 'none')
+					.attr('opacity', 0.5)
+					//.attr('stroke-linecap', 'round');
+
+				lines
+					.transition()
+					.ease(d3.easeLinear)
+					.duration(10000)
+					.attr('stroke-width', (d) => {
+						return radiusScale(+d.generalized) * 2;
+					})
+					.attr('opacity', 0.8);
+
 				const europeCircles = europeCirclesWrapper
 					.patternify({ tag: 'circle', selector: 'europe-circles', data: places })
 					.attr('cx', function(d) {
@@ -400,7 +442,7 @@ function getChart(params) {
 					})
 					.attr('opacity', 1);
 
-				europeCircles.transition().duration(20000).attr('r', function(d) {
+				europeCircles.transition().ease(d3.easeLinear).duration(10000).attr('r', function(d) {
 					return radiusScale(+d.generalized);
 				});
 
