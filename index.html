@@ -59,8 +59,9 @@
     function showInfo(data, tabletop) {
         driveData = data;
         driveDataObj = getDriveDataObj(data);
-        console.log(data.regions.elements)
+
         const options = data.regions.elements
+        .filter(x => x.geo)
         .sort(function(a, b){
             if(a.geo < b.geo) { return -1; }
             if(a.geo > b.geo) { return 1; }
