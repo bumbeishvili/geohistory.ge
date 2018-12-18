@@ -59,7 +59,15 @@
     function showInfo(data, tabletop) {
         driveData = data;
         driveDataObj = getDriveDataObj(data);
-        const options = data.regions.elements.map(d => {
+
+        const options = data.regions.elements
+        .filter(x => x.geo)
+        .sort(function(a, b){
+            if(a.geo < b.geo) { return -1; }
+            if(a.geo > b.geo) { return 1; }
+            return 0;
+        })
+        .map(d => {
             return `<option value="${d.index}">${d.geo || d.rus}</option>`
         })
             .join('')
