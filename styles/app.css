@@ -194,3 +194,6 @@ circle.handle.highlight {
       stroke-dashoffset: -182;
     }
   }
+  #myModal-about{
+      overflow:visible !important;
+  }
