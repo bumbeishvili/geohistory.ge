@@ -131,6 +131,8 @@ function initSidebar() {
 
 		if (isMobile.any()) {
 			container.style.width = '100%';
+			document.getElementById('download-button').style.display = 'none';
+			document.getElementById('about-button').style.display = 'none';
 		} else {
 			elems.forEach((el) => {
 				el.classList.add('sidenav-fixed');
