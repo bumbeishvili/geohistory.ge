@@ -65,7 +65,7 @@ function search() {
 		(data) => {
 			console.log(data);
 			const html = `<ul class="collapsible">
-${data
+		${data
 				.map(mapLabels)
 				.map((d, i) => {
 					return `
