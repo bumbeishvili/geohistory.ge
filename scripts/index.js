@@ -12,7 +12,7 @@ d3.csv('/data/districts.csv').then(function(districts) {
 			.districts(districts)
 			.container('#myGraph')
 			.data('Pass Something Here and use it as attrs.data')
-			.circleClicked(d=>{
+			.circleClicked((d) => {
 				$('.select2').val(d.index).trigger('change');
 				search();
 			})
@@ -32,10 +32,11 @@ var timeline = Timeline()
 		setTimeout(drawPoints.run, 3000);
 	})
 	.onNextTick((d) => {
-		if (d.time.getFullYear() <= 1943) {
-			var points = getPointsAt(d);
-			drawPoints.addPoints(points);
-		}
+		//console.log(d)
+		// if (d.time.getFullYear() <= 1943) {
+		// 	var points = getPointsAt(d);
+		// 	drawPoints.addPoints(points);
+		// }
 	})
 	.run();
 
@@ -46,10 +47,11 @@ function search() {
 		surname = document.getElementById('person-surname'),
 		cityDistrict = document.getElementById('person-city-district');
 
-	name = converter.toLatin(name.value || '').toLowerCase();
-	surname = converter.toLatin(surname.value || '').toLowerCase();
+	name = name.value; // converter.toLatin(name.value || '').toLowerCase();
+	surname = surname.value; // converter.toLatin(surname.value || '').toLowerCase();
+
 	localStorage.setItem('tip-shown', true);
-	
+
 	var search = {
 		name: name || '_',
 		surname: surname || '_',
@@ -68,7 +70,9 @@ ${data
 				.map((d, i) => {
 					return `
            <li>
-                 <div  style="height: 0px; float: right;" class="collapsible-header"><a class="btn-floating  right btn-small waves-effect waves-light  play-button red">▶</a></div>
+                 <div  style="height: 0px; float: right;" class="collapsible-header"><a onclick='onPersonCLick(${JSON.stringify(
+						d
+					)})' class="btn-floating  right btn-small waves-effect waves-light  play-button red">▶</a></div>
                  <div class="collapsible-header">${i + 1}. ${d.lastNameGe}  ${d.nameGe} </div>
                  <div class="collapsible-body"><span>
                  <div><b>სახელი</b> - ${d.nameGe}</div>
@@ -100,6 +104,21 @@ ${data
 			});
 			$(document).ready(function() {
 				$('.materialboxed').materialbox();
+			});
+
+			d3.selectAll('.play-button').each(function(d) {
+				let node = this;
+				let tip = node._tippy;
+				if (tip) {
+					tip.destroy();
+				}
+				tippy(node, {
+					content: 'განვლილი გზის ჩვენება რუკაძე',
+					arrow: true,
+					theme: 'light',
+					animation: 'scale',
+					duration: 200
+				});
 			});
 		}
 	);
@@ -269,6 +288,9 @@ function getDriveDataObj(driveData) {
 function mapLabels(d) {
 	const result = Object.assign({}, d);
 
+	if (!isNaN(d.place)) {
+		result.placeId = d.place;
+	}
 
 	if (!isNaN(d.place)) {
 		result.place = driveDataObj.regions[d.place].geo || driveDataObj.regions[d.place].rus;
@@ -284,7 +306,19 @@ function mapLabels(d) {
 		result.deathReason = driveDataObj.deathReason[d.deathReason].geo || driveDataObj.deathReason[d.deathReason].rus;
 	}
 
-
 	return result;
+}
 
+function onPersonCLick(person) {
+	$.get(
+		`https://geohistory-backend.herokuapp.com/places/${person.placeId || '_'}/${person.lastPlaceOfService || '_'}`,
+		(data) => {
+			if (!data.armyData) {
+				M.toast({ html: 'სამწუხაროდ, მონაცემები არასაკმარისია, მის ნაცვლად ვაჩვენებთ რეგიონის ჭრილში' });
+				console.log(data.cityArmyData);
+			} else {
+				console.log(data.armyData);
+			}
+		}
+	);
 }

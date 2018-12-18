@@ -18,6 +18,7 @@ function getChart(params) {
 		populationCirclesColor: '#39787E',
 		getProjection: (d) => d,
 		circleClicked: (d) => d,
+		europeZoomed: true,
 		isZoomedOut: false,
 		geojson: null,
 		districts: null,
@@ -42,6 +43,7 @@ function getChart(params) {
 			const annotations = [
 				{
 					note: {
+						level: 1,
 						label: 'მეორე მსოფლიო ომის მსხვერპლმა 13,000 ადამიანს გადააჭარბა',
 						title: 'თბილისი'
 					},
@@ -56,6 +58,7 @@ function getChart(params) {
 				},
 				{
 					note: {
+						level: 1,
 						label: 'მსხვერპლი 5,000 ადამიანს აჭარბებს',
 						title: 'ბათუმი'
 					},
@@ -70,6 +73,7 @@ function getChart(params) {
 				},
 				{
 					note: {
+						level: 1,
 						label: 'მეორე მსოფლიო ომის მსხვერპლთა რაოდენობა გორში 8,000 ადამიანს აჭარბებს',
 						title: 'გორი'
 					},
@@ -77,6 +81,38 @@ function getChart(params) {
 					y: 100,
 					dy: -100,
 					dx: 10,
+					subject: {
+						radius: 20,
+						radiusPadding: 0
+					}
+				},
+				{
+					level: 2,
+					note: {
+						label:
+							'მეორე მსოფლიო ომის დროს პოლონეთის დაპყრობა მოხდა ორჯერ, ჯერ გერმანიის შემდეგ კი საბჭოთა ძალების მიერ. ',
+						title: 'პოლონეთი'
+					},
+					x: 100,
+					y: 100,
+					dy: 60,
+					dx: -170,
+					subject: {
+						radius: 20,
+						radiusPadding: 0
+					}
+				},
+				{
+					level: 2,
+					note: {
+						label:
+							' გერმანიის დასახმარებლად იმაზე მეტი ჯარისკაცი გამოიყვანა ვიდრე სხვა მოკავშირეებმა ჯამში.',
+						title: 'რუმინეთმა'
+					},
+					x: 100,
+					y: 100,
+					dy: 20,
+					dx: -10,
 					subject: {
 						radius: 20,
 						radiusPadding: 0
@@ -168,7 +204,7 @@ function getChart(params) {
 					population: d.population,
 					city: d.corrCity,
 					cityGeo: d.cityGeo,
-					index:d.index
+					index: d.index
 				};
 			});
 
@@ -185,7 +221,7 @@ function getChart(params) {
 					var projectionData = [ d.lat, d.long ];
 					return projection(projectionData)[0];
 				})
-				.attr('cursor','pointer')
+				.attr('cursor', 'pointer')
 				.attr('cy', function(d) {
 					var projectionData = [ d.lat, d.long ];
 					return projection(projectionData)[1];
@@ -197,6 +233,8 @@ function getChart(params) {
 				.on('click', (d) => {
 					attrs.circleClicked(d);
 				});
+
+			var europeCirclesWrapper = chart.patternify({ tag: 'g', selector: 'europe-circle-wrapper' });
 
 			europeButtonClick();
 
@@ -267,6 +305,18 @@ function getChart(params) {
 				return html;
 			}
 
+			function getEuropeHtml(d) {
+				var html = document.createElement('div');
+				html.classList.add('tooltip-container');
+				html.innerHTML = `
+				  <div class="d-flex justify-content-between">
+				   <h6>${d.geo}</h6>
+                   <span>${d.storyge || ''}</span>
+                  </div>
+                  `;
+				return html;
+			}
+
 			/* #############################   FUNCTIONS    ############################## */
 
 			function zoomToActiveCountry() {
@@ -284,12 +334,14 @@ function getChart(params) {
 				attrs.lastTransform = transform;
 				chart
 					.transition()
-					.duration(3000)
+					.duration(1000)
+					.ease(d3.easeLinear)
 					.style('stroke-width', 1.5 / scale + 'px')
 					.call(behaviors.zoom.transform, transform);
 			}
 
 			zoomToEurope = function() {
+				attrs.europeZoomed = true;
 				var leftBounds = path.bounds(attrs.geojson.features.find((x) => x.properties.name == 'Germany'));
 				var topBounds = path.bounds(attrs.geojson.features.find((x) => x.properties.name == 'Poland'));
 				var rightBounds = path.bounds(attrs.geojson.features.find((x) => x.properties.name == 'Azerbaijan'));
@@ -306,16 +358,143 @@ function getChart(params) {
 					translate = [ attrs.svgWidth / 2 - scale * x - 30, attrs.svgHeight / 2 - scale * y - 30 ];
 
 				var transform = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
+				attrs.lastTransform = transform;
 				chart
 					.transition()
 					.duration(3000)
 					.style('stroke-width', 1.5 / scale + 'px')
-					.call(behaviors.zoom.transform, transform);
+					.call(behaviors.zoom.transform, transform)
+					.on('end', function(d) {
+						startPathShowing();
+					});
 
 				makeCirclesBigger();
 				displayGeorgiaNeighborBorders();
 				attrs.isZoomedOut = true;
+				console.log('zooming to europe start');
 			};
+
+			function startPathShowing() {
+				svg
+					.selectAll('.map-path')
+					.filter((d) => d.properties.ISO == 'GEO')
+					.transition()
+					.ease(d3.easeLinear)
+					.duration(10000)
+					.attr('fill', '#830303')
+					.attr('stroke', '#830303');
+
+				populationCircles
+					.attr('opacity', 1)
+					.transition()
+					.ease(d3.easeLinear)
+					.duration(10000)
+					.attr('opacity', 0);
+
+				const places = driveData.burialLocation.elements.filter((d) => d.lat && d.lng);
+
+				const line = d3.line().x((d) => d.x).y((d) => d.y).curve(d3.curveBasis);
+
+				const lines = europeCirclesWrapper
+					.patternify({ tag: 'path', selector: 'europe-paths', data: places })
+					.classed('odd',(d,i)=>i%2==0)
+					.classed('even',(d,i)=>i%2==1)
+					.attr('d', (d) => {
+						var projectionData = [ d.lng, d.lat ];
+						const x = projection(projectionData)[0];
+						const y = projection(projectionData)[1];
+
+						const cc = [ 41.9838, 43.5866 ].reverse();
+						const cx = projection(cc)[0];
+						const cy = projection(cc)[1];
+						//return  `${cx},${cy} `+ "C 0,0,0,0 " + ` ${x},${y}`
+						return line([ { y: cy, x: cx }, { y: (cy + y) / 2 - 50, x: (cx + x) / 2 }, { x, y } ]);
+					})
+					.attr('stroke', '#830303')
+					.attr('stroke-width', (d) => {
+						return 0;
+					})
+					.attr('fill', 'none')
+					.attr('opacity', 0.5)
+					//.attr('stroke-linecap', 'round');
+
+				lines
+					.transition()
+					.ease(d3.easeLinear)
+					.duration(10000)
+					.attr('stroke-width', (d) => {
+						return radiusScale(+d.generalized) * 2;
+					})
+					.attr('opacity', 0.8);
+
+				const europeCircles = europeCirclesWrapper
+					.patternify({ tag: 'circle', selector: 'europe-circles', data: places })
+					.attr('cx', function(d) {
+						var projectionData = [ d.lng, d.lat ];
+						return projection(projectionData)[0];
+					})
+					.attr('cy', function(d) {
+						var projectionData = [ d.lng, d.lat ];
+						return projection(projectionData)[1];
+					})
+					.attr('r', function(d) {
+						return 0;
+					})
+					.attr('opacity', 1);
+
+				europeCircles.transition().ease(d3.easeLinear).duration(10000).attr('r', function(d) {
+					return radiusScale(+d.generalized);
+				});
+
+				europeCircles.each(function(d) {
+					let node = this;
+					let tip = node._tippy;
+					if (tip) {
+						tip.destroy();
+					}
+					tippy(node, {
+						content: getEuropeHtml(d),
+						arrow: true,
+						theme: 'light',
+						animation: 'scale',
+						duration: 200
+					});
+				});
+
+				svg.selectAll('.annotation.custom').each((d) => {
+					console.log(d);
+				});
+
+				europeCircles.filter((d) => d.geo == 'პოლონეთი').each((d) => {
+					var projectionData = [ d.lng, d.lat ];
+					annotations[3].x = projection(projectionData)[0];
+					annotations[3].y = projection(projectionData)[1];
+					annotations[3].subject.radius = radiusScale(+d.population);
+				});
+
+				europeCircles.filter((d) => d.geo == 'რუმინეთი').each((d) => {
+					var projectionData = [ d.lng, d.lat ];
+					annotations[4].x = projection(projectionData)[0];
+					annotations[4].y = projection(projectionData)[1];
+					annotations[4].subject.radius = radiusScale(+d.population);
+				});
+
+				const makeAnnotations = d3.annotation().notePadding(15).type(type).annotations(annotations);
+				chart.patternify({ tag: 'g', selector: 'annotation-group' }).call(makeAnnotations);
+
+				svg
+					.selectAll('.annotation.custom')
+					.attr('opacity', (d) => (d.note.level != 1 ? 1 : 0))
+					.attr('transform', function(d) {
+						let transform = d3.select(this).attr('transform');
+						console.log(attrs.lastTransform);
+						transform += ` scale(${1 / attrs.lastTransform.k})`;
+						return transform;
+					});
+
+				svg.selectAll('.annotation.custom path').attr('stroke-width', 2);
+				console.log('path showing started');
+			}
 
 			function georgiaBorderCountry(d) {
 				if (

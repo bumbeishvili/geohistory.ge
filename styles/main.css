@@ -19,6 +19,15 @@ body {
     height: 100% !important;
 }
 
+.top-bar {
+    z-index: 2;
+    display: flex;
+    position: fixed;
+    width: calc(100vw - 300px);
+    justify-content: space-between;
+    padding: 10px;
+}
+
 .container {
     height: 100%;
     max-width: initial;
@@ -166,11 +175,8 @@ body {
     cursor: pointer;
 }
 
-.modal-header {
-    padding: 2px 16px;
-
-    background-color: #191919;
-    color: gray;
+.modal-header > h2 {
+    font-size: 18px;
 }
 
 .modal-body {
@@ -335,32 +341,8 @@ body {
     -webkit-animation-delay: -0.1s;
     animation-delay: -0.1s;
 }
-#fb-share-button {
-    background: #3b5998;
-    border-radius: 3px;
-    font-weight: 600;
-    padding: 5px 8px;
-    display: inline-block;
-    position: fixed;
-}
-
-#fb-share-button:hover {
-    cursor: pointer;
-    background: #213A6F
-}
-
-#fb-share-button svg {
-    width: 18px;
-    fill: white;
-    vertical-align: middle;
-    border-radius: 2px
-}
-
-#fb-share-button span {
-    vertical-align: middle;
-    color: white;
-    font-size: 14px;
-    padding: 0 3px
+.lightblue-color{
+  color: #3a87ad
 }
 
 @-webkit-keyframes sk-circleFadeDelay {

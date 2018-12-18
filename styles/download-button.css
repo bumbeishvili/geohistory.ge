@@ -1,19 +1,13 @@
-.download-wrap{
-    position: fixed;
-    margin-left: 50%;
+#download-button, #about-button {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-style: none;
+  font-weight: normal;
 }
 
-.btn {
-    background-color: DodgerBlue;
-    border: none;
-    color: white;
-    /* padding: 12px 20px; */
-    cursor: pointer;
-    font-size: 16px;
-    font-style: none;
-  }
-  
-  /* Darker background on mouse-over */
-  .btn:hover {
-    background-color: RoyalBlue;
-  }
+#download-button {
+  background-color: RoyalBlue;
+}
