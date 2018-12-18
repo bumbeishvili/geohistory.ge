@@ -78,7 +78,7 @@ function Timeline(params) {
             /*################################## SCALES ####################################### */
             var line = d3.line()
                 .x(d => d[0])
-                .y(d => d[1])
+                .y(d => d[1]);
 
             //################################ DRAWING ######################  
             //Drawing
@@ -94,10 +94,16 @@ function Timeline(params) {
             var chart = svg.patternify({ tag: 'g', selector: 'chart' })
                 .attr('transform', 'translate(' + (calc.chartLeftMargin) + ',' + calc.chartTopMargin + ')')
 
+
+
             var playButton = svg.patternify({ tag: 'path', selector: 'playButton', data: playButtonData.start })
-                .attr("d", line)
+                .attr("d", d => line(d) + 'Z')
                 .attr('id', 'playBtn')
                 .attr("fill", 'gray')
+                .attr('stroke', 'red')
+                .attr('stroke-width', 0)
+                .attr('stroke-opacity', 0.5)
+                .attr('stroke-linecap', 'round')
                 .style('cursor', 'pointer')
                 .style('pointer-events', 'all')
                 .on("mouseover", d => {
@@ -105,12 +111,22 @@ function Timeline(params) {
                 })
                 .on("mouseout", d => {
                     d3.select(this).attr("fill", 'gray')
-                })
+                });
+
+            var animation = playButton.patternify({ tag: 'animate', selector: 'animation' })
+                .attr('attributeName', 'stroke-width')
+                .attr('from', 0)
+                .attr('to', 10)
+                .attr('dur', '3s')
+                .attr('repeatCount', 'indefinite')
+
+            playButton
                 .on("click", d => {
                     if (animate) {
                         animate();
                     }
                     attrs.onTimelineClick(d);
+                    animation.remove();
                 });
 
             chart.patternify({ tag: 'g', selector: 'xAxis' })
