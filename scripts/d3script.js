@@ -18,7 +18,7 @@ function getChart(params) {
 		populationCirclesColor: '#39787E',
 		getProjection: (d) => d,
 		circleClicked: (d) => d,
-		europeZoomed: true,
+		europeZoomed: false,
 		isZoomedOut: false,
 		geojson: null,
 		districts: null,
@@ -26,7 +26,7 @@ function getChart(params) {
 	};
 
 	//InnerFunctions
-	var updateData, zoomToEurope;
+	var updateData, zoomToEurope, showPath;
 
 	//Main chart object
 	var main = function(selection) {
@@ -112,6 +112,22 @@ function getChart(params) {
 					x: 100,
 					y: 100,
 					dy: 20,
+					dx: -10,
+					subject: {
+						radius: 20,
+						radiusPadding: 0
+					}
+				},
+				{
+					level: 2,
+					note: {
+						level: 3,
+						label: ' დასაფლავების ადგილი',
+						title: ''
+					},
+					x: 100,
+					y: 100,
+					dy: -20,
 					dx: -10,
 					subject: {
 						radius: 20,
@@ -340,7 +356,7 @@ function getChart(params) {
 					.call(behaviors.zoom.transform, transform);
 			}
 
-			zoomToEurope = function() {
+			zoomToEurope = function(data) {
 				attrs.europeZoomed = true;
 				var leftBounds = path.bounds(attrs.geojson.features.find((x) => x.properties.name == 'Germany'));
 				var topBounds = path.bounds(attrs.geojson.features.find((x) => x.properties.name == 'Poland'));
@@ -365,13 +381,94 @@ function getChart(params) {
 					.style('stroke-width', 1.5 / scale + 'px')
 					.call(behaviors.zoom.transform, transform)
 					.on('end', function(d) {
-						startPathShowing();
+						if (data) {
+							showPath(data);
+						} else {
+							startPathShowing();
+						}
 					});
 
 				makeCirclesBigger();
 				displayGeorgiaNeighborBorders();
 				attrs.isZoomedOut = true;
 				console.log('zooming to europe start');
+			};
+
+			showPath = function(data) {
+				europeCirclesWrapper.selectAll('.europe-paths').remove();
+
+				console.log('showing path for ', data);
+				if (!attrs.europeZoomed) {
+					zoomToEurope(data);
+					return;
+				}
+
+				d3.selectAll('.annotation.custom').remove();
+
+				const line = d3.line().x((d) => d.x).y((d) => d.y).curve(d3.curveBasis);
+
+				const lines = europeCirclesWrapper
+					.patternify({ tag: 'g', selector: 'europe-wrapper', data: data })
+					.patternify({ tag: 'path', selector: 'europe-paths-new', data: (d) => d })
+					.classed('odd', (d, i) => i % 2 == 0)
+					.classed('even', (d, i) => i % 2 == 1)
+					.attr('d', (d) => {
+						var projectionData = [ d[1].lng, d[1].lat ];
+						const x = projection(projectionData)[0];
+						const y = projection(projectionData)[1];
+
+						const cc = [ d[0].lng, d[0].lat ];
+						const cx = projection(cc)[0];
+						const cy = projection(cc)[1];
+						//return  `${cx},${cy} `+ "C 0,0,0,0 " + ` ${x},${y}`
+						return line([ { y: cy, x: cx }, { y: (cy + y) / 2 - 50, x: (cx + x) / 2 }, { x, y } ]);
+					})
+					.attr('stroke', '#830303')
+					.attr('stroke-width', (d) => {
+						return 0;
+					})
+					.attr('fill', 'none')
+					.attr('opacity', 0.5)
+					.attr('stroke-linecap', 'round');
+
+				lines
+					.transition()
+					.ease(d3.easeLinear)
+					.delay((d, i) => i * 2000)
+					.duration(2000)
+					.attr('stroke-width', (d) => {
+						return 3;
+					})
+					.attr('opacity', 0.8);
+
+				let annotationFound = false;
+				data.forEach((arr) => {
+					arr.forEach((d) => {
+						if (d[0].isBurial) {
+							annotationFound = true;
+							var projectionData = [ d[0].lng, d[0].lat ];
+							annotations[5].x = projection(projectionData)[0];
+							annotations[5].y = projection(projectionData)[1];
+							annotations[5].note.title = d[0].name;
+						}
+					});
+				});
+				if (annotationFound) {
+					const makeAnnotations = d3.annotation().notePadding(15).type(type).annotations(annotations);
+					chart.patternify({ tag: 'g', selector: 'annotation-group' }).call(makeAnnotations);
+
+					svg
+						.selectAll('.annotation.custom')
+						.attr('opacity', (d) => (d.note.level != 3 ? 0 : 1))
+						.attr('transform', function(d) {
+							let transform = d3.select(this).attr('transform');
+							console.log(attrs.lastTransform);
+							transform += ` scale(${1 / attrs.lastTransform.k})`;
+							return transform;
+						});
+
+					svg.selectAll('.annotation.custom path').attr('stroke-width', 2);
+				}
 			};
 
 			function startPathShowing() {
@@ -397,8 +494,8 @@ function getChart(params) {
 
 				const lines = europeCirclesWrapper
 					.patternify({ tag: 'path', selector: 'europe-paths', data: places })
-					.classed('odd',(d,i)=>i%2==0)
-					.classed('even',(d,i)=>i%2==1)
+					.classed('odd', (d, i) => i % 2 == 0)
+					.classed('even', (d, i) => i % 2 == 1)
 					.attr('d', (d) => {
 						var projectionData = [ d.lng, d.lat ];
 						const x = projection(projectionData)[0];
@@ -415,8 +512,8 @@ function getChart(params) {
 						return 0;
 					})
 					.attr('fill', 'none')
-					.attr('opacity', 0.5)
-					//.attr('stroke-linecap', 'round');
+					.attr('opacity', 0.5);
+				//.attr('stroke-linecap', 'round');
 
 				lines
 					.transition()
@@ -484,7 +581,7 @@ function getChart(params) {
 
 				svg
 					.selectAll('.annotation.custom')
-					.attr('opacity', (d) => (d.note.level != 1 ? 1 : 0))
+					.attr('opacity', (d) => (d.note.level != 1 && d.note.level != 3 ? 1 : 0))
 					.attr('transform', function(d) {
 						let transform = d3.select(this).attr('transform');
 						console.log(attrs.lastTransform);
@@ -644,6 +741,12 @@ function getChart(params) {
 		return main;
 	};
 
+	main.showPath = function(data) {
+		if (typeof showPath === 'function') {
+			showPath(data);
+		}
+		return main;
+	};
 	//debugging visuals
 	main.debug = function(isDebug) {
 		attrs.isDebug = isDebug;

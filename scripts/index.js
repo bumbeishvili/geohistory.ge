@@ -291,6 +291,9 @@ function mapLabels(d) {
 	if (!isNaN(d.place)) {
 		result.placeId = d.place;
 	}
+	if (!isNaN(d.burialLocation)) {
+		result.burialLocationId = d.burialLocation;
+	}
 
 	if (!isNaN(d.place)) {
 		result.place = driveDataObj.regions[d.place].geo || driveDataObj.regions[d.place].rus;
@@ -310,15 +313,78 @@ function mapLabels(d) {
 }
 
 function onPersonCLick(person) {
-	$.get(
-		`https://geohistory-backend.herokuapp.com/places/${person.placeId || '_'}/${person.lastPlaceOfService || '_'}`,
-		(data) => {
-			if (!data.armyData) {
-				M.toast({ html: 'სამწუხაროდ, მონაცემები არასაკმარისია, მის ნაცვლად ვაჩვენებთ რეგიონის ჭრილში' });
-				console.log(data.cityArmyData);
-			} else {
-				console.log(data.armyData);
+	if (!+person.placeId) {
+		M.toast({
+			html:
+				'სამწუხაროდ, გზის საჩვენებლად საკმარისი მონაცემები არ მოიძებნა'
+		});
+	} else {
+		$.get(
+			`https://geohistory-backend.herokuapp.com/places/${person.placeId || '_'}/${person.lastPlaceOfService ||
+				'_'}`,
+			(data) => {
+				if (!data.armyData) {
+					M.toast({
+						html:
+							'სამწუხაროდ, მონაცემები არასაკმარისია განვლილი გზის საჩვენებლად, სანაცლოდ ვაჩვენებთ მიმდინარე რეგიონში სხვა ადამიანების მიერ განვლილ გზას'
+					});
+					const matchedData = data.cityArmyData.map(getMatchedData);
+					world.showPath(matchedData);
+				} else {
+					console.log(data.armyData);
+					const matchedData = getMatchedData(data.armyData, person);
+					world.showPath([ matchedData ]);
+				}
 			}
+		);
+	}
+}
+
+function getMatchedData(armyData, person) {
+	return armyData.values.map((d, i, arr) => {
+		if (i == 0) {
+			if (
+				person &&
+				+person.burialLocation &&
+				driveDataObj.burialLocation[person.burialLocation] &&
+				driveDataObj.burialLocation[person.burialLocation].lat &&
+				driveDataObj.burialLocation[person.burialLocation].lng
+			) {
+				return [
+					{
+						lat: +driveDataObj.place[person.placeId].lat,
+						lng: +driveDataObj.place[person.placeId].lng
+					},
+					{
+						lat: +driveDataObj.burialLocation[d.burialLocation].lat,
+						lng: +driveDataObj.burialLocation[d.burialLocation].lng
+					}
+				];
+			} else {
+				return [
+					{
+						lat: 41.9838,
+						lng: 43.5866
+					},
+					{
+						lat: +driveDataObj.burialLocation[d.burialLocation].lat,
+						lng: +driveDataObj.burialLocation[d.burialLocation].lng
+					}
+				];
+			}
+		} else {
+			return [
+				{
+					name: driveDataObj.burialLocation[arr[i - 1].burialLocation].geo,
+					isBurial: arr[i - 1].burialLocation == (person && person.burialLocationId),
+					lat: +driveDataObj.burialLocation[arr[i - 1].burialLocation].lat,
+					lng: +driveDataObj.burialLocation[arr[i - 1].burialLocation].lng
+				},
+				{
+					lat: +driveDataObj.burialLocation[d.burialLocation].lat,
+					lng: +driveDataObj.burialLocation[d.burialLocation].lng
+				}
+			];
 		}
-	);
+	});
 }
