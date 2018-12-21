@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/styles/tooltip.css">
     <link rel="stylesheet" href="/libs/css/bootstrap-utilities.css">
     <link rel="stylesheet" href="/styles/app.css">
+    <link rel="stylesheet" href="/styles/menu.css">
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/select2.css">
     <link rel="stylesheet" href="/styles/scrollbar.css">
@@ -158,12 +159,20 @@
         </div>
     </div>
     <div class="container centered">
-        <div class="top-bar">
-            <div class="fb-share-button" data-href="https://geohistory.ge" data-layout="button_count"
+        <div class="top-bar d-flex">
+            <div class="menu">
+                <a class="mobile-menu-toggle js-toggle-menu hamburger-menu" href="#">
+                        <span class="menu-item"></span>
+                        <span class="menu-item"></span>
+                        <span class="menu-item"></span>
+                </a>
+            </div>
+            <div class="fb-share-button d-sm-block float-right" data-href="https://geohistory.ge" data-layout="button_count"
                 data-size="large" data-mobile-iframe="true">
                 <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgeohistory.ge%2F&amp;src=sdkpreparse"
-                    class="fb-xfbml-parse-ignore">Share</a></div>
-            <div>
+                    class="fb-xfbml-parse-ignore">Share</a>
+            </div>
+            <div class="d-none d-lg-block">
                 <button id="download-button" class="btn" data-toggle="modal" data-target="#myModal"><i class="fa fa-download"></i>
                     მონაცემები
                 </button>
@@ -298,6 +307,13 @@
                     instance.open();
                 }, 3000);
             }
+        });
+
+        // open mobile menu
+        $('.js-toggle-menu').click(function(e){
+            e.preventDefault();
+            var instance = M.Sidenav.getInstance(document.querySelector('.sidenav'));
+            instance.open();
         });
     </script>
 </body>

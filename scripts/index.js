@@ -20,25 +20,15 @@ d3.csv('/data/districts.csv').then(function(districts) {
 	});
 });
 
-var drawPoints = Canvas().width(width).height(height).container('#myGraph').run();
+if (!isMobile.any()) {
+	var boundingRect = document.getElementById('timeline').getBoundingClientRect();
 
-var boundingRect = document.getElementById('timeline').getBoundingClientRect();
-
-var timeline = Timeline()
-	.svgHeight(150)
-	.svgWidth(boundingRect.width - 100)
-	.container('#timeline')
-	.onTimelineClick((d) => {
-		setTimeout(drawPoints.run, 3000);
-	})
-	.onNextTick((d) => {
-		//console.log(d)
-		// if (d.time.getFullYear() <= 1943) {
-		// 	var points = getPointsAt(d);
-		// 	drawPoints.addPoints(points);
-		// }
-	})
-	.run();
+	var timeline = Timeline()
+		.svgHeight(150)
+		.svgWidth(boundingRect.width - 100)
+		.container('#timeline')
+		.run();
+}
 
 initSidebar();
 
