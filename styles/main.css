@@ -32,6 +32,55 @@ body {
     display: none;
 }
 
+@media only screen and (max-width: 376px) {
+    .top-bar {
+        width: 100%;
+    }
+
+    .menu {
+        display: block;
+    }
+}
+
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 4) {
+    .top-bar {
+        width: 100%;
+    }
+
+    .menu {
+        display: block;
+    }
+}
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3) {
+    .top-bar {
+        width: 100%;
+    }
+
+    .menu {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 813px) and (orientation: landscape) {
+    .top-bar {
+        width: 100%;
+    }
+
+    .menu {
+        display: block;
+    }
+}
+
 @media only screen 
   and (min-device-width: 375px) 
   and (max-device-width: 812px) 
@@ -98,6 +147,7 @@ body {
 .search-btn {
     width: 270px;
     max-width: 100% !important;
+    margin-bottom: 10px;
 }
 
 .button-container {
