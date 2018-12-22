@@ -79,7 +79,8 @@ function search() {
                  <div><b>რანგი</b> - ${d.rank}</div>
                  <div><b>დასაფლ. ადგ.</b> - ${d.burialLocation}</div>
                  <div><b>გარდაც. თარ.</b> - ${d.deathDate}  </div>
-                 <div><b>გარდაც. მიზ. </b> - ${d.deathReason}</div>
+				 <div><b>გარდაც. მიზ. </b> - ${d.deathReason}</div>
+				 <div><b>ორიგინალი - </b><a  target="_blank" href="https://cdn.obd-memorial.ru/html/reportpdf?id=${d.id}"> რეპორტი  </a></div>
                  <div>
 				 წყარო
 				 ${
