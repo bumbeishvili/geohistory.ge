@@ -33,6 +33,7 @@ if (!isMobile.any()) {
 initSidebar();
 
 function search() {
+	document.getElementById('resultCount').style.display = 'none';
 	var name = document.getElementById('person-name'),
 		surname = document.getElementById('person-surname'),
 		cityDistrict = document.getElementById('person-city-district');
@@ -53,9 +54,15 @@ function search() {
 	$.get(
 		`https://geohistory-backend.herokuapp.com/search/${search.name}/${search.surname}/${search.cityDistrict}`,
 		(data) => {
-			console.log(data);
+			document.getElementById('resultCount').style.display = 'block'
+			document.getElementById('resultCount').innerHTML = `მოიძებნა ${data.length} პიროვნება`
 			const html = `<ul class="collapsible">
 		${data
+			.sort(function(a, b){
+				if(a.lastNameGe < b.lastNameGe) { return -1; }
+				if(a.lastNameGe > b.lastNameGe) { return 1; }
+				return 0;
+			})
 				.map(mapLabels)
 				.map((d, i) => {
 					return `
@@ -76,7 +83,7 @@ function search() {
                  <div>
 				 წყარო
 				 ${
-					i>10?`<br/><a target="_blank" href="https://cdn.obd-memorial.ru/html/fullimage?id=${d.url}">attachment</a>`:
+					i>10?`<br/><a target="_blank" href="https://cdn.obd-memorial.ru/html/fullimage?id=${d.url}">იხ. დოკუმენტი</a>`:
                      `<img class="materialboxed" width="200" src="https://cdn.obd-memorial.ru/html/fullimage?id=${d.url}"></img>`
 				 }
                 
