@@ -350,7 +350,7 @@ function getChart(params) {
 				attrs.lastTransform = transform;
 				chart
 					.transition()
-					.duration(1000)
+					.duration(isMobile.any()?0:1000)
 					.ease(d3.easeLinear)
 					.style('stroke-width', 1.5 / scale + 'px')
 					.call(behaviors.zoom.transform, transform);
@@ -377,7 +377,7 @@ function getChart(params) {
 				attrs.lastTransform = transform;
 				chart
 					.transition()
-					.duration(3000)
+					.duration(isMobile.any()?0:3000)
 					.style('stroke-width', 1.5 / scale + 'px')
 					.call(behaviors.zoom.transform, transform)
 					.on('end', function(d) {

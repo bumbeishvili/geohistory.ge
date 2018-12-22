@@ -74,8 +74,12 @@ function search() {
                  <div><b>გარდაც. თარ.</b> - ${d.deathDate}  </div>
                  <div><b>გარდაც. მიზ. </b> - ${d.deathReason}</div>
                  <div>
-                 წყარო
-                 <img class="materialboxed" width="200" src="https://cdn.obd-memorial.ru/html/fullimage?id=${d.url}">
+				 წყარო
+				 ${
+					i>10?`<br/><a target="_blank" href="https://cdn.obd-memorial.ru/html/fullimage?id=${d.url}">attachment</a>`:
+                     `<img class="materialboxed" width="200" src="https://cdn.obd-memorial.ru/html/fullimage?id=${d.url}"></img>`
+				 }
+                
                  </div>
                   <br/>
                  
