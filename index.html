@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="/styles/scrollbar.css">
     <link rel="stylesheet" href="/styles/loader.css">
     <link rel="stylesheet" href="/styles/download-button.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="scripts/jquery.min.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
@@ -62,15 +62,15 @@
         driveDataObj = getDriveDataObj(data);
 
         const options = data.regions.elements
-        .filter(x => x.geo)
-        .sort(function(a, b){
-            if(a.geo < b.geo) { return -1; }
-            if(a.geo > b.geo) { return 1; }
-            return 0;
-        })
-        .map(d => {
-            return `<option value="${d.index}">${d.geo || d.rus}</option>`
-        })
+            .filter(x => x.geo)
+            .sort(function (a, b) {
+                if (a.geo < b.geo) { return -1; }
+                if (a.geo > b.geo) { return 1; }
+                return 0;
+            })
+            .map(d => {
+                return `<option value="${d.index}">${d.geo || d.rus}</option>`
+            })
             .join('')
 
         document.querySelector('#person-city-district').innerHTML = `<option value="">აირჩიეთ გაწვევის ადგილი</option>` +
@@ -163,9 +163,9 @@
         <div class="top-bar d-flex">
             <div class="menu">
                 <a class="mobile-menu-toggle js-toggle-menu hamburger-menu" href="#">
-                        <span class="menu-item"></span>
-                        <span class="menu-item"></span>
-                        <span class="menu-item"></span>
+                    <span class="menu-item"></span>
+                    <span class="menu-item"></span>
+                    <span class="menu-item"></span>
                 </a>
             </div>
             <div class="fb-share-button d-sm-block float-right" data-href="https://geohistory.ge" data-layout="button_count"
@@ -200,7 +200,7 @@
             <div class="sk-circle12 sk-circle"></div>
         </div>
 
-        
+
 
         <!-- modal -->
 
@@ -228,37 +228,43 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-                    <h2 class="lightblue-color"  id='pname'>პროექტის შესახებ</h2>
+                    <h2 class="lightblue-color" id='pname'>პროექტის შესახებ</h2>
                 </div>
                 <!--  -->
                 <div class="modal-body">
-                    <p>ეს პროექტი წარმოადგენს VizHack-ის გამარჯვებულ, გუნდი <b>Libre</b>-ს პროდუქტს</p>
+                    <p>ეს პროექტი წარმოადგენს VizHack-ის გამარჯვებული გუნდის, <b>Libre</b>-ს პროდუქტს</p>
                     <p>
-                        * მომხმარებლებს საშუალება აქვთ მოძებნონ მეორე მსოფლიო ომისას დაღუპული წინაპარი <br> * ნახონ მის მიერ გავლილი გზა <br>* გაეცნონ პირველწყარო დოკუმენტს
-                        <br>*  დაინახონ მეორე მსოფლიო ომის მთლიანი სურათი საქართველოს გადმოსახედიდან
-                        </p>
-                    <p>VizHack ჩატარდა <a target="_blank" href="https://forset.ge/">ფორსეტის / Forset </a > ორგანიზებით, რომელიც ამავე დროს მონიტორინგს უწევდა პროექტის განვითარებას საინკუბატორო პერიოდში და გვეხმარებოდა სხვადასხვა რჩევებითა და რესურსებით
-                        <br/>  
-                    <br/> მონაცემები <a target-"_blank" href="https://obd-memorial.ru/html/"> რუსეთის სახელმწიფო არქივიდან</a>   არის აღებული, რაც <a target="_blank" href="https://forset.ge/">ფორსეტის / Forset-ის </a>  დამსახურებით მოხდა
-              
-                    <br/>  
-                    <br/>  
-            პროექტზე ვიმუშავეთ:
-            <br/> 
-            * <a target="_blank" href="https://davidb.tech/">დავით ბუმბეიშვილი</a> - (Freelance data viz engineer )
-            <br/> 
-            * <a target="_blank" href="https://giorgi-ghviniashvili.github.io/">გიორგი ღვინიაშვილი </a>- (Freelance data viz developer, full stack engineer at Weinor)
-            <br/> 
-            * <a target="_blank" href="https://github.com/beqa-bumbeishvili">ბექა ბუმბეიშვილი</a>  -  (Software engineer at Vabaco)
-            <br/>  <br/> 
-            მონაცემების თარგმნაში ძალიან დიდი დახმარება გაგვიწია <b>ნინო მარიამიძემ</b> და <b> სალომე ტალაბაძემ </b>
-
-            <br/>  <br/> 
-           პროექტი არის ოფენ სორსი და დეტალების ნახვა  <a  target="_blank" href=" https://github.com/bumbeishvili/geohistory.ge"> Github-ზე </a> შეგიძლიათ
-                </a>
-           
+                        * მომხმარებლებს საშუალება აქვთ მოძებნონ მეორე მსოფლიო ომისას დაღუპული წინაპარი <br> * ნახონ მის
+                        მიერ გავლილი გზა <br>* გაეცნონ პირველწყარო დოკუმენტს
+                        <br>* დაინახონ მეორე მსოფლიო ომის სურათი საქართველოს გადმოსახედიდან
                     </p>
-                        </div>
+                    <p>VizHack ჩატარდა <a target="_blank" href="https://forset.ge/">ფორსეტის / Forset </a> ორგანიზებით,
+                        რომელიც მონიტორინგს უწევდა პროექტის განვითარებას და
+                        გვეხმარებოდა პროექტისთვის საჭირო რესურსებით
+                        <br />
+
+                        <br />
+                        პროექტზე ვიმუშავეთ:
+                        <br />
+                        * <a target="_blank" href="https://davidb.tech/">დავით ბუმბეიშვილი</a> - (Freelance data viz
+                        engineer )
+                        <br />
+                        * <a target="_blank" href="https://giorgi-ghviniashvili.github.io/">გიორგი ღვინიაშვილი </a>-
+                        (Freelance data viz developer, full stack engineer at Weinor)
+                        <br />
+                        * <a target="_blank" href="https://github.com/beqa-bumbeishvili">ბექა ბუმბეიშვილი</a> -
+                        (Software engineer at Vabaco)
+                        <br /> <br />
+                        მონაცემების თარგმნაში დაგვეხმარა <b>ნინო მარიამიძე</b> და <b> სალომე
+                            ტალაბაძე </b>
+
+                        <br /> <br />
+                        პროექტი არის open source, ნამუშევრის ნახვა შეგიძლიათ <a target="_blank" href=" https://github.com/bumbeishvili/geohistory.ge">
+                            Github-ზე </a> 
+                        </a>
+
+                    </p>
+                </div>
 
             </div>
 
@@ -309,7 +315,7 @@
         });
 
         // open mobile menu
-        $('.js-toggle-menu').click(function(e){
+        $('.js-toggle-menu').click(function (e) {
             e.preventDefault();
             var instance = M.Sidenav.getInstance(document.querySelector('.sidenav'));
             instance.open();
