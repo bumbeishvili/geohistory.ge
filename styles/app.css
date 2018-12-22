@@ -15,14 +15,14 @@ body * {
 }
 
 .timeline {
+    margin-bottom: 10px;
     width: 80%;
-    margin: 0 auto;
-    margin-left: 70px;
-    margin-bottom: 30px;
 }
 
 .timeline svg {
     overflow: visible;
+    display: block;
+    margin: 0 auto;
 }
 
 .xAxis path {
