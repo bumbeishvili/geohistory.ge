@@ -204,7 +204,7 @@ function Timeline(params) {
                 if (containerRect.height > 0)
                     attrs.svgHeight = containerRect.height;
             }
-            handleWindowResize();
+            // handleWindowResize();
             // Smoothly handle data updating
             updateData = function () {
 
