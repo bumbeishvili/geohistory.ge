@@ -140,8 +140,8 @@ function initSidebar() {
 				el.classList.add('sidenav-fixed');
 			});
 
-			container.style.width = 'calc(100vw - 300px)';
-			container.style.marginLeft = '300px';
+			container.style.width = 'calc(100vw)';
+			container.style.marginLeft = '0px';
 		}
 		var instances = M.Sidenav.init(elems, {
 			edge: 'left',
