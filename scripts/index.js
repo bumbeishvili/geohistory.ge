@@ -1,5 +1,5 @@
 var world;
-var width = window.innerWidth - (isMobile.any() ? 0 : 300);
+var width = window.innerWidth - (isMobile.any() ? 0 : 0);
 var height = window.innerHeight;
 var converter = new EncodingConverter();
 
